@@ -290,6 +290,12 @@ section {
     text-align: center;
   }
 
+  .poster-image img {
+    width: 90%;
+    max-width: 360px;
+  }
+}
+
 
   /* ===== メッセージセクション ===== */
 .message-section {
@@ -300,10 +306,4 @@ section {
   line-height: 1.9;
   font-size: 1.2em;
   font-weight: 500;
-}
-
-  .poster-image img {
-    width: 90%;
-    max-width: 360px;
-  }
 }
