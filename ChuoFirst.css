@@ -227,13 +227,13 @@ section {
 
 .poster-heading {
   width: 100%;
-  text-align: center;
+  text-align: left;
   font-size: 2em;
   font-weight: 700;
   color: #fff;
   text-decoration: underline;   /* ← 下線 */
   text-underline-offset: 6px;   /* ← 下線の位置を少し下に */
-  margin: 0 0 30px 0;           /* 下に余白 */
+  margin: 0 0 30px 20px;
   letter-spacing: 2px;
 }
 
