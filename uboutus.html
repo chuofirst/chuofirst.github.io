@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私たちについて - 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="logo">
+        <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ">
+      </div>
+      <div class="logo-text">中央中等生ファーストの会</div>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span><span></span><span></span>
+    </div>
+
+    <nav id="nav-menu">
+      <a href="aboutus.html">私たちについて</a>
+      <a href="member.html">メンバー</a>
+      <a href="news.html">ニュース</a>
+      <a href="policy.html">政策</a>
+      <a href="active.html">活動</a>
+      <a href="recruit.html">候補者公募</a>
+    </nav>
+  </header>
+
+  <div id="overlay"></div>
+
+  <main>
+    <section id="aboutus">
+      <h1>私たちについて</h1>
+      <h3>中央中等生ファーストってどんな党？</h3>
+      <p>「今の政治を変えなければ中等の未来が不安だ」と危機感を持った中等生が集まり「投票したい政党がないから、自分たちでゼロからつくる。」を合言葉に２０２５年に大企業などの支援のない小さな政治団体として発足。中央中等生主体の世界へ、中央中等生がもっとより良い生活ができるように、発足しました。
+「小さいけれど力強い政党」。それが中央中等生ファーストの会です。</p>
+      <h3>どんなことを目指しているの？</h3>
+      <p>この世界を中央中等生中心の世界に変えるために日々努力しています。中央中等で不便なこと、変えてほしいことを日本中からの協力を得て改善していきたいと考えています。</p>
+      <h2>こんな中等にしたい！</h2>
+      <p>・みんなが今よりより良い生活ができるようにする。・学力・楽しさ・青春　何事にも全力な学校へ!</p>
+    </section>
+  </main>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>
