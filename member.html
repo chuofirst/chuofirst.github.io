@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メンバー - 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="logo">
+        <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ">
+      </div>
+      <div class="logo-text">中央中等生ファーストの会</div>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span><span></span><span></span>
+    </div>
+
+    <nav id="nav-menu">
+      <a href="aboutus.html">私たちについて</a>
+      <a href="member.html">メンバー</a>
+      <a href="news.html">ニュース</a>
+      <a href="policy.html">政策</a>
+      <a href="active.html">活動</a>
+      <a href="recruit.html">候補者公募</a>
+    </nav>
+  </header>
+
+  <div id="overlay"></div>
+
+  <main>
+    <section id="member">
+      <h1>メンバー</h1>
+      <p>こちらが私たちのメンバーです。</p>
+    </section>
+  </main>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>
