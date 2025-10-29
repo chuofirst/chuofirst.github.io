@@ -290,6 +290,18 @@ section {
     text-align: center;
   }
 
+
+  /* ===== メッセージセクション ===== */
+.message-section {
+  background-color: #f9f9f9; /* ← 薄いグレーがかった白 */
+  color: #000;
+  text-align: center;
+  padding: 80px 20px;
+  line-height: 1.9;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
   .poster-image img {
     width: 90%;
     max-width: 360px;
