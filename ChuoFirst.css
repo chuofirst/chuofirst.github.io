@@ -223,17 +223,21 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .poster-heading {
-  width: 100%;
-  text-align: left;
+  position: absolute;        /* ← セクション内で絶対配置 */
+  top: 20px;                 /* ← 上に寄せる */
+  left: 20px;                /* ← 左に寄せる */
   font-size: 2em;
   font-weight: 700;
   color: #fff;
-  text-decoration: underline;   /* ← 下線 */
-  text-underline-offset: 6px;   /* ← 下線の位置を少し下に */
-  margin: 0 0 30px 20px;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #fff;
+  margin: 0;
   letter-spacing: 2px;
 }
 
