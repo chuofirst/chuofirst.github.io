@@ -230,7 +230,7 @@ section {
   position: absolute;        /* ← セクション内で絶対配置 */
   top: 20px;                 /* ← 上に寄せる */
   left: 20px;                /* ← 左に寄せる */
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: 700;
   color: #fff;
   text-decoration: underline;
