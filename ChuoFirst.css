@@ -306,5 +306,46 @@ section {
   line-height: 2.2;
   font-size: 2em;
   font-weight: 800;
-  letter-spacing: 0.5px;
+}
+
+
+/* ===== SNSセクション ===== */
+.sns-section {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.sns-heading {
+  font-size: 2.5em;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 2px;
+}
+
+.sns-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.sns-name {
+  font-size: 1.6em;
+  font-weight: 700;
+}
+
+.sns-link {
+  font-size: 1.2em;
+  color: #ee7800;              /* オレンジで統一感 */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.sns-link:hover {
+  color: #000;                 /* ホバーで黒に */
 }
