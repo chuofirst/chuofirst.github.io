@@ -268,7 +268,7 @@ nav a[aria-current="page"]::before {
   max-width: 500px;
   width: 90%;
   height: auto;
-  margin-bottom: -2px;
+  margin-bottom: -1px;
   animation: fadeInUp 1s ease-out, float 3s ease-in-out infinite;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
 }
@@ -761,40 +761,6 @@ footer::before {
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 3px;
-  position: relative;
-  display: inline-block;
-}
-
-.aboutus-question::before,
-.aboutus-question::after {
-  content: '🔥';
-  position: absolute;
-  font-size: 0.6em;
-  animation: fire 1.5s ease-in-out infinite;
-}
-
-.aboutus-question::before {
-  left: -40px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.aboutus-question::after {
-  right: -40px;
-  top: 50%;
-  transform: translateY(-50%);
-  animation-delay: 0.75s;
-}
-
-@keyframes fire {
-  0%, 100% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translateY(-60%) scale(1.2);
-  }
 }
 
 .aboutus p {
@@ -958,11 +924,6 @@ footer::before {
 
   .aboutus-section {
     padding: 30px 15px;
-  }
-
-  .aboutus-question::before,
-  .aboutus-question::after {
-    display: none;
   }
 }
 
