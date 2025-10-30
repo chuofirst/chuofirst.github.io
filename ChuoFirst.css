@@ -1002,6 +1002,49 @@ footer::before {
     padding: 20px 10px;
     margin-bottom: 30px;
   }
+
+  /* 共通ページ */
+  .page-section {
+    padding: 40px 15px 80px;
+  }
+
+  .page-header {
+    margin-bottom: 40px;
+  }
+
+  /* メンバー */
+  .member-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .leader-card {
+    margin-bottom: 40px;
+  }
+
+  /* ニュース */
+  .news-card {
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+  }
+
+  .news-date {
+    min-width: auto;
+    width: 100%;
+  }
+
+  /* 候補者公募 */
+  .requirement-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .recruit-cta {
+    padding: 30px 20px;
+  }
 }
 
 /* ===== プリント対応 ===== */
@@ -1033,4 +1076,428 @@ footer::before {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* ===== 共通ページスタイル ===== */
+.page-section {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+  min-height: calc(100vh - var(--header-h));
+  padding: 60px 20px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 255, 255, 0.02) 20px,
+    rgba(255, 255, 255, 0.02) 40px
+  );
+  pointer-events: none;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.page-title {
+  font-size: clamp(2.5em, 6vw, 4em);
+  font-weight: 800;
+  color: var(--text-light);
+  margin-bottom: 15px;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.page-subtitle {
+  font-size: clamp(1.1em, 2.5vw, 1.5em);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* ===== メンバーページ ===== */
+.member-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.leader-card {
+  max-width: 500px;
+  margin: 0 auto 60px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.3));
+  border: 3px solid rgba(255, 215, 0, 0.5);
+  animation: slideUp 0.8s ease-out;
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.member-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.8s ease-out backwards;
+}
+
+.member-card:nth-child(1) { animation-delay: 0.1s; }
+.member-card:nth-child(2) { animation-delay: 0.2s; }
+.member-card:nth-child(3) { animation-delay: 0.3s; }
+.member-card:nth-child(4) { animation-delay: 0.4s; }
+.member-card:nth-child(5) { animation-delay: 0.5s; }
+.member-card:nth-child(6) { animation-delay: 0.6s; }
+.member-card:nth-child(7) { animation-delay: 0.7s; }
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.6s ease;
+}
+
+.member-card:hover::before {
+  transform: scale(1);
+}
+
+.member-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.member-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #ffd700, #ffb700);
+  color: var(--text-dark);
+  font-weight: 700;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.member-badge.member {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--text-light);
+}
+
+.member-info {
+  position: relative;
+  z-index: 1;
+}
+
+.member-name {
+  font-size: clamp(1.4em, 3vw, 1.8em);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* ===== ニュースページ ===== */
+.news-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.news-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 35px;
+  margin-bottom: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  transition: all 0.4s ease;
+  position: relative;
+  animation: slideUp 0.8s ease-out backwards;
+}
+
+.news-card:nth-child(1) { animation-delay: 0.1s; }
+.news-card:nth-child(2) { animation-delay: 0.2s; }
+.news-card:nth-child(3) { animation-delay: 0.3s; }
+
+.news-card:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.news-date {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  min-width: 100px;
+}
+
+.news-year {
+  display: block;
+  font-size: 0.9em;
+  color: var(--text-light);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.news-day {
+  display: block;
+  font-size: 1.8em;
+  font-weight: 800;
+  color: var(--text-light);
+}
+
+.news-content {
+  flex: 1;
+}
+
+.news-title {
+  font-size: clamp(1.3em, 3vw, 1.8em);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 15px;
+}
+
+.news-text {
+  font-size: clamp(1em, 2vw, 1.2em);
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin: 0;
+  font-weight: 600;
+}
+
+.news-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #ff4444, #ff6666);
+  color: white;
+  font-weight: 700;
+  border-radius: 20px;
+  font-size: 0.85em;
+  box-shadow: 0 4px 10px rgba(255, 68, 68, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== 政策ページ ===== */
+.policy-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.policy-intro {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+.policy-intro p {
+  font-size: clamp(1.1em, 2.5vw, 1.4em);
+  color: var(--text-dark);
+  font-weight: 700;
+  margin: 0;
+}
+
+.policy-placeholder {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 60px 30px;
+  text-align: center;
+  border: 3px dashed rgba(255, 255, 255, 0.4);
+  animation: slideUp 1s ease-out;
+}
+
+.placeholder-icon {
+  font-size: 5em;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.policy-placeholder h2 {
+  font-size: clamp(1.5em, 4vw, 2em);
+  color: var(--text-dark);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.policy-placeholder p {
+  font-size: clamp(1em, 2.5vw, 1.2em);
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+/* ===== 候補者公募ページ ===== */
+.recruit-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.recruit-intro {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.recruit-heading {
+  font-size: clamp(2em, 4vw, 2.5em);
+  font-weight: 800;
+  color: var(--text-light);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.recruit-description {
+  font-size: clamp(1.1em, 2.5vw, 1.3em);
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.recruit-requirements {
+  display: grid;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.requirement-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  transition: all 0.4s ease;
+  position: relative;
+  animation: slideInRight 0.8s ease-out backwards;
+}
+
+.requirement-card:nth-child(1) { animation-delay: 0.1s; }
+.requirement-card:nth-child(2) { animation-delay: 0.2s; }
+.requirement-card:nth-child(3) { animation-delay: 0.3s; }
+.requirement-card:nth-child(4) { animation-delay: 0.4s; }
+.requirement-card:nth-child(5) { animation-delay: 0.5s; }
+.requirement-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.requirement-card:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.requirement-card.essential {
+  background: rgba(255, 215, 0, 0.2);
+  border: 3px solid rgba(255, 215, 0, 0.5);
+}
+
+.requirement-number {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.requirement-text {
+  flex: 1;
+  font-size: clamp(1.05em, 2.5vw, 1.25em);
+  color: var(--text-dark);
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.essential-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #ffd700, #ffb700);
+  color: var(--text-dark);
+  font-weight: 800;
+  border-radius: 20px;
+  font-size: 0.85em;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.recruit-cta {
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+.cta-text {
+  font-size: clamp(1.2em, 3vw, 1.6em);
+  color: var(--text-dark);
+  font-weight: 800;
+  margin: 0;
 }
