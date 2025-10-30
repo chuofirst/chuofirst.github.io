@@ -262,14 +262,24 @@ nav a[aria-current="page"]::before {
   align-items: center;
   text-align: center;
   color: white;
+  padding: 20px;
 }
 
-.hero-logo {
+.hero-logo-left {
   max-width: 500px;
   width: 90%;
   height: auto;
-  margin-bottom: -1px;
+  margin-bottom: 20px;
   animation: fadeInUp 1s ease-out, float 3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.hero-logo-right {
+  max-width: 600px;
+  width: 85%;
+  height: auto;
+  margin-top: 10px;
+  animation: fadeInUp 1s ease-out 0.3s both;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
 }
 
