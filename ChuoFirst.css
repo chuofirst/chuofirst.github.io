@@ -417,7 +417,31 @@ footer {
   margin-right: auto;
 }
 
-/* ===== フッターセクション ===== */
+/* ===== 私たちについてセクション ===== */
+.aboutus {
+  background-color: #ee7800; /* オレンジ背景 */
+  color: #000;               /* 文字色は黒 */
+  padding: 60px 20px;
+  text-align: center;
+  line-height: 1.8;          /* 行間を広げて読みやすく */
+  font-size: 1.4em;          /* 文字を大きく */
+}
+
+.aboutus p {
+  margin-bottom: 20px;
+}
+
+.aboutus ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.aboutus li {
+  font-size: 1.4em;
+  margin: 10px 0;
+}
+
+/* ===== フッター（ロゴ・Instagram） ===== */
 footer {
   background-color: #f0f0f0;  /* 薄いグレー背景 */
   padding: 40px 20px;
@@ -425,23 +449,23 @@ footer {
 }
 
 .footer-content {
-  position: relative;  /* Instagramアイコンの位置調整用 */
+  position: relative;  /* 相対位置にして、Instagramアイコンを右下に配置 */
 }
 
 .footer-logo {
-  width: 300px;        /* ロゴ画像の幅 */
+  width: 300px;        /* ロゴ画像の幅を調整 */
   max-width: 100%;
   margin-bottom: 20px;
 }
 
 .footer-instagram {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 50px;
+  bottom: 10px;         /* 下から10px */
+  right: 10px;          /* 右から10px */
+  width: 50px;          /* Instagramアイコンのサイズ */
   height: 50px;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;   /* 丸い画像にする */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  /* 影をつけて目立たせる */
   cursor: pointer;
 }
 
