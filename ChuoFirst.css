@@ -223,7 +223,7 @@ nav a[aria-current="page"] {
   max-width: 500px;
   width: 90%;
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   animation: fadeInUp 1s ease-out;
 }
 
@@ -372,6 +372,10 @@ nav a[aria-current="page"] {
   justify-content: center;
 }
 
+.instagram-embed .instagram-media {
+  margin: 0 auto !important;
+}
+
 /* ===== フッター ===== */
 footer {
   background-color: var(--bg-footer);
@@ -460,6 +464,7 @@ footer {
   margin-right: auto;
   line-height: 2;
   font-size: 1em;
+  font-weight: 700;
 }
 
 .aboutus p:last-child {
