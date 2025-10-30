@@ -355,3 +355,36 @@ section {
 .sns-link:hover {
   color: #000;                 /* ホバーで黒に */
 }
+
+
+/* ===== フッターセクション ===== */
+footer {
+  background-color: #f0f0f0;  /* 薄いグレー背景 */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-content {
+  position: relative;  /* 相対位置にして、Instagramアイコンを右下に配置 */
+}
+
+.footer-logo {
+  width: 300px;        /* ロゴ画像の幅を調整 */
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.footer-instagram {
+  position: absolute;
+  bottom: 10px;         /* 下から10px */
+  right: 10px;          /* 右から10px */
+  width: 50px;          /* Instagramアイコンのサイズ */
+  height: 50px;
+  border-radius: 50%;   /* 丸い画像にする */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  /* 影をつけて目立たせる */
+  cursor: pointer;
+}
+
+.footer-instagram:hover {
+  opacity: 0.8;         /* ホバー時に少し透明に */
+}
