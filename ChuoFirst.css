@@ -43,6 +43,12 @@ header {
   gap: 10px;
 }
 
+a {
+  display: flex;           /* これでリンク内のアイコンと文字を横並びにする */
+  align-items: center;     /* アイコンと文字を縦の中心に揃える */
+  text-decoration: none;   /* リンクの下線を削除 */
+}
+
 .logo img {
   height: 70px;
 }
