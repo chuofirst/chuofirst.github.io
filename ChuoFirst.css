@@ -388,3 +388,63 @@ footer {
 .footer-instagram:hover {
   opacity: 0.8;         /* ホバー時に少し透明に */
 }
+
+
+
+
+
+/* ===== 私たちについて ===== */
+#aboutus {
+  background-color: #ee7800;   /* オレンジ背景 */
+  color: #fff;                 /* 文字色を白 */
+  padding: 60px 20px;
+  text-align: center;
+}
+
+#aboutus h1 {
+  font-size: 3em;               /* 見出し大きく */
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+#aboutus p {
+  font-size: 1.6em;             /* 段落の文字サイズを大きく */
+  line-height: 1.8;             /* 行間を広げる */
+  margin-bottom: 20px;          /* 段落間のスペースを広げる */
+  text-align: left;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== フッターセクション ===== */
+footer {
+  background-color: #f0f0f0;  /* 薄いグレー背景 */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-content {
+  position: relative;  /* Instagramアイコンの位置調整用 */
+}
+
+.footer-logo {
+  width: 300px;        /* ロゴ画像の幅 */
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.footer-instagram {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.footer-instagram:hover {
+  opacity: 0.8;         /* ホバー時に少し透明に */
+}
