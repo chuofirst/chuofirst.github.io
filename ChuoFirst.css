@@ -35,22 +35,7 @@ body {
   background-color: var(--primary-color);
 }
 
-/* ===== カーソルエフェクト ===== */
-body::before {
-  content: '';
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(238, 120, 0, 0.3), transparent);
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
 /* ===== アクセシビリティ ===== */
-/* 視覚的に隠す（スクリーンリーダーには読まれる） */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -266,16 +251,6 @@ nav a[aria-current="page"]::before {
   object-fit: cover;
   object-position: left center;
   filter: brightness(70%);
-  animation: zoomIn 20s ease-in-out infinite alternate;
-}
-
-@keyframes zoomIn {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.1);
-  }
 }
 
 .hero-overlay {
@@ -325,7 +300,6 @@ nav a[aria-current="page"]::before {
   }
 }
 
-/* フェードインアニメーション */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -401,9 +375,9 @@ nav a[aria-current="page"]::before {
 
 .poster-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 40px;
+  gap: 60px;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
@@ -462,7 +436,7 @@ nav a[aria-current="page"]::before {
 
 .poster-image img {
   width: 100%;
-  max-width: 480px;
+  max-width: 400px;
   height: auto;
   border-radius: 8px;
   box-shadow: var(--shadow-strong);
@@ -497,25 +471,6 @@ nav a[aria-current="page"]::before {
   font-weight: 800;
   position: relative;
   overflow: hidden;
-}
-
-.message-section::before {
-  content: '💪';
-  position: absolute;
-  font-size: 150px;
-  opacity: 0.05;
-  top: 20px;
-  right: 20px;
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .message-section p {
@@ -887,26 +842,7 @@ footer::before {
   }
 
   /* ハンバーガーメニュー表示 */
-  .menu-toggle,
-  #overlay {
-    display: none;
-  }
-
-  nav {
-    position: static;
-    flex-direction: row;
-  }
-
-  .hero {
-    height: 50vh;
-  }
-  
-  /* アニメーションを無効化 */
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-}toggle {
+  .menu-toggle {
     display: flex;
   }
 
@@ -990,10 +926,6 @@ footer::before {
     line-height: 2.2;
   }
 
-  .message-section::before {
-    font-size: 100px;
-  }
-
   /* SNS */
   .sns-section {
     padding: 60px 20px;
@@ -1054,10 +986,6 @@ footer::before {
 
   .message-section {
     padding: 40px 15px;
-  }
-
-  .message-section::before {
-    font-size: 80px;
   }
 
   .sns-section {
