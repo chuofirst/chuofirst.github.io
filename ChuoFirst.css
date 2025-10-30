@@ -14,6 +14,7 @@ html, body {
 
 body {
   padding-top: var(--header-h);
+  background-color: #ee7800;  /* 背景全体をオレンジに */
 }
 
 /* ===== ヘッダー ===== */
@@ -173,54 +174,6 @@ section {
   padding: 60px 20px;
 }
 
-/* ===== スマホ対応 ===== */
-@media (max-width: 900px) {
-  nav {
-    display: none;
-    flex-direction: column;
-    background-color: #fff;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 100%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px 0;
-    z-index: 1001;
-  }
-
-  nav.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: flex;
-  }
-
-  nav a {
-    padding: 10px 0;
-    text-align: center;
-    font-size: 1.1em;
-  }
-
-  .logo-text {
-    font-size: 1.3em;
-  }
-
-  .hero {
-    height: 70vh;
-  }
-
-  .hero-logo {
-    width: 140px;
-    max-width: 55vw;
-  }
-
-  .hero-text {
-    font-size: 1.8em;
-  }
-}
-
-
 /* ===== ポスターセクション ===== */
 .poster-section {
   background-color: #ee7800; /* オレンジ背景 */
@@ -302,8 +255,7 @@ section {
   }
 }
 
-
-  /* ===== メッセージセクション ===== */
+/* ===== メッセージセクション ===== */
 .message-section {
   background-color: #f9f9f9; /* ← 薄いグレーがかった白 */
   color: #000;
@@ -313,7 +265,6 @@ section {
   font-size: 2em;
   font-weight: 800;
 }
-
 
 /* ===== SNSセクション ===== */
 .sns-section {
@@ -355,7 +306,6 @@ section {
 .sns-link:hover {
   color: #000;                 /* ホバーで黒に */
 }
-
 
 /* ===== フッターセクション ===== */
 footer {
