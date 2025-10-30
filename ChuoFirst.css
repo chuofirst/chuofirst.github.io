@@ -355,3 +355,14 @@ section {
 .sns-link:hover {
   color: #000;                 /* ホバーで黒に */
 }
+
+
+<footer>
+  <div class="footer-content">
+    <img src="ChuoFirst.png" alt="中央中等生ファーストの会ロゴ" class="footer-logo">
+    <a href="https://www.instagram.com/chuo.first/" target="_blank">
+      <img src="instagram.jpg" alt="Instagram" class="footer-instagram">
+    </a>
+  </div>
+</footer>
+
