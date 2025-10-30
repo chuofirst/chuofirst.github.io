@@ -3,26 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="中央中等生ファーストの会は、中央中等生の未来をより良くするために活動する政治団体です。">
   <title>中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  
+  <!-- OGP設定 -->
+  <meta property="og:title" content="中央中等生ファーストの会">
+  <meta property="og:description" content="中央中等生の未来をより良くするために活動する政治団体">
+  <meta property="og:image" content="ChuoFirst.png">
+  <meta property="og:type" content="website">
 </head>
 <body>
-
+  <!-- スキップリンク -->
+  <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
+  
   <header>
     <div class="header-left">
-     <a href="index.html">
-      <div class="logo">
-        <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ">
-      </div>
-      <div class="logo-text">中央中等生ファーストの会</div>
+      <a href="index.html" aria-label="ホームページへ戻る">
+        <div class="logo">
+          <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ" width="70" height="70">
+        </div>
+        <div class="logo-text">中央中等生ファーストの会</div>
+      </a>
     </div>
-
-    <div class="menu-toggle" id="menu-toggle">
-      <span></span><span></span><span></span>
-    </div>
-
-    <nav id="nav-menu">
+    
+    <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <nav id="nav-menu" aria-label="メインナビゲーション">
       <a href="aboutus.html">私たちについて</a>
       <a href="member.html">メンバー</a>
       <a href="news.html">ニュース</a>
@@ -31,82 +43,88 @@
       <a href="recruit.html">候補者公募</a>
     </nav>
   </header>
-
-  <div id="overlay"></div>
-
-  <!-- ヒーローセクション（トップ画像＋文字） -->
-  <section class="hero">
-    <img src="Thegirl.jpg" alt="女性の写真" class="hero-image">
+  
+  <div id="overlay" aria-hidden="true"></div>
+  
+  <!-- ヒーローセクション -->
+  <section class="hero" aria-label="トップビジュアル">
+    <img src="Thegirl.jpg" alt="" class="hero-image" width="1920" height="1080">
     <div class="hero-overlay">
-      <img src="ChuoFirst.png" alt="ロゴ" class="hero-logo">
+      <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="hero-logo" width="300" height="100">
       <h1 class="hero-text">中央中等生ファーストの会</h1>
     </div>
   </section>
 
+  <main id="main-content">
+    <!-- ポスターセクション -->
+    <section class="poster-section" aria-labelledby="poster-heading">
+      <h2 id="poster-heading" class="poster-heading">ポスター2025</h2>
+      <div class="poster-container">
+        <div class="poster-text">
+          <p class="poster-title"><span class="black-text">中央中等生</span><br>ファーストの会</p>
+        </div>
+        <div class="poster-image">
+          <img src="中等はパワフルだ.png" alt="中等はパワフルだ ポスター" width="480" height="680" loading="lazy">
+        </div>
+      </div>
+    </section>
 
-<section class="poster-section">
-  <h3 class="poster-heading">ポスター2025</h3>
-  <div class="poster-container">
-    <div class="poster-text">
-      <h2><span class="black-text">中央中等生</span><br>ファーストの会</h2>
+    <!-- メッセージセクション -->
+    <section class="message-section" aria-labelledby="message-heading">
+      <h2 id="message-heading" class="visually-hidden">私たちのメッセージ</h2>
+      <p>
+        今のままでは中等生が中等生ではなくなってしまう<br>
+        中央中等生ファーストの会はそんな危機感から有志が集まり、ゼロからつくった政党です。<br>
+        私たちには特定の支援団体も資金源もありません。<br>
+        同じ想いを持った普通の中等生が集まり、<br>
+        「後輩の世代により良い中等を残したい」<br>
+        という想いひとつで活動を続けています。
+      </p>
+    </section>
+
+    <!-- SNSセクション -->
+    <section class="sns-section" aria-labelledby="sns-heading">
+      <h2 id="sns-heading" class="sns-heading">SNS</h2>
+      <div class="sns-content">
+        <p class="sns-name">Instagram</p>
+        <div class="instagram-embed">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DQUZ2NKkjL9/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px auto; max-width:540px; min-width:326px; padding:0;">
+          </blockquote>
+        </div>
+        <script async src="//www.instagram.com/embed.js"></script>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="footer-logo" width="300" height="100">
+      <a href="https://www.instagram.com/chuo.first/" target="_blank" rel="noopener noreferrer" aria-label="Instagramで中央中等生ファーストの会をフォロー">
+        <img src="instagram.jpg" alt="" class="footer-instagram" width="50" height="50">
+      </a>
     </div>
-    <div class="poster-image">
-      <img src="中等はパワフルだ.png" alt="中等はパワフルだ ポスター">
-    </div>
-  </div>
-</section>
-
-
-<section class="message-section">
- <p>
-    今のままでは中等生が中等生ではなくなってしまう<br>
-    中央中等生ファーストの会はそんな危機感から有志が集まり、ゼロからつくった政党です。<br>
-    私たちには特定の支援団体も資金源もありません。<br>
-    同じ想いを持った普通の中等生が集まり、<br>
-    「後輩の世代により良い中等を残したい」<br>
-    という想いひとつで活動を続けています。
- </p>
-</section>
-
-<section class="sns-section">
-  <h2 class="sns-heading">SNS</h2>
-  <div class="sns-content">
-    <p class="sns-name">Instagram</p>
-
-    <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DQUZ2NKkjL9/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px auto; max-width:540px; min-width:326px; padding:0;">
-    </blockquote>
-    <script async src="//www.instagram.com/embed.js"></script>
-
-  </div>
-</section>
-
-
-<footer>
-  <div class="footer-content">
-    <img src="ChuoFirst.png" alt="中央中等生ファーストの会ロゴ" class="footer-logo">
-    <a href="https://www.instagram.com/chuo.first/" target="_blank">
-      <img src="instagram.jpg" alt="Instagram" class="footer-instagram">
-    </a>
-  </div>
-</footer>
-
-
+  </footer>
   
   <script>
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const overlay = document.getElementById('overlay');
-
+    
     menuToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
+      const isOpen = navMenu.classList.toggle('active');
       overlay.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
     });
-
+    
     overlay.addEventListener('click', () => {
       navMenu.classList.remove('active');
       overlay.classList.remove('active');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
   </script>
-
 </body>
 </html>
