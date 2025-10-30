@@ -375,7 +375,7 @@ footer {
 
 .aboutus p {
   margin-bottom: 40px;        /* 各段落の間隔を広げる */
-  font-size: 2em;             /* 文字を大きく */
+  font-size: 1em;             /* 文字を大きく */
   line-height: 1.8;           /* 行間をさらに広げる */
   text-align: left;           /* 本文は左揃え */
   max-width: 900px;
@@ -389,6 +389,6 @@ footer {
 }
 
 .aboutus li {
-  font-size: 2em;             /* 文字を大きく */
+  font-size: 1em;             /* 文字を大きく */
   margin: 20px 0;             /* 項目間の間隔を広げる */
 }
