@@ -137,6 +137,7 @@ nav {
   display: flex;
   gap: 14px;
   flex-wrap: nowrap;
+  z-index: 1001;
 }
 
 nav a {
