@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="中央中等生ファーストの会へのお問い合わせフォーム。ご質問、ご意見、ご要望をお待ちしています。">
+  <title>お問い合わせ - 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+  <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  
+  <meta property="og:title" content="お問い合わせ - 中央中等生ファーストの会">
+  <meta property="og:description" content="中央中等生ファーストの会へのお問い合わせフォーム">
+  <meta property="og:image" content="ChuoFirst.png">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="index.html" aria-label="ホームページへ戻る">
+        <div class="logo">
+          <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ" width="70" height="70">
+        </div>
+        <div class="logo-text">中央中等生ファーストの会</div>
+      </a>
+    </div>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav-menu" aria-label="メインナビゲーション">
+      <a href="aboutus.html">私たちについて</a>
+      <a href="member.html">メンバー</a>
+      <a href="news.html">ニュース</a>
+      <a href="policy.html">政策</a>
+      <a href="active.html">活動</a>
+      <a href="recruit.html">候補者公募</a>
+      <a href="form.html" aria-current="page">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <div id="overlay" aria-hidden="true"></div>
+
+  <main id="main-content">
+    <section class="page-section form-section">
+      <div class="page-header">
+        <h1 class="page-title">お問い合わせ</h1>
+        <p class="page-subtitle">ご質問、ご意見、ご要望をお気軽にお寄せください</p>
+      </div>
+
+      <div class="form-container">
+        <div class="form-intro">
+          <p class="form-intro-text">中央中等生ファーストの会では、皆様からのご意見やご質問を大切にしています。<br>どんな些細なことでも構いませんので、お気軽にお問い合わせください。</p>
+        </div>
+
+        <form class="contact-form" action="https://formspree.io/f/mdkplrvg" method="POST" id="contactForm">
+          <div class="form-group">
+            <label for="name" class="form-label">お名前 <span class="required">*</span></label>
+            <input type="text" id="name" name="name" class="form-input" required placeholder="山田 太郎">
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">メールアドレス <span class="required">*</span></label>
+            <input type="email" id="email" name="_replyto" class="form-input" required placeholder="example@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="category" class="form-label">お問い合わせ種別 <span class="required">*</span></label>
+            <select id="category" name="category" class="form-select" required>
+              <option value="">選択してください</option>
+              <option value="質問">質問</option>
+              <option value="ご意見・ご要望">ご意見・ご要望</option>
+              <option value="応援メッセージ">応援メッセージ</option>
+              <option value="参加希望">参加希望</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="subject" class="form-label">件名 <span class="required">*</span></label>
+            <input type="text" id="subject" name="_subject" class="form-input" required placeholder="件名を入力してください">
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">メッセージ <span class="required">*</span></label>
+            <textarea id="message" name="message" class="form-textarea" required rows="8" placeholder="お問い合わせ内容をご記入ください"></textarea>
+          </div>
+
+          <!-- スパム対策（非表示フィールド） -->
+          <input type="text" name="_gotcha" style="display:none">
+
+          <div class="form-notice">
+            <p><strong>※ ご注意</strong></p>
+            <p>・お返事には数日お時間をいただく場合がございます。</p>
+            <p>・いただいた個人情報は、お問い合わせへの対応のみに使用いたします。</p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="form-submit">送信する</button>
+            <button type="reset" class="form-reset">リセット</button>
+          </div>
+        </form>
+
+        <div class="form-success" id="successMessage">
+          <div class="success-icon">✅</div>
+          <h3>送信完了！</h3>
+          <p>お問い合わせありがとうございます。<br>内容を確認次第、ご連絡させていただきます。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="footer-logo" width="300" height="100">
+      <a href="https://www.instagram.com/chuo.first/" target="_blank" rel="noopener noreferrer" aria-label="Instagramで中央中等生ファーストの会をフォロー">
+        <img src="instagram.jpg" alt="" class="footer-instagram" width="50" height="50">
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+    });
+
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'メニューを開く');
+    });
+
+    // フォーム送信処理（Formspree使用時は自動的にリダイレクトされる）
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+
+    // Formspreeを使わない場合のデモ用コード
+    // 実際にはFormspreeが処理するので、このコードは動きません
+    /*
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      contactForm.style.display = 'none';
+      successMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        contactForm.reset();
+        contactForm.style.display = 'block';
+        successMessage.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 3000);
+    });
+    */
+  </script>
+</body>
+</html>
