@@ -12,7 +12,6 @@
   <meta property="og:description" content="中央中等生ファーストの会の政策">
   <meta property="og:image" content="ChuoFirst.png">
   <meta property="og:type" content="website">
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <header>
@@ -76,6 +75,35 @@
     </div>
   </footer>
 
+  <!-- Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.open();
+        } else {
+          const email = user.email;
+          if (!email.endsWith('@edu-g.gsn.ed.jp')) {
+            alert('このサイトは @edu-g.gsn.ed.jp のメールアドレスでのみアクセス可能です');
+            window.netlifyIdentity.logout();
+            window.location.reload();
+          }
+        }
+      });
+      
+      window.netlifyIdentity.on("login", user => {
+        const email = user.email;
+        if (email.endsWith('@edu-g.gsn.ed.jp')) {
+          document.location.href = "/policy.html";
+        } else {
+          alert('このサイトは @edu-g.gsn.ed.jp のメールアドレスでのみアクセス可能です');
+          window.netlifyIdentity.logout();
+        }
+      });
+    }
+  </script>
+
   <script>
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
@@ -97,27 +125,5 @@
       menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
   </script>
-  <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/";
-        });
-      }
-    });
-  }
-</script>
-<script>
-  // ログインしていない場合はログインページへリダイレクト
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        // ログインしていない
-        window.location.href = "/.netlify/identity/login";
-      }
-    });
-  }
-</script>
 </body>
 </html>
