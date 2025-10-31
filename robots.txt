@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /中等はパワフルだ.png
