@@ -136,12 +136,11 @@
   }
 </script>
 <script>
-  // ログインしていない場合はログインページへリダイレクト
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
       if (!user) {
-        // ログインしていない
-        window.location.href = "/.netlify/identity/login";
+        // ログインモーダルを表示
+        window.netlifyIdentity.open();
       }
     });
   }
