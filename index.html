@@ -124,5 +124,27 @@
       menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
   </script>
+  <script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/";
+        });
+      }
+    });
+  }
+</script>
+<script>
+  // ログインしていない場合はログインページへリダイレクト
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        // ログインしていない
+        window.location.href = "/.netlify/identity/login";
+      }
+    });
+  }
+</script>
 </body>
 </html>
