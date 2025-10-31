@@ -1380,6 +1380,11 @@ footer::before {
     margin-top: 20px;
   }
 
+  .footer-contact {
+    position: static;
+    margin-bottom: 20px;
+  }
+
   .footer-content {
     flex-direction: column;
     gap: 20px;
