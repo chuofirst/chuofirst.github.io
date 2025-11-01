@@ -36,7 +36,7 @@ onAuthStateChanged(auth, (user) => {
       }
     } else {
       // ドメインが違う場合、エラー表示してログアウト
-      alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
+      alert('アクセス権限がありません。学校のアカウントでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
@@ -98,7 +98,7 @@ function showLoginScreen() {
       Googleでログイン
     </button>
     <p style="color: white; margin-top: 30px; font-size: 1.1em; font-weight: 600;">
-      @edu-g.gsn.ed.jp のアカウントでログインしてください
+      学校のアカウントでログインしてください
     </p>
   `;
   
