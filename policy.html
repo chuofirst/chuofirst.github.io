@@ -75,34 +75,8 @@
     </div>
   </footer>
 
-  <!-- Netlify Identity -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.open();
-        } else {
-          const email = user.email;
-          if (!email.endsWith('@edu-g.gsn.ed.jp')) {
-            alert('このサイトは @edu-g.gsn.ed.jp のメールアドレスでのみアクセス可能です');
-            window.netlifyIdentity.logout();
-            window.location.reload();
-          }
-        }
-      });
-      
-      window.netlifyIdentity.on("login", user => {
-        const email = user.email;
-        if (email.endsWith('@edu-g.gsn.ed.jp')) {
-          document.location.href = "/policy.html";
-        } else {
-          alert('このサイトは @edu-g.gsn.ed.jp のメールアドレスでのみアクセス可能です');
-          window.netlifyIdentity.logout();
-        }
-      });
-    }
-  </script>
+  <!-- Firebase Authentication -->
+  <script type="module" src="auth.js"></script>
 
   <script>
     const menuToggle = document.getElementById('menu-toggle');
