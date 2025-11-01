@@ -78,7 +78,7 @@ onAuthStateChanged(auth, (user) => {
       }
       showDecryptedContent();
     } else {
-      alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
+      alert('アクセス権限がありません。正しいメールアドレスでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
