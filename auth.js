@@ -23,15 +23,18 @@ const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 // 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// 復号化関数
+// 復号化関数（UTF-8対応）
 function decryptContent(encrypted) {
   try {
     const decoded = atob(encrypted);
-    let decrypted = '';
+    const decryptedBytes = new Uint8Array(decoded.length);
+    
     for (let i = 0; i < decoded.length; i++) {
-      const charCode = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
-      decrypted += String.fromCharCode(charCode);
+      decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
     }
+    
+    // UTF-8デコード
+    const decrypted = new TextDecoder().decode(decryptedBytes);
     return decrypted;
   } catch (e) {
     console.error('復号化エラー:', e);
@@ -46,7 +49,7 @@ function showDecryptedContent() {
   encryptedElements.forEach(element => {
     const encrypted = element.getAttribute('data-encrypted');
     const decrypted = decryptContent(encrypted);
-    element.innerHTML = decrypted;
+    element.textContent = decrypted;
     element.removeAttribute('data-encrypted');
   });
   
@@ -75,7 +78,7 @@ onAuthStateChanged(auth, (user) => {
       }
       showDecryptedContent();
     } else {
-      alert('アクセス権限がありません。正しいメールアドレスでログインしてください。');
+      alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
@@ -135,7 +138,7 @@ function showLoginScreen() {
       Googleでログイン
     </button>
     <p style="color: white; margin-top: 30px; font-size: 1.1em; font-weight: 600;">
-      学校のアカウントでログインしてください
+      @edu-g.gsn.ed.jp のアカウントでログインしてください
     </p>
   `;
   
