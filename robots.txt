@@ -1,2 +1,7 @@
 User-agent: *
 Disallow: /中等はパワフルだ.png
+Disallow: /ChuoFirst.png
+Disallow: /ChuoFirst_icon.png
+Disallow: /手書き文字.png
+Disallow: /Thegirl.jpg
+Disallow: /instagram.jpg
