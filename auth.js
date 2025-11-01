@@ -1,6 +1,6 @@
 // Firebase設定
 const firebaseConfig = {
-  apiKey: "AIzaSyDeOiii2elGCK9fJ_YVJAdh6C4hf7IcEBI",
+  //いったんAPIキー削除
   authDomain: "chuo-first.firebaseapp.com",
   projectId: "chuo-first",
   storageBucket: "chuo-first.firebasestorage.app",
