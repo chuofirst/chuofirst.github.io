@@ -20,28 +20,66 @@ const provider = new GoogleAuthProvider();
 // 許可するドメイン
 const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 
+// 暗号化キー
+const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
+
+// 復号化関数
+function decryptContent(encrypted) {
+  try {
+    const decoded = atob(encrypted);
+    let decrypted = '';
+    for (let i = 0; i < decoded.length; i++) {
+      const charCode = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
+      decrypted += String.fromCharCode(charCode);
+    }
+    return decrypted;
+  } catch (e) {
+    console.error('復号化エラー:', e);
+    return '';
+  }
+}
+
+// 暗号化されたコンテンツを復号化して表示
+function showDecryptedContent() {
+  // テキストコンテンツの復号化
+  const encryptedElements = document.querySelectorAll('[data-encrypted]');
+  encryptedElements.forEach(element => {
+    const encrypted = element.getAttribute('data-encrypted');
+    const decrypted = decryptContent(encrypted);
+    element.innerHTML = decrypted;
+    element.removeAttribute('data-encrypted');
+  });
+  
+  // 画像の復号化
+  const encryptedImages = document.querySelectorAll('[data-encrypted-src]');
+  encryptedImages.forEach(img => {
+    const encrypted = img.getAttribute('data-encrypted-src');
+    const decrypted = decryptContent(encrypted);
+    img.src = decrypted;
+    img.removeAttribute('data-encrypted-src');
+  });
+  
+  // コンテンツを表示
+  document.body.style.visibility = 'visible';
+}
+
 // 認証状態チェック
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // ログイン済み
     const email = user.email;
     if (email.endsWith(ALLOWED_DOMAIN)) {
-      // ドメインが正しい場合、コンテンツを表示
-      document.body.style.display = 'block';
-      document.body.style.visibility = 'visible';
-      // ログイン画面を削除
+      // ドメインが正しい場合、コンテンツを復号化して表示
       const loginScreen = document.getElementById('login-screen');
       if (loginScreen) {
         loginScreen.remove();
       }
+      showDecryptedContent();
     } else {
-      // ドメインが違う場合、エラー表示してログアウト
       alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
   } else {
-    // 未ログイン
     showLoginScreen();
   }
 });
@@ -50,7 +88,6 @@ onAuthStateChanged(auth, (user) => {
 function showLoginScreen() {
   document.body.style.visibility = 'hidden';
   
-  // 既存のログイン画面があれば削除
   const existingLoginScreen = document.getElementById('login-screen');
   if (existingLoginScreen) {
     existingLoginScreen.remove();
@@ -102,14 +139,11 @@ function showLoginScreen() {
     </p>
   `;
   
-  // bodyではなくdocument.documentElementに追加
   document.documentElement.appendChild(loginDiv);
   
-  // ログインボタンのイベント
   document.getElementById('google-login-btn').addEventListener('click', async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      // 認証成功時は onAuthStateChanged が自動的に呼ばれる
     } catch (error) {
       console.error('ログインエラー:', error);
       alert('ログインに失敗しました。もう一度お試しください。');
@@ -117,5 +151,5 @@ function showLoginScreen() {
   });
 }
 
-// 初期状態でコンテンツを非表示（visibilityを使用）
+// 初期状態
 document.body.style.visibility = 'hidden';
