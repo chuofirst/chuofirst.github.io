@@ -427,6 +427,7 @@ nav a[aria-current="page"] {
   margin: 0 auto !important;
 }
 
+
 /* ===== フッター ===== */
 footer {
   background: linear-gradient(135deg, #e0e0e0 0%, var(--bg-footer) 100%);
@@ -462,6 +463,24 @@ footer::before {
   margin: 0 auto;
 }
 
+.footer-contact {
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+
+.footer-contact a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1em;
+  transition: opacity 0.3s ease;
+}
+
+.footer-contact a:hover {
+  opacity: 0.7;
+}
+
 .footer-logo {
   width: 300px;
   max-width: 100%;
@@ -486,7 +505,25 @@ footer::before {
 }
 
 .footer-instagram:hover {
-  transform: scale(1.2) rotate(10deg);
+  transform: scale(1.2) rotate(10px);
+}
+
+/* レスポンシブ対応（900px以下） */
+@media (max-width: 900px) {
+  .footer-instagram {
+    position: static;
+    margin-top: 20px;
+  }
+
+  .footer-contact {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 /* ===== 私たちについてページ ===== */
