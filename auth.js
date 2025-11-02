@@ -78,7 +78,7 @@ onAuthStateChanged(auth, (user) => {
       }
       showDecryptedContent();
     } else {
-      alert('アクセス権限がありません。正しいメールアドレスでログインしてください。');
+      alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
@@ -138,7 +138,7 @@ function showLoginScreen() {
       Googleでログイン
     </button>
     <p style="color: white; margin-top: 30px; font-size: 1.1em; font-weight: 600;">
-      学校のアカウントでログインしてください
+      @edu-g.gsn.ed.jp のアカウントでログインしてください
     </p>
   `;
   
