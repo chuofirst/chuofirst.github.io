@@ -7,7 +7,7 @@
   --text-dark: #000;
   --text-light: #fff;
   --bg-light: #f9f9f9;
-  --bg-footer: #f0f0f0;
+  --bg-footer: #2a2a2a;
   --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
   --shadow-medium: 0 4px 10px rgba(0, 0, 0, 0.2);
   --shadow-strong: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -427,10 +427,9 @@ nav a[aria-current="page"] {
   margin: 0 auto !important;
 }
 
-
 /* ===== フッター ===== */
 footer {
-  background: linear-gradient(135deg, #e0e0e0 0%, var(--bg-footer) 100%);
+  background: var(--bg-footer);
   padding: 40px 20px;
   text-align: center;
   position: relative;
@@ -465,20 +464,24 @@ footer::before {
 
 .footer-contact {
   position: absolute;
-  top: 0;
-  left: 20px;
+  top: 10px;
+  left: 10px;
 }
 
 .footer-contact a {
-  color: #000;
+  color: var(--text-light);
   text-decoration: none;
   font-weight: 700;
   font-size: 1.1em;
-  transition: opacity 0.3s ease;
+  transition: all var(--transition-base);
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .footer-contact a:hover {
-  opacity: 0.7;
+  color: var(--primary-light);
+  background-color: rgba(238, 120, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .footer-logo {
@@ -505,25 +508,7 @@ footer::before {
 }
 
 .footer-instagram:hover {
-  transform: scale(1.2) rotate(10px);
-}
-
-/* レスポンシブ対応（900px以下） */
-@media (max-width: 900px) {
-  .footer-instagram {
-    position: static;
-    margin-top: 20px;
-  }
-
-  .footer-contact {
-    position: static;
-    margin-bottom: 20px;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 20px;
-  }
+  transform: scale(1.2) rotate(10deg);
 }
 
 /* ===== 私たちについてページ ===== */
