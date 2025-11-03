@@ -182,7 +182,7 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
 
 // ログイン画面表示
 function showLoginScreen() {
-  document.body.style.visibility = 'hidden';
+  document.body.style.setProperty('visibility','hidden','important');
 
   const existingLoginScreen = document.getElementById('login-screen');
   if (existingLoginScreen) {
