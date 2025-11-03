@@ -141,7 +141,7 @@ function showDecryptedContent() {
       if (queue.length) {
         schedule(processChunk);
       } else {
-        document.body.style.visibility = 'visible';
+        document.body.style.setProperty('visibility','visible','important');
         __DECRYPTION_DONE = true;
         __DECRYPTION_RUNNING = false;
       }
@@ -150,7 +150,7 @@ function showDecryptedContent() {
     schedule(processChunk);
   } catch (e) {
     console.error('復号処理中に例外:', e);
-    document.body.style.visibility = 'visible';
+    document.body.style.setProperty('visibility','visible','important');
     __DECRYPTION_DONE = true;
     __DECRYPTION_RUNNING = false;
   }
