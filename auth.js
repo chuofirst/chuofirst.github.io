@@ -171,7 +171,7 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
       __AUTH_HANDLED = true;
       if (typeof unsubscribe === 'function') unsubscribe();
     } else {
-      alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
+      alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
       signOut(auth);
       showLoginScreen();
     }
