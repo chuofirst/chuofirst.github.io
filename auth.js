@@ -15,11 +15,15 @@ const __heroWarmup = new Image();
 __heroWarmup.decoding = 'async';
 __heroWarmup.src = __HERO_SRC;
 
-
 // Firebase初期化
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut }
-  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -31,28 +35,25 @@ const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 // 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// ★ 二重実行ガード（復号＆表示）
+// 二重実行ガード（復号＆表示）
 let __DECRYPTION_RUNNING = false;
 let __DECRYPTION_DONE = false;
-// ★ onAuthStateChanged 重複ガード
+// onAuthStateChanged 重複ガード
 let __AUTH_HANDLED = false;
 
 // 復号化関数（UTF-8対応）
 function decryptContent(encrypted) {
   try {
-    // ★ 既に平文（Data URI / http/https）なら、そのまま返す
     if (typeof encrypted === 'string') {
       const s = encrypted.trim();
       if (s.startsWith('data:image/')) return s;
       if (s.startsWith('http://') || s.startsWith('https://')) return s;
     }
-
     const decoded = atob(encrypted);
     const decryptedBytes = new Uint8Array(decoded.length);
     for (let i = 0; i < decoded.length; i++) {
       decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
     }
-    // UTF-8デコード
     const decrypted = new TextDecoder().decode(decryptedBytes);
     return decrypted;
   } catch (e) {
@@ -61,45 +62,39 @@ function decryptContent(encrypted) {
   }
 }
 
-// 暗号化されたコンテンツを復号化して表示
-function showDecryptedContent() {
-// === 追加：簡易キャッシュ（暗号文→復号結果） ===
+// キャッシュ付き復号＆スケジューラ定義
 const __DECRYPT_CACHE = new Map();
 function decryptWithCache(encrypted) {
   if (!encrypted) return '';
   if (__DECRYPT_CACHE.has(encrypted)) return __DECRYPT_CACHE.get(encrypted);
-  const out = decryptContent(encrypted); // 既存の関数
+  const out = decryptContent(encrypted);
   __DECRYPT_CACHE.set(encrypted, out);
   return out;
 }
 
-// === 追加：スケジューラ（フリーズ回避の小分け実行） ===
 const schedule = (cb) => {
   if ('requestIdleCallback' in window) {
     requestIdleCallback(cb, { timeout: 200 });
   } else {
     setTimeout(cb, 0);
   }
-};
+}
 
-// === 置き換え：暗号化されたコンテンツを復号化して表示（分割実行版） ===
+// 復号化されたコンテンツを復号化して表示（分割実行版）
 function showDecryptedContent() {
   if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
   __DECRYPTION_RUNNING = true;
 
   try {
-    // 1) 対象を収集
     const textNodes = Array.from(document.querySelectorAll('[data-encrypted]'));
     const imgNodes  = Array.from(document.querySelectorAll('[data-encrypted-src]'));
 
-    // 2) 短いものから処理：長大なデータで詰まらないように
     const byLenAsc = (attr) => (a, b) =>
       (a.getAttribute(attr)?.length || 0) - (b.getAttribute(attr)?.length || 0);
     textNodes.sort(byLenAsc('data-encrypted'));
     imgNodes.sort(byLenAsc('data-encrypted-src'));
 
-    // 3) キュー化：テキスト → 小さい画像 → 大きい画像 の順
-    const SMALL_THRESHOLD = 60_000; // だいたい <60KB を「軽い」とみなす
+    const SMALL_THRESHOLD = 60_000;
     const smallImgs = [];
     const largeImgs = [];
     for (const el of imgNodes) {
@@ -109,13 +104,12 @@ function showDecryptedContent() {
 
     const queue = [
       ...textNodes.map(el => ({ el, kind: 'text' })),
-      ...smallImgs.map(el => ({ el, kind: 'img'  })),
-      ...largeImgs.map(el => ({ el, kind: 'img'  })),
+      ...smallImgs.map(el => ({ el, kind: 'img' })),
+      ...largeImgs.map(el => ({ el, kind: 'img' }))
     ];
 
-    // 4) チャンク実行（1チャンクで処理する要素数／時間を制御）
-    const CHUNK_COUNT = 25;      // 要素数の上限（調整可）
-    const TIME_BUDGET = 12;      // 1回あたり最大 ~12ms で中断（16ms未満に収める）
+    const CHUNK_COUNT = 25;
+    const TIME_BUDGET = 12;
 
     const processChunk = () => {
       const start = performance.now();
@@ -145,7 +139,7 @@ function showDecryptedContent() {
       }
 
       if (queue.length) {
-        schedule(processChunk); // 残りを後で続行（フリーズ回避）
+        schedule(processChunk);
       } else {
         document.body.style.visibility = 'visible';
         __DECRYPTION_DONE = true;
@@ -153,22 +147,17 @@ function showDecryptedContent() {
       }
     };
 
-    // 開始
     schedule(processChunk);
   } catch (e) {
-    console.error(e);
-    // 失敗時でも見えなくならないように
+    console.error('復号処理中に例外:', e);
     document.body.style.visibility = 'visible';
     __DECRYPTION_DONE = true;
     __DECRYPTION_RUNNING = false;
   }
 }
 
-}
-
 // 認証状態チェック
 const unsubscribe = onAuthStateChanged(auth, (user) => {
-  // ★ 既に処理済みなら何もしない（多重発火防止）
   if (__AUTH_HANDLED) return;
 
   if (user) {
@@ -179,8 +168,7 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
         loginScreen.remove();
       }
       showDecryptedContent();
-      __AUTH_HANDLED = true; // ★ ハンドル済み
-      // ★ 以降の発火は不要なので解除
+      __AUTH_HANDLED = true;
       if (typeof unsubscribe === 'function') unsubscribe();
     } else {
       alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
@@ -236,7 +224,7 @@ function showLoginScreen() {
     " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
       <svg width="24" height="24" viewBox="0 0 24 24">
         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98 .66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
       </svg>
