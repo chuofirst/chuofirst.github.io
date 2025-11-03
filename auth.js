@@ -62,39 +62,107 @@ function decryptContent(encrypted) {
 
 // 暗号化されたコンテンツを復号化して表示
 function showDecryptedContent() {
-  // ★ 二重実行と同時実行を抑止
+// === 追加：簡易キャッシュ（暗号文→復号結果） ===
+const __DECRYPT_CACHE = new Map();
+function decryptWithCache(encrypted) {
+  if (!encrypted) return '';
+  if (__DECRYPT_CACHE.has(encrypted)) return __DECRYPT_CACHE.get(encrypted);
+  const out = decryptContent(encrypted); // 既存の関数
+  __DECRYPT_CACHE.set(encrypted, out);
+  return out;
+}
+
+// === 追加：スケジューラ（フリーズ回避の小分け実行） ===
+const schedule = (cb) => {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(cb, { timeout: 200 });
+  } else {
+    setTimeout(cb, 0);
+  }
+};
+
+// === 置き換え：暗号化されたコンテンツを復号化して表示（分割実行版） ===
+function showDecryptedContent() {
   if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
   __DECRYPTION_RUNNING = true;
 
   try {
-    // テキストコンテンツの復号化
-    const encryptedElements = document.querySelectorAll('[data-encrypted]');
-    encryptedElements.forEach(element => {
-      const encrypted = element.getAttribute('data-encrypted');
-      const decrypted = decryptContent(encrypted);
-      if (decrypted) {
-        element.textContent = decrypted;
-        element.removeAttribute('data-encrypted');
-      }
-    });
+    // 1) 対象を収集
+    const textNodes = Array.from(document.querySelectorAll('[data-encrypted]'));
+    const imgNodes  = Array.from(document.querySelectorAll('[data-encrypted-src]'));
 
-    // 画像の復号化
-    const encryptedImages = document.querySelectorAll('[data-encrypted-src]');
-    encryptedImages.forEach(img => {
-      const encrypted = img.getAttribute('data-encrypted-src');
-      const decrypted = decryptContent(encrypted);
-      if (decrypted) {
-        img.src = decrypted;
-        img.removeAttribute('data-encrypted-src');
-      }
-    });
+    // 2) 短いものから処理：長大なデータで詰まらないように
+    const byLenAsc = (attr) => (a, b) =>
+      (a.getAttribute(attr)?.length || 0) - (b.getAttribute(attr)?.length || 0);
+    textNodes.sort(byLenAsc('data-encrypted'));
+    imgNodes.sort(byLenAsc('data-encrypted-src'));
 
-    // コンテンツを表示
+    // 3) キュー化：テキスト → 小さい画像 → 大きい画像 の順
+    const SMALL_THRESHOLD = 60_000; // だいたい <60KB を「軽い」とみなす
+    const smallImgs = [];
+    const largeImgs = [];
+    for (const el of imgNodes) {
+      const L = el.getAttribute('data-encrypted-src')?.length || 0;
+      (L <= SMALL_THRESHOLD ? smallImgs : largeImgs).push(el);
+    }
+
+    const queue = [
+      ...textNodes.map(el => ({ el, kind: 'text' })),
+      ...smallImgs.map(el => ({ el, kind: 'img'  })),
+      ...largeImgs.map(el => ({ el, kind: 'img'  })),
+    ];
+
+    // 4) チャンク実行（1チャンクで処理する要素数／時間を制御）
+    const CHUNK_COUNT = 25;      // 要素数の上限（調整可）
+    const TIME_BUDGET = 12;      // 1回あたり最大 ~12ms で中断（16ms未満に収める）
+
+    const processChunk = () => {
+      const start = performance.now();
+      let processed = 0;
+
+      while (queue.length && processed < CHUNK_COUNT && (performance.now() - start) < TIME_BUDGET) {
+        const task = queue.shift();
+        if (!task) break;
+
+        if (task.kind === 'text') {
+          const enc = task.el.getAttribute('data-encrypted');
+          const dec = decryptWithCache(enc);
+          if (dec) {
+            task.el.textContent = dec;
+            task.el.removeAttribute('data-encrypted');
+          }
+        } else {
+          const enc = task.el.getAttribute('data-encrypted-src');
+          const dec = decryptWithCache(enc);
+          if (dec && task.el.src !== dec) {
+            task.el.src = dec;
+          }
+          task.el.removeAttribute('data-encrypted-src');
+        }
+
+        processed++;
+      }
+
+      if (queue.length) {
+        schedule(processChunk); // 残りを後で続行（フリーズ回避）
+      } else {
+        document.body.style.visibility = 'visible';
+        __DECRYPTION_DONE = true;
+        __DECRYPTION_RUNNING = false;
+      }
+    };
+
+    // 開始
+    schedule(processChunk);
+  } catch (e) {
+    console.error(e);
+    // 失敗時でも見えなくならないように
     document.body.style.visibility = 'visible';
-    __DECRYPTION_DONE = true; // ★ 完了フラグ
-  } finally {
-    __DECRYPTION_RUNNING = false; // ★ 実行中フラグ解除
+    __DECRYPTION_DONE = true;
+    __DECRYPTION_RUNNING = false;
   }
+}
+
 }
 
 // 認証状態チェック
