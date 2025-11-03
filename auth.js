@@ -231,7 +231,7 @@ function showLoginScreen() {
       Googleでログイン
     </button>
     <p style="color: white; margin-top: 30px; font-size: 1.1em; font-weight: 600;">
-      @edu-g.gsn.ed.jp のアカウントでログインしてください
+      学校のアカウントでログインしてください
     </p>
   `;
 
