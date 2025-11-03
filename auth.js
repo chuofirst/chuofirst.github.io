@@ -23,16 +23,27 @@ const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 // 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
+// ★ 二重実行ガード（復号＆表示）
+let __DECRYPTION_RUNNING = false;
+let __DECRYPTION_DONE = false;
+// ★ onAuthStateChanged 重複ガード
+let __AUTH_HANDLED = false;
+
 // 復号化関数（UTF-8対応）
 function decryptContent(encrypted) {
   try {
+    // ★ 既に平文（Data URI / http/https）なら、そのまま返す
+    if (typeof encrypted === 'string') {
+      const s = encrypted.trim();
+      if (s.startsWith('data:image/')) return s;
+      if (s.startsWith('http://') || s.startsWith('https://')) return s;
+    }
+
     const decoded = atob(encrypted);
     const decryptedBytes = new Uint8Array(decoded.length);
-    
     for (let i = 0; i < decoded.length; i++) {
       decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
     }
-    
     // UTF-8デコード
     const decrypted = new TextDecoder().decode(decryptedBytes);
     return decrypted;
@@ -44,39 +55,57 @@ function decryptContent(encrypted) {
 
 // 暗号化されたコンテンツを復号化して表示
 function showDecryptedContent() {
-  // テキストコンテンツの復号化
-  const encryptedElements = document.querySelectorAll('[data-encrypted]');
-  encryptedElements.forEach(element => {
-    const encrypted = element.getAttribute('data-encrypted');
-    const decrypted = decryptContent(encrypted);
-    element.textContent = decrypted;
-    element.removeAttribute('data-encrypted');
-  });
-  
-  // 画像の復号化
-  const encryptedImages = document.querySelectorAll('[data-encrypted-src]');
-  encryptedImages.forEach(img => {
-    const encrypted = img.getAttribute('data-encrypted-src');
-    const decrypted = decryptContent(encrypted);
-    img.src = decrypted;
-    img.removeAttribute('data-encrypted-src');
-  });
-  
-  // コンテンツを表示
-  document.body.style.visibility = 'visible';
+  // ★ 二重実行と同時実行を抑止
+  if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
+  __DECRYPTION_RUNNING = true;
+
+  try {
+    // テキストコンテンツの復号化
+    const encryptedElements = document.querySelectorAll('[data-encrypted]');
+    encryptedElements.forEach(element => {
+      const encrypted = element.getAttribute('data-encrypted');
+      const decrypted = decryptContent(encrypted);
+      if (decrypted) {
+        element.textContent = decrypted;
+        element.removeAttribute('data-encrypted');
+      }
+    });
+
+    // 画像の復号化
+    const encryptedImages = document.querySelectorAll('[data-encrypted-src]');
+    encryptedImages.forEach(img => {
+      const encrypted = img.getAttribute('data-encrypted-src');
+      const decrypted = decryptContent(encrypted);
+      if (decrypted) {
+        img.src = decrypted;
+        img.removeAttribute('data-encrypted-src');
+      }
+    });
+
+    // コンテンツを表示
+    document.body.style.visibility = 'visible';
+    __DECRYPTION_DONE = true; // ★ 完了フラグ
+  } finally {
+    __DECRYPTION_RUNNING = false; // ★ 実行中フラグ解除
+  }
 }
 
 // 認証状態チェック
-onAuthStateChanged(auth, (user) => {
+const unsubscribe = onAuthStateChanged(auth, (user) => {
+  // ★ 既に処理済みなら何もしない（多重発火防止）
+  if (__AUTH_HANDLED) return;
+
   if (user) {
     const email = user.email;
     if (email.endsWith(ALLOWED_DOMAIN)) {
-      // ドメインが正しい場合、コンテンツを復号化して表示
       const loginScreen = document.getElementById('login-screen');
       if (loginScreen) {
         loginScreen.remove();
       }
       showDecryptedContent();
+      __AUTH_HANDLED = true; // ★ ハンドル済み
+      // ★ 以降の発火は不要なので解除
+      if (typeof unsubscribe === 'function') unsubscribe();
     } else {
       alert('アクセス権限がありません。@edu-g.gsn.ed.jp のメールアドレスでログインしてください。');
       signOut(auth);
@@ -90,12 +119,12 @@ onAuthStateChanged(auth, (user) => {
 // ログイン画面表示
 function showLoginScreen() {
   document.body.style.visibility = 'hidden';
-  
+
   const existingLoginScreen = document.getElementById('login-screen');
   if (existingLoginScreen) {
     existingLoginScreen.remove();
   }
-  
+
   const loginDiv = document.createElement('div');
   loginDiv.id = 'login-screen';
   loginDiv.style.cssText = `
@@ -111,7 +140,7 @@ function showLoginScreen() {
     align-items: center;
     z-index: 10000;
   `;
-  
+
   loginDiv.innerHTML = `
     <img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px; margin-bottom: 40px;">
     <button id="google-login-btn" style="
@@ -141,12 +170,12 @@ function showLoginScreen() {
       @edu-g.gsn.ed.jp のアカウントでログインしてください
     </p>
   `;
-  
+
   document.documentElement.appendChild(loginDiv);
-  
+
   document.getElementById('google-login-btn').addEventListener('click', async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error('ログインエラー:', error);
       alert('ログインに失敗しました。もう一度お試しください。');
