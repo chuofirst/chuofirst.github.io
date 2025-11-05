@@ -1563,3 +1563,12 @@ footer::before {
     transition: none !important;
   }
 }
+
+
+/* ===== 党員詳細ページ ===== */
+.member-link {
+  display: block;         /* <a> をブロック要素にする */
+}
+.member-link .member-card {
+  display: block;         /* 包んだカードもブロック化してレイアウトを崩さない */
+}
