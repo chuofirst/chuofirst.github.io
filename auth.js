@@ -1,7 +1,7 @@
 // Firebase設定
 const firebaseConfig = {
   apiKey: "AIzaSyAEu-ZkQK6w1cGNSlMvtw3LywZ6qk1RtFs",
-  authDomain: "chuo-first.firebaseapp.com",
+  authDomain: "chuo-first.web.app",
   projectId: "chuo-first",
   storageBucket: "chuo-first.firebasestorage.app",
   messagingSenderId: "230624885405",
