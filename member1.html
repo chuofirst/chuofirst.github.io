@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="中央中等生ファーストの会メンバーのプロフィールページ">
+  <title>党首プロフィール-中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+  <style>body { visibility: hidden !important; }</style>
+  <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  
+  <!-- OGP設定 -->
+  <meta property="og:title" content="党首プロフィール">
+  <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
+  <meta property="og:image" content="ChuoFirst.png">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <a href="index.html" aria-label="ホームページへ戻る">
+        <div class="logo">
+          <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ" width="70" height="70">
+        </div>
+        <div class="logo-text">中央中等生ファーストの会</div>
+      </a>
+    </div>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav-menu" aria-label="メインナビゲーション">
+      <a href="aboutus.html">私たちについて</a>
+      <a href="member.html" aria-current="page">メンバー</a>
+      <a href="news.html">ニュース</a>
+      <a href="policy.html">政策</a>
+      <a href="active.html">活動</a>
+      <a href="recruit.html">候補者公募</a>
+    </nav>
+  </header>
+
+  <div id="overlay" aria-hidden="true"></div>
+
+  <main id="main-content">
+    <section class="page-section">
+      <div class="page-header">
+        <h1 class="page-title" data-encrypted="huj8ibPxSZTq9sv27Q=="></h1>
+        <h2 class="page-subtitle" data-encrypted="htHMi5ftgOfE"></h2>
+      </div>
+      <div class="leader-container">
+        <div class="leader-content prose reading-width">
+          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>
+          <p data-encrypted="i+/fh5/Pj9vsl6zdgdv5hvWGg/XEzrOR0bTFi/TrzuTikfL+xPT0gPD3kqPJhvi60bGU1uLslu6yhejakPW+kOfukeX1yO7/kIuk07ObhPfGipr7ivPbk7bdhuL+gOSliOT9zrKx0bTwi/TByOPzkfLfyPbAhvf/l6z8hviy0bCw"></p>
+          <p data-encrypted="hu3viqvjivPUl6zdgd/ojdmdiOfrxLW90bTOi/XuHFaP7vtGG5XyxpHk387pwZqugdOwioDryYyu64rx8Jeu+4bhx4b2iYjm8c6yvNaNzo3RwcnexJXe/crn+oDx8Jevyob6kdGyi9bg4JbvoIXr4JrippvNzpHk487r5Jqvh9OwkYDr/Yyv9I/px5K7w4bi5Yb0rI/d1MiWntaNzo/Y5sry9pHy2sv36ovf/ZK50ozkhNGxmdDpwpbtrIXr+ZD1iZDn4ZHn/s7qxZqtsA=="></p>
+          <p data-encrypted="hfToh4fLivPdkrTxjPXhhvWGg8/UzrCj0bTEi/TrzuTilO/YzvLNgPPyl6zNhvms0bC+1uHRluylherfkPe0kObJkebIzujFmq6O07GGgOj4gJHuivPql6zDhuH5jfyjhNnwzrK80bfUi/fWzuXvkfDUyP79i9j7kZXYhvmg3Yy63MTXkOCdgP/1ls6GnNnqkeX4zunamq6O07CHgOv2jK7uWEtDRM7z6IzO7ZK60YPvqtWUjNrf4ZbuoYDl65D1v5Dn6pHn+M7p7pqtsA=="></p>
+          <p data-encrypted="hu3vhovwivPdk7LAgNTvhvWhje/sy7u70bTNj+rcyNH0kfHwyujyhv3zl6zFguae14ev1uLDlu6Hhev7kPWHkOTnkef8zurjmqyZ1qWQgOjwho33jM7Gl6zQhuLUhvWpiOT0zrOv0bTni/THxebqkfL8zvLDgPPhl6/ghvmv"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-contact">
+        <a href="form.html">お問い合わせ</a>
+      </div>
+      <a href="https://chuofirst.github.io" aria-label="ホームページへ戻る">
+        <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="footer-logo" width="300" height="100">
+      </a>
+      <a href="https://www.instagram.com/chuo.first/" target="_blank" rel="noopener noreferrer" aria-label="Instagramで中央中等生ファーストの会をフォロー">
+        <img src="instagram.jpg" alt="" class="footer-instagram" width="50" height="50">
+      </a>
+    </div>
+  </footer>
+
+  <!-- Firebase Authentication -->
+  <script type="module" src="auth.js"></script>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+      menuToggle.classList.toggle('active');
+      menuToggle.setAttribute('aria-expanded', isOpen);
+      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+    });
+
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'メニューを開く');
+    });
+  </script>
+</body>
+</html>
