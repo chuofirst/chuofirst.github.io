@@ -619,6 +619,7 @@ footer::before {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.4));
   border: 4px solid rgba(255, 215, 0, 0.8);
   box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+  text-align: center;
 }
 
 .member-grid {
