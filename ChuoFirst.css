@@ -1610,13 +1610,13 @@ footer::before {
   font-size: clamp(1.2em, 4vw, 2em);
   font-weight: 700;
   margin-bottom: 25px;
-  color: var(--primary-light);
+  color: var(--text-dark);
 }
 .leader-content .leader-text p {
   font-size: clamp(1.2em, 3.5vw, 1.6em);
   line-height: 1.8;
   margin-bottom: 20px;
-  color: var(--text-light);
+  color: var(--text-dark);
   font-weight: 600;
 }
 
@@ -1624,7 +1624,7 @@ footer::before {
 
 /* 読み物用ベース（本文色・行間・サイズ） */
 .prose {
-  color: var(--text-light);
+  color: var(--text-dark);
   line-height: 1.8;
   letter-spacing: 0.02em;
   font-weight: 600; /* news/policy寄りの少し太め */
@@ -1640,7 +1640,7 @@ footer::before {
 
 /* 見出し（サイズ段差をしっかり） */
 .prose h1, .leader-name {
-  color: var(--text-light);
+  color: var(--text-dark);
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: 0.01em;
