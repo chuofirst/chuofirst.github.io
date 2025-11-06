@@ -1572,9 +1572,11 @@ footer::before {
 /* ===== 党員詳細ページ ===== */
 .member-link {
   display: block;         /* <a> をブロック要素にする */
+  width: 100%;
 }
 .member-link .member-card {
   display: block;         /* 包んだカードもブロック化してレイアウトを崩さない */
+  width: 100%;
 }
 
 .leader-container {
