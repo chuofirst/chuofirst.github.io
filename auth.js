@@ -16,11 +16,19 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signOut
+  signOut,
+  setPersistence,
+  browserLocalPersistence
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+// 認証状態の永続化を明示的に設定
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error('永続化設定エラー:', error);
+});
+
 const provider = new GoogleAuthProvider();
 
 // 許可するドメイン
