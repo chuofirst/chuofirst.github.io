@@ -9,12 +9,6 @@ const firebaseConfig = {
   measurementId: "G-1CMQMZYMKG"
 };
 
-// ★ 先読み（キャッシュ温め）
-const __HERO_SRC = 'ChuoFirst.png';
-const __heroWarmup = new Image();
-__heroWarmup.decoding = 'async';
-__heroWarmup.src = __HERO_SRC;
-
 // Firebase初期化
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import {
@@ -167,6 +161,12 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (loginScreen) {
         loginScreen.remove();
       }
+      
+      // ★ 認証成功後に先読み（メインページ用画像のプリロード）
+      const __heroWarmup = new Image();
+      __heroWarmup.decoding = 'async';
+      __heroWarmup.src = 'ChuoFirst.png';
+      
       showDecryptedContent();
       __AUTH_HANDLED = true;
       if (typeof unsubscribe === 'function') unsubscribe();
