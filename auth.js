@@ -161,12 +161,6 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (loginScreen) {
         loginScreen.remove();
       }
-      
-      // ★ 認証成功後に先読み（メインページ用画像のプリロード）
-      const __heroWarmup = new Image();
-      __heroWarmup.decoding = 'async';
-      __heroWarmup.src = 'ChuoFirst.png';
-      
       showDecryptedContent();
       __AUTH_HANDLED = true;
       if (typeof unsubscribe === 'function') unsubscribe();
@@ -182,7 +176,8 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
 
 // ログイン画面表示
 function showLoginScreen() {
-  document.body.style.setProperty('visibility','hidden','important');
+  // ★ まず背景だけを即座に表示
+  document.body.style.setProperty('visibility','visible','important');
 
   const existingLoginScreen = document.getElementById('login-screen');
   if (existingLoginScreen) {
@@ -205,8 +200,12 @@ function showLoginScreen() {
     z-index: 10000;
   `;
 
+  // ★ 画像を遅延読み込みに変更
   loginDiv.innerHTML = `
-    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px; margin-bottom: 40px;">
+    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" 
+         style="max-width: 400px; margin-bottom: 40px; opacity: 0; transition: opacity 0.3s ease;"
+         loading="lazy"
+         onload="this.style.opacity='1'">
     <button id="google-login-btn" style="
       background: white;
       color: #333;
