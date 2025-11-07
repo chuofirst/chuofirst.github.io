@@ -622,6 +622,12 @@ footer::before {
   text-align: center;
 }
 
+.member-link.leader-link {
+  max-width: 500px;
+  margin: 0 auto 60px;
+  display: block;
+}
+
 .member-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
