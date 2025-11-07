@@ -24,7 +24,7 @@ import {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 認証状態の永続化を明示的に設定
+// 認証状態の永続化
 setPersistence(auth, browserLocalPersistence).catch((error) => {
   console.error('永続化設定エラー:', error);
 });
@@ -37,136 +37,84 @@ const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 // 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// 二重実行ガード（復号＆表示）
-let __DECRYPTION_RUNNING = false;
-let __DECRYPTION_DONE = false;
-// onAuthStateChanged 重複ガード
-let __AUTH_HANDLED = false;
+// 実行制御フラグ
+let authChecked = false;
+let decryptionStarted = false;
 
-// 復号化関数（UTF-8対応）
+// 復号化関数（UTF-8対応・最適化版）
 function decryptContent(encrypted) {
   try {
+    if (!encrypted) return '';
     if (typeof encrypted === 'string') {
       const s = encrypted.trim();
-      if (s.startsWith('data:image/')) return s;
-      if (s.startsWith('http://') || s.startsWith('https://')) return s;
+      if (s.startsWith('data:image/') || s.startsWith('http://') || s.startsWith('https://')) {
+        return s;
+      }
     }
     const decoded = atob(encrypted);
-    const decryptedBytes = new Uint8Array(decoded.length);
-    for (let i = 0; i < decoded.length; i++) {
-      decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
+    const len = decoded.length;
+    const decryptedBytes = new Uint8Array(len);
+    const keyLen = ENCRYPTION_KEY.length;
+    
+    for (let i = 0; i < len; i++) {
+      decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % keyLen);
     }
-    const decrypted = new TextDecoder().decode(decryptedBytes);
-    return decrypted;
+    
+    return new TextDecoder().decode(decryptedBytes);
   } catch (e) {
     console.error('復号化エラー:', e);
     return '';
   }
 }
 
-// キャッシュ付き復号＆スケジューラ定義
-const __DECRYPT_CACHE = new Map();
-function decryptWithCache(encrypted) {
-  if (!encrypted) return '';
-  if (__DECRYPT_CACHE.has(encrypted)) return __DECRYPT_CACHE.get(encrypted);
-  const out = decryptContent(encrypted);
-  __DECRYPT_CACHE.set(encrypted, out);
-  return out;
-}
-
-const schedule = (cb) => {
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(cb, { timeout: 200 });
-  } else {
-    setTimeout(cb, 0);
-  }
-}
-
-// 復号化されたコンテンツを復号化して表示（分割実行版）
+// 高速復号化・表示処理
 function showDecryptedContent() {
-  if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
-  __DECRYPTION_RUNNING = true;
+  if (decryptionStarted) return;
+  decryptionStarted = true;
 
-  try {
-    const textNodes = Array.from(document.querySelectorAll('[data-encrypted]'));
-    const imgNodes  = Array.from(document.querySelectorAll('[data-encrypted-src]'));
+  // 即座にbodyを表示
+  document.body.style.visibility = 'visible';
 
-    const byLenAsc = (attr) => (a, b) =>
-      (a.getAttribute(attr)?.length || 0) - (b.getAttribute(attr)?.length || 0);
-    textNodes.sort(byLenAsc('data-encrypted'));
-    imgNodes.sort(byLenAsc('data-encrypted-src'));
-
-    const SMALL_THRESHOLD = 60_000;
-    const smallImgs = [];
-    const largeImgs = [];
-    for (const el of imgNodes) {
-      const L = el.getAttribute('data-encrypted-src')?.length || 0;
-      (L <= SMALL_THRESHOLD ? smallImgs : largeImgs).push(el);
-    }
-
-    const queue = [
-      ...textNodes.map(el => ({ el, kind: 'text' })),
-      ...smallImgs.map(el => ({ el, kind: 'img' })),
-      ...largeImgs.map(el => ({ el, kind: 'img' }))
-    ];
-
-    const CHUNK_COUNT = 25;
-    const TIME_BUDGET = 12;
-
-    const processChunk = () => {
-      const start = performance.now();
-      let processed = 0;
-
-      while (queue.length && processed < CHUNK_COUNT && (performance.now() - start) < TIME_BUDGET) {
-        const task = queue.shift();
-        if (!task) break;
-
-        if (task.kind === 'text') {
-          const enc = task.el.getAttribute('data-encrypted');
-          const dec = decryptWithCache(enc);
-          if (dec) {
-            task.el.textContent = dec;
-            task.el.removeAttribute('data-encrypted');
-          }
-        } else {
-          const enc = task.el.getAttribute('data-encrypted-src');
-          const dec = decryptWithCache(enc);
-          if (dec && task.el.src !== dec) {
-            task.el.src = dec;
-          }
-          task.el.removeAttribute('data-encrypted-src');
+  // バックグラウンドで復号化を実行
+  requestAnimationFrame(() => {
+    try {
+      // テキストノード処理
+      const textNodes = document.querySelectorAll('[data-encrypted]');
+      textNodes.forEach(el => {
+        const encrypted = el.getAttribute('data-encrypted');
+        if (encrypted) {
+          el.textContent = decryptContent(encrypted);
+          el.removeAttribute('data-encrypted');
         }
+      });
 
-        processed++;
-      }
-
-      if (queue.length) {
-        schedule(processChunk);
-      } else {
-        document.body.style.setProperty('visibility','visible','important');
-        __DECRYPTION_DONE = true;
-        __DECRYPTION_RUNNING = false;
-      }
-    };
-
-    schedule(processChunk);
-  } catch (e) {
-    console.error('復号処理中に例外:', e);
-    document.body.style.setProperty('visibility','visible','important');
-    __DECRYPTION_DONE = true;
-    __DECRYPTION_RUNNING = false;
-  }
+      // 画像処理（非同期）
+      const imgNodes = document.querySelectorAll('[data-encrypted-src]');
+      imgNodes.forEach(el => {
+        const encrypted = el.getAttribute('data-encrypted-src');
+        if (encrypted) {
+          requestIdleCallback(() => {
+            const decrypted = decryptContent(encrypted);
+            if (decrypted) {
+              el.src = decrypted;
+            }
+            el.removeAttribute('data-encrypted-src');
+          }, { timeout: 100 });
+        }
+      });
+    } catch (e) {
+      console.error('復号処理エラー:', e);
+    }
+  });
 }
 
 // ログイン画面表示
 function showLoginScreen() {
-  // ★ Firebase認証チェック前に即座にログイン画面を表示
-  document.body.style.setProperty('visibility','visible','important');
-
   const existingLoginScreen = document.getElementById('login-screen');
-  if (existingLoginScreen) {
-    existingLoginScreen.remove();
-  }
+  if (existingLoginScreen) return;
+
+  // bodyを即座に表示
+  document.body.style.visibility = 'visible';
 
   const loginDiv = document.createElement('div');
   loginDiv.id = 'login-screen';
@@ -214,11 +162,25 @@ function showLoginScreen() {
     </p>
   `;
 
-  document.documentElement.appendChild(loginDiv);
+  document.body.appendChild(loginDiv);
 
   document.getElementById('google-login-btn').addEventListener('click', async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const email = result.user.email;
+      
+      if (!email.endsWith(ALLOWED_DOMAIN)) {
+        alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
+        await signOut(auth);
+        return;
+      }
+      
+      // ログイン成功
+      const loginScreen = document.getElementById('login-screen');
+      if (loginScreen) {
+        loginScreen.remove();
+      }
+      showDecryptedContent();
     } catch (error) {
       console.error('ログインエラー:', error);
       alert('ログインに失敗しました。もう一度お試しください。');
@@ -226,28 +188,22 @@ function showLoginScreen() {
   });
 }
 
-// ★ 初期状態：即座にログイン画面を表示（Firebase待機なし）
-showLoginScreen();
+// 認証状態監視（1回のみ実行）
+onAuthStateChanged(auth, (user) => {
+  if (authChecked) return;
+  authChecked = true;
 
-// ★ 認証状態チェック（バックグラウンドで実行）
-const unsubscribe = onAuthStateChanged(auth, (user) => {
-  if (__AUTH_HANDLED) return;
-
-  if (user) {
-    const email = user.email;
-    if (email.endsWith(ALLOWED_DOMAIN)) {
-      const loginScreen = document.getElementById('login-screen');
-      if (loginScreen) {
-        loginScreen.remove();
-      }
-      showDecryptedContent();
-      __AUTH_HANDLED = true;
-      if (typeof unsubscribe === 'function') unsubscribe();
-    } else {
-      alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
+  if (user && user.email && user.email.endsWith(ALLOWED_DOMAIN)) {
+    // 認証済み：即座にコンテンツ表示
+    showDecryptedContent();
+  } else {
+    // 未認証：ログイン画面表示
+    if (user && user.email && !user.email.endsWith(ALLOWED_DOMAIN)) {
       signOut(auth);
-      // ログイン画面は既に表示済み
     }
+    showLoginScreen();
   }
-  // ログアウト状態の場合も、ログイン画面は既に表示済み
+}, (error) => {
+  console.error('認証エラー:', error);
+  showLoginScreen();
 });
