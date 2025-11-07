@@ -9,8 +9,6 @@ const firebaseConfig = {
   measurementId: "G-1CMQMZYMKG"
 };
 
-console.log('[AUTH] スクリプト開始');
-
 // Firebase初期化
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import {
@@ -23,18 +21,8 @@ import {
   browserLocalPersistence
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-console.log('[AUTH] Firebaseインポート完了');
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-console.log('[AUTH] Firebase初期化完了');
-
-// 認証状態の永続化
-setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log('[AUTH] 永続化設定成功'))
-  .catch((error) => console.error('[AUTH] 永続化設定エラー:', error));
-
 const provider = new GoogleAuthProvider();
 
 // 許可するドメイン
@@ -43,99 +31,134 @@ const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 // 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// 実行制御フラグ
-let authChecked = false;
-let decryptionStarted = false;
-
-// 即座にbodyを表示
-document.body.style.visibility = 'visible';
-console.log('[AUTH] body表示設定完了');
+// 二重実行ガード（復号＆表示）
+let __DECRYPTION_RUNNING = false;
+let __DECRYPTION_DONE = false;
+// onAuthStateChanged 重複ガード
+let __AUTH_HANDLED = false;
 
 // 復号化関数（UTF-8対応）
 function decryptContent(encrypted) {
   try {
-    if (!encrypted) return '';
     if (typeof encrypted === 'string') {
       const s = encrypted.trim();
-      if (s.startsWith('data:image/') || s.startsWith('http://') || s.startsWith('https://')) {
-        return s;
-      }
+      if (s.startsWith('data:image/')) return s;
+      if (s.startsWith('http://') || s.startsWith('https://')) return s;
     }
     const decoded = atob(encrypted);
-    const len = decoded.length;
-    const decryptedBytes = new Uint8Array(len);
-    const keyLen = ENCRYPTION_KEY.length;
-    
-    for (let i = 0; i < len; i++) {
-      decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % keyLen);
+    const decryptedBytes = new Uint8Array(decoded.length);
+    for (let i = 0; i < decoded.length; i++) {
+      decryptedBytes[i] = decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length);
     }
-    
-    return new TextDecoder().decode(decryptedBytes);
+    const decrypted = new TextDecoder().decode(decryptedBytes);
+    return decrypted;
   } catch (e) {
-    console.error('[DECRYPT] 復号化エラー:', e);
+    console.error('復号化エラー:', e);
     return '';
   }
 }
 
-// 復号化・表示処理
-function showDecryptedContent() {
-  if (decryptionStarted) {
-    console.log('[DECRYPT] 既に復号化開始済み');
-    return;
+// キャッシュ付き復号＆スケジューラ定義
+const __DECRYPT_CACHE = new Map();
+function decryptWithCache(encrypted) {
+  if (!encrypted) return '';
+  if (__DECRYPT_CACHE.has(encrypted)) return __DECRYPT_CACHE.get(encrypted);
+  const out = decryptContent(encrypted);
+  __DECRYPT_CACHE.set(encrypted, out);
+  return out;
+}
+
+const schedule = (cb) => {
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(cb, { timeout: 200 });
+  } else {
+    setTimeout(cb, 0);
   }
-  decryptionStarted = true;
-  console.log('[DECRYPT] 復号化開始');
+}
+
+// 復号化されたコンテンツを復号化して表示（分割実行版）
+function showDecryptedContent() {
+  if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
+  __DECRYPTION_RUNNING = true;
 
   try {
-    // テキストノード処理
-    const textNodes = document.querySelectorAll('[data-encrypted]');
-    console.log(`[DECRYPT] テキストノード数: ${textNodes.length}`);
-    
-    textNodes.forEach((el, index) => {
-      const encrypted = el.getAttribute('data-encrypted');
-      if (encrypted) {
-        el.textContent = decryptContent(encrypted);
-        el.removeAttribute('data-encrypted');
-      }
-      if (index % 10 === 0) {
-        console.log(`[DECRYPT] テキスト処理中: ${index}/${textNodes.length}`);
-      }
-    });
+    const textNodes = Array.from(document.querySelectorAll('[data-encrypted]'));
+    const imgNodes  = Array.from(document.querySelectorAll('[data-encrypted-src]'));
 
-    console.log('[DECRYPT] テキスト処理完了');
+    const byLenAsc = (attr) => (a, b) =>
+      (a.getAttribute(attr)?.length || 0) - (b.getAttribute(attr)?.length || 0);
+    textNodes.sort(byLenAsc('data-encrypted'));
+    imgNodes.sort(byLenAsc('data-encrypted-src'));
 
-    // 画像処理
-    const imgNodes = document.querySelectorAll('[data-encrypted-src]');
-    console.log(`[DECRYPT] 画像ノード数: ${imgNodes.length}`);
-    
-    imgNodes.forEach((el, index) => {
-      const encrypted = el.getAttribute('data-encrypted-src');
-      if (encrypted) {
-        setTimeout(() => {
-          const decrypted = decryptContent(encrypted);
-          if (decrypted) {
-            el.src = decrypted;
+    const SMALL_THRESHOLD = 60_000;
+    const smallImgs = [];
+    const largeImgs = [];
+    for (const el of imgNodes) {
+      const L = el.getAttribute('data-encrypted-src')?.length || 0;
+      (L <= SMALL_THRESHOLD ? smallImgs : largeImgs).push(el);
+    }
+
+    const queue = [
+      ...textNodes.map(el => ({ el, kind: 'text' })),
+      ...smallImgs.map(el => ({ el, kind: 'img' })),
+      ...largeImgs.map(el => ({ el, kind: 'img' }))
+    ];
+
+    const CHUNK_COUNT = 25;
+    const TIME_BUDGET = 12;
+
+    const processChunk = () => {
+      const start = performance.now();
+      let processed = 0;
+
+      while (queue.length && processed < CHUNK_COUNT && (performance.now() - start) < TIME_BUDGET) {
+        const task = queue.shift();
+        if (!task) break;
+
+        if (task.kind === 'text') {
+          const enc = task.el.getAttribute('data-encrypted');
+          const dec = decryptWithCache(enc);
+          if (dec) {
+            task.el.textContent = dec;
+            task.el.removeAttribute('data-encrypted');
           }
-          el.removeAttribute('data-encrypted-src');
-          console.log(`[DECRYPT] 画像処理: ${index + 1}/${imgNodes.length}`);
-        }, index * 10);
-      }
-    });
+        } else {
+          const enc = task.el.getAttribute('data-encrypted-src');
+          const dec = decryptWithCache(enc);
+          if (dec && task.el.src !== dec) {
+            task.el.src = dec;
+          }
+          task.el.removeAttribute('data-encrypted-src');
+        }
 
-    console.log('[DECRYPT] 復号化完了');
+        processed++;
+      }
+
+      if (queue.length) {
+        schedule(processChunk);
+      } else {
+        document.body.style.setProperty('visibility','visible','important');
+        __DECRYPTION_DONE = true;
+        __DECRYPTION_RUNNING = false;
+      }
+    };
+
+    schedule(processChunk);
   } catch (e) {
-    console.error('[DECRYPT] 復号処理エラー:', e);
+    console.error('復号処理中に例外:', e);
+    document.body.style.setProperty('visibility','visible','important');
+    __DECRYPTION_DONE = true;
+    __DECRYPTION_RUNNING = false;
   }
 }
 
 // ログイン画面表示
 function showLoginScreen() {
-  console.log('[LOGIN] ログイン画面表示開始');
-  
+  document.body.style.setProperty('visibility','visible','important');
+
   const existingLoginScreen = document.getElementById('login-screen');
   if (existingLoginScreen) {
-    console.log('[LOGIN] 既にログイン画面あり');
-    return;
+    existingLoginScreen.remove();
   }
 
   const loginDiv = document.createElement('div');
@@ -184,62 +207,52 @@ function showLoginScreen() {
     </p>
   `;
 
-  document.body.appendChild(loginDiv);
-  console.log('[LOGIN] ログイン画面表示完了');
+  document.documentElement.appendChild(loginDiv);
 
   document.getElementById('google-login-btn').addEventListener('click', async () => {
-    console.log('[LOGIN] ログインボタンクリック');
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log('[LOGIN] ログイン成功:', result.user.email);
-      
-      const email = result.user.email;
-      
-      if (!email.endsWith(ALLOWED_DOMAIN)) {
-        console.log('[LOGIN] ドメイン不一致');
-        alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
-        await signOut(auth);
-        return;
-      }
-      
-      console.log('[LOGIN] 認証成功、コンテンツ表示へ');
-      const loginScreen = document.getElementById('login-screen');
-      if (loginScreen) {
-        loginScreen.remove();
-      }
-      showDecryptedContent();
+      await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error('[LOGIN] ログインエラー:', error);
+      console.error('ログインエラー:', error);
       alert('ログインに失敗しました。もう一度お試しください。');
     }
   });
 }
 
-// 認証状態監視
-console.log('[AUTH] 認証状態監視開始');
-onAuthStateChanged(auth, (user) => {
-  console.log('[AUTH] onAuthStateChanged呼び出し', user ? user.email : 'ユーザーなし');
-  
-  if (authChecked) {
-    console.log('[AUTH] 既にチェック済み');
-    return;
-  }
-  authChecked = true;
+// ★ 永続化設定を先に完了させてから認証チェックを開始
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log('永続化設定完了');
+    
+    // 永続化設定後に認証状態を監視
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (__AUTH_HANDLED) return;
 
-  if (user && user.email && user.email.endsWith(ALLOWED_DOMAIN)) {
-    console.log('[AUTH] 認証済みユーザー、コンテンツ表示');
-    showDecryptedContent();
-  } else {
-    console.log('[AUTH] 未認証、ログイン画面表示');
-    if (user && user.email && !user.email.endsWith(ALLOWED_DOMAIN)) {
-      console.log('[AUTH] ドメイン不一致でサインアウト');
-      signOut(auth);
-    }
+      if (user) {
+        const email = user.email;
+        if (email.endsWith(ALLOWED_DOMAIN)) {
+          // ログイン済み：コンテンツ表示
+          const loginScreen = document.getElementById('login-screen');
+          if (loginScreen) {
+            loginScreen.remove();
+          }
+          showDecryptedContent();
+          __AUTH_HANDLED = true;
+          if (typeof unsubscribe === 'function') unsubscribe();
+        } else {
+          // ドメイン不一致
+          alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
+          signOut(auth);
+          showLoginScreen();
+        }
+      } else {
+        // 未ログイン：ログイン画面表示
+        showLoginScreen();
+      }
+    });
+  })
+  .catch((error) => {
+    console.error('永続化設定エラー:', error);
+    // エラー時もログイン画面を表示
     showLoginScreen();
-  }
-}, (error) => {
-  console.error('[AUTH] 認証エラー:', error);
-  showLoginScreen();
-});
-
-console.log('[AUTH] スクリプト終了');
+  });
