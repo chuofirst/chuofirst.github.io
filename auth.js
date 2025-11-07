@@ -150,33 +150,9 @@ function showDecryptedContent() {
   }
 }
 
-// 認証状態チェック
-const unsubscribe = onAuthStateChanged(auth, (user) => {
-  if (__AUTH_HANDLED) return;
-
-  if (user) {
-    const email = user.email;
-    if (email.endsWith(ALLOWED_DOMAIN)) {
-      const loginScreen = document.getElementById('login-screen');
-      if (loginScreen) {
-        loginScreen.remove();
-      }
-      showDecryptedContent();
-      __AUTH_HANDLED = true;
-      if (typeof unsubscribe === 'function') unsubscribe();
-    } else {
-      alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
-      signOut(auth);
-      showLoginScreen();
-    }
-  } else {
-    showLoginScreen();
-  }
-});
-
 // ログイン画面表示
 function showLoginScreen() {
-  // ★ まず背景だけを即座に表示
+  // ★ Firebase認証チェック前に即座にログイン画面を表示
   document.body.style.setProperty('visibility','visible','important');
 
   const existingLoginScreen = document.getElementById('login-screen');
@@ -200,12 +176,8 @@ function showLoginScreen() {
     z-index: 10000;
   `;
 
-  // ★ 画像を遅延読み込みに変更
   loginDiv.innerHTML = `
-    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" 
-         style="max-width: 400px; margin-bottom: 40px; opacity: 0; transition: opacity 0.3s ease;"
-         loading="lazy"
-         onload="this.style.opacity='1'">
+    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px; margin-bottom: 40px;">
     <button id="google-login-btn" style="
       background: white;
       color: #333;
@@ -246,5 +218,28 @@ function showLoginScreen() {
   });
 }
 
-// 初期状態
-document.body.style.visibility = 'hidden';
+// ★ 初期状態：即座にログイン画面を表示（Firebase待機なし）
+showLoginScreen();
+
+// ★ 認証状態チェック（バックグラウンドで実行）
+const unsubscribe = onAuthStateChanged(auth, (user) => {
+  if (__AUTH_HANDLED) return;
+
+  if (user) {
+    const email = user.email;
+    if (email.endsWith(ALLOWED_DOMAIN)) {
+      const loginScreen = document.getElementById('login-screen');
+      if (loginScreen) {
+        loginScreen.remove();
+      }
+      showDecryptedContent();
+      __AUTH_HANDLED = true;
+      if (typeof unsubscribe === 'function') unsubscribe();
+    } else {
+      alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
+      signOut(auth);
+      // ログイン画面は既に表示済み
+    }
+  }
+  // ログアウト状態の場合も、ログイン画面は既に表示済み
+});
