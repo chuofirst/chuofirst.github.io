@@ -152,7 +152,7 @@ function showDecryptedContent() {
   }
 }
 
-// ログイン画面表示
+// ログイン画面表示（画像遅延読み込み版）
 function showLoginScreen() {
   document.body.style.setProperty('visibility','visible','important');
 
@@ -177,8 +177,11 @@ function showLoginScreen() {
     z-index: 10000;
   `;
 
+  // ★ 画像なしで先にUIを表示（高速化）
   loginDiv.innerHTML = `
-    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px; margin-bottom: 40px;">
+    <div style="width: 400px; height: 100px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center;">
+      <div id="logo-placeholder" style="color: white; font-size: 1.5em; font-weight: bold;">中央中等生ファーストの会</div>
+    </div>
     <button id="google-login-btn" style="
       background: white;
       color: #333;
@@ -209,6 +212,16 @@ function showLoginScreen() {
 
   document.documentElement.appendChild(loginDiv);
 
+  // ★ 画像を遅延読み込み（バックグラウンドで）
+  const img = new Image();
+  img.onload = () => {
+    const placeholder = document.getElementById('logo-placeholder');
+    if (placeholder) {
+      placeholder.parentElement.innerHTML = `<img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px;">`;
+    }
+  };
+  img.src = 'ChuoFirst.png';
+
   document.getElementById('google-login-btn').addEventListener('click', async () => {
     try {
       await signInWithPopup(auth, provider);
@@ -219,40 +232,53 @@ function showLoginScreen() {
   });
 }
 
-// ★ 永続化設定を先に完了させてから認証チェックを開始
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log('永続化設定完了');
-    
-    // 永続化設定後に認証状態を監視
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (__AUTH_HANDLED) return;
+// ★ タイムアウト機能付き認証チェック（3秒以内に応答がなければログイン画面表示）
+let authTimeoutId = null;
 
-      if (user) {
-        const email = user.email;
-        if (email.endsWith(ALLOWED_DOMAIN)) {
-          // ログイン済み：コンテンツ表示
-          const loginScreen = document.getElementById('login-screen');
-          if (loginScreen) {
-            loginScreen.remove();
-          }
-          showDecryptedContent();
-          __AUTH_HANDLED = true;
-          if (typeof unsubscribe === 'function') unsubscribe();
-        } else {
-          // ドメイン不一致
-          alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
-          signOut(auth);
-          showLoginScreen();
+// ★ 永続化設定とタイムアウトを並列実行
+Promise.race([
+  setPersistence(auth, browserLocalPersistence),
+  new Promise((resolve) => {
+    authTimeoutId = setTimeout(() => {
+      console.log('認証チェックタイムアウト、ログイン画面表示');
+      resolve();
+    }, 3000); // 3秒でタイムアウト
+  })
+]).then(() => {
+  // 永続化設定完了後に認証状態を監視
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    // タイムアウトをキャンセル
+    if (authTimeoutId) {
+      clearTimeout(authTimeoutId);
+      authTimeoutId = null;
+    }
+
+    if (__AUTH_HANDLED) return;
+
+    if (user) {
+      const email = user.email;
+      if (email.endsWith(ALLOWED_DOMAIN)) {
+        // ログイン済み：コンテンツ表示
+        const loginScreen = document.getElementById('login-screen');
+        if (loginScreen) {
+          loginScreen.remove();
         }
+        showDecryptedContent();
+        __AUTH_HANDLED = true;
+        if (typeof unsubscribe === 'function') unsubscribe();
       } else {
-        // 未ログイン：ログイン画面表示
+        // ドメイン不一致
+        alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
+        signOut(auth);
         showLoginScreen();
       }
-    });
-  })
-  .catch((error) => {
-    console.error('永続化設定エラー:', error);
-    // エラー時もログイン画面を表示
-    showLoginScreen();
+    } else {
+      // 未ログイン：ログイン画面表示
+      showLoginScreen();
+    }
   });
+}).catch((error) => {
+  console.error('永続化設定エラー:', error);
+  // エラー時もログイン画面を表示
+  showLoginScreen();
+});
