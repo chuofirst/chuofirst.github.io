@@ -1,43 +1,16 @@
-// Firebase設定
-const firebaseConfig = {
-  apiKey: "AIzaSyAEu-ZkQK6w1cGNSlMvtw3LywZ6qk1RtFs",
-  authDomain: "chuofirst-github-io.pages.dev",
-  projectId: "chuo-first",
-  storageBucket: "chuo-first.firebasestorage.app",
-  messagingSenderId: "230624885405",
-  appId: "1:230624885405:web:1e04aabb0497bcec88b274",
-  measurementId: "G-1CMQMZYMKG"
-};
-
-// Firebase初期化
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-  setPersistence,
-  browserLocalPersistence
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-// 許可するドメイン
+// ========================================
+// 設定
+// ========================================
+const WORKER_URL = 'https://auth-worker.xxxxx.workers.dev'; // ← ここを変更！
 const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
-
-// 暗号化キー
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// 二重実行ガード（復号＆表示）
+// ========================================
+// 復号化関数（変更なし）
+// ========================================
 let __DECRYPTION_RUNNING = false;
 let __DECRYPTION_DONE = false;
-// onAuthStateChanged 重複ガード
-let __AUTH_HANDLED = false;
 
-// 復号化関数（UTF-8対応）
 function decryptContent(encrypted) {
   try {
     if (typeof encrypted === 'string') {
@@ -58,7 +31,6 @@ function decryptContent(encrypted) {
   }
 }
 
-// キャッシュ付き復号＆スケジューラ定義
 const __DECRYPT_CACHE = new Map();
 function decryptWithCache(encrypted) {
   if (!encrypted) return '';
@@ -76,7 +48,6 @@ const schedule = (cb) => {
   }
 }
 
-// 復号化されたコンテンツを復号化して表示（分割実行版）
 function showDecryptedContent() {
   if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
   __DECRYPTION_RUNNING = true;
@@ -152,7 +123,9 @@ function showDecryptedContent() {
   }
 }
 
-// ログイン画面表示（画像遅延読み込み版）
+// ========================================
+// ログイン画面
+// ========================================
 function showLoginScreen() {
   document.body.style.setProperty('visibility','visible','important');
 
@@ -177,7 +150,6 @@ function showLoginScreen() {
     z-index: 10000;
   `;
 
-  // ★ 画像なしで先にUIを表示（高速化）
   loginDiv.innerHTML = `
     <div style="width: 400px; height: 100px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center;">
       <div id="logo-placeholder" style="color: white; font-size: 1.5em; font-weight: bold;">中央中等生ファーストの会</div>
@@ -212,7 +184,6 @@ function showLoginScreen() {
 
   document.documentElement.appendChild(loginDiv);
 
-  // ★ 画像を遅延読み込み（バックグラウンドで）
   const img = new Image();
   img.onload = () => {
     const placeholder = document.getElementById('logo-placeholder');
@@ -224,7 +195,9 @@ function showLoginScreen() {
 
   document.getElementById('google-login-btn').addEventListener('click', async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const response = await fetch(`${WORKER_URL}/auth/login`);
+      const data = await response.json();
+      window.location.href = data.url;
     } catch (error) {
       console.error('ログインエラー:', error);
       alert('ログインに失敗しました。もう一度お試しください。');
@@ -232,53 +205,49 @@ function showLoginScreen() {
   });
 }
 
-// ★ タイムアウト機能付き認証チェック（3秒以内に応答がなければログイン画面表示）
-let authTimeoutId = null;
+// ========================================
+// 認証チェック
+// ========================================
+async function checkAuth() {
+  const session = localStorage.getItem('session');
+  
+  if (!session) {
+    showLoginScreen();
+    return;
+  }
 
-// ★ 永続化設定とタイムアウトを並列実行
-Promise.race([
-  setPersistence(auth, browserLocalPersistence),
-  new Promise((resolve) => {
-    authTimeoutId = setTimeout(() => {
-      console.log('認証チェックタイムアウト、ログイン画面表示');
-      resolve();
-    }, 3000); // 3秒でタイムアウト
-  })
-]).then(() => {
-  // 永続化設定完了後に認証状態を監視
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    // タイムアウトをキャンセル
-    if (authTimeoutId) {
-      clearTimeout(authTimeoutId);
-      authTimeoutId = null;
-    }
+  try {
+    const response = await fetch(`${WORKER_URL}/auth/verify`, {
+      headers: {
+        'Authorization': `Bearer ${session}`
+      }
+    });
 
-    if (__AUTH_HANDLED) return;
-
-    if (user) {
-      const email = user.email;
-      if (email.endsWith(ALLOWED_DOMAIN)) {
-        // ログイン済み：コンテンツ表示
+    if (response.ok) {
+      const data = await response.json();
+      if (data.valid) {
         const loginScreen = document.getElementById('login-screen');
         if (loginScreen) {
           loginScreen.remove();
         }
         showDecryptedContent();
-        __AUTH_HANDLED = true;
-        if (typeof unsubscribe === 'function') unsubscribe();
-      } else {
-        // ドメイン不一致
-        alert('アクセス権限がありません。指定のメールアドレスでログインしてください。');
-        signOut(auth);
-        showLoginScreen();
+        return;
       }
-    } else {
-      // 未ログイン：ログイン画面表示
-      showLoginScreen();
     }
-  });
-}).catch((error) => {
-  console.error('永続化設定エラー:', error);
-  // エラー時もログイン画面を表示
+  } catch (e) {
+    console.error('認証確認エラー:', e);
+  }
+
+  localStorage.removeItem('session');
+  localStorage.removeItem('user');
   showLoginScreen();
-});
+}
+
+// ========================================
+// ページ読み込み時に実行
+// ========================================
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', checkAuth);
+} else {
+  checkAuth();
+}
