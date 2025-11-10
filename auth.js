@@ -1,7 +1,7 @@
 // ========================================
 // 設定
 // ========================================
-const WORKER_URL = 'https://auth-worker.xxxxx.workers.dev'; // ← ここを変更！
+const WORKER_URL = 'https://auth-worker.chuo-2023025.workers.dev/'; // ← ここを変更！
 const ALLOWED_DOMAIN = '@edu-g.gsn.ed.jp';
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
