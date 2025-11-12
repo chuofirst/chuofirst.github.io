@@ -614,70 +614,6 @@ footer::before {
   z-index: 1;
 }
 
-.leader-card {
-  max-width: 500px;
-  margin: 0 auto 60px;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.4));
-  border: 4px solid rgba(255, 215, 0, 0.8);
-  box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
-  text-align: center;
-}
-
-.member-link.leader-link {
-  max-width: 500px;
-  margin: 0 auto 60px;
-  display: block;
-  width: auto;
-}
-
-.member-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-}
-
-.member-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 35px 25px;
-  text-align: center;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.member-card:hover {
-  transform: translateY(-15px);
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-}
-
-.member-badge {
-  display: inline-block;
-  padding: 10px 25px;
-  background: linear-gradient(135deg, #ffd700, #ffb700);
-  color: var(--text-dark);
-  font-weight: 800;
-  border-radius: 25px;
-  margin-bottom: 25px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-.member-badge.member {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-  color: var(--text-light);
-}
-
-.member-name {
-  font-size: clamp(1.5em, 3vw, 2em);
-  font-weight: 800;
-  color: var(--text-dark);
-  margin: 0;
-}
-
 /* ===== ニュースページ ===== */
 .news-container {
   max-width: 900px;
@@ -800,20 +736,6 @@ footer::before {
   font-size: 6em;
   margin-bottom: 25px;
   animation: float 3s ease-in-out infinite;
-}
-
-.policy-placeholder h2 {
-  font-size: clamp(1.6em, 4vw, 2.2em);
-  color: var(--text-dark);
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-.policy-placeholder p {
-  font-size: clamp(1.05em, 2.5vw, 1.3em);
-  color: var(--text-dark);
-  font-weight: 700;
-  line-height: 2;
 }
 
 /* ===== 活動ページ ===== */
@@ -1551,32 +1473,6 @@ footer::before {
   }
 }
 
-@media print {
-  header {
-    position: relative;
-  }
-
-  body {
-    padding-top: 0;
-  }
-
-  .menu-toggle,
-  #overlay {
-    display: none;
-  }
-
-  nav {
-    position: static;
-    flex-direction: row;
-  }
-
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-
 /* ===== 党員詳細ページ ===== */
 .member-link {
   display: block;         /* <a> をブロック要素にする */
@@ -1594,6 +1490,12 @@ footer::before {
   align-items: flex-start;
   max-width: 1100px;
   margin: 0 auto;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 36px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
 .leader-image-container {
@@ -1690,18 +1592,29 @@ footer::before {
 /* ===== Leader 個別の見た目だけ（レイアウトは既にOKなら触らない） ===== */
 .leader-card-container { max-width: 1000px; margin: 0 auto; }
 .leader-card {
-  display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;
-  background: rgba(255,255,255,.14);
+  background: rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  border: 2px solid rgba(255,255,255,.4);
+  border: 2px solid rgba(255,255,255,0.4);
   padding: 36px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
-.leader-image-container { flex: 1; min-width: 280px; }
-.leader-image-container img {
-  width: 100%; height: auto; aspect-ratio: 4 / 5;
-  object-fit: cover; border-radius: 20px;
-  border: 2px solid rgba(255,255,255,.3);
+
+/* ===== 遊び心ある要素のスタイル ===== */
+.profile-photo {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.leader-content { flex: 2; min-width: 320px; }
+.profile-photo:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
