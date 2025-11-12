@@ -5,11 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="中央中等生ファーストの会メンバーのプロフィールページ">
-  <title>党首プロフィール-中央中等生ファーストの会</title>
+  <title>党首プロフィール- 中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
-  <style>body { visibility: hidden !important; }</style>
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
-  
+  <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
+  <style>body{visibility:hidden!important}</style>
+  <!-- カスタムスタイルの追加 -->
+  <style>
+    .leader-container {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .profile-photo {
+      display: block;
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto 1em;
+      opacity: 0.8;
+      border-radius: 10px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .profile-photo:hover {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease-out;
+    }
+    .fade-in.show {
+      opacity: 1;
+    }
+  </style>
   <!-- OGP設定 -->
   <meta property="og:title" content="党首プロフィール">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
@@ -52,26 +81,29 @@
         <h2 class="page-subtitle" data-encrypted="gOj1ipfljNLC"></h2>
       </div>
       <div class="leader-container">
+        <div class="leader-image-container">
+          <img src="member2.jpg" alt="広報の写真" class="profile-photo">
+        </div>
         <div class="leader-content prose reading-width">
-          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>
-          <p data-encrypted="gOj1ipTVj/rjRh+W3NdFg+iljPHmzrKy16rfj/vmyvrllfX+xcPShsrnl6zAgu2y0bGM1uHklu2mhenwlPKnm9XUl932zurKkZiW1a27isrfjKzqjOLKl6z3huLUhvWpiOfyzrOe0bTEi/XuyMv5ls3vzvLLitLml6zghvuk1Y6W3MXEkvOhhejclvqekOT0keTwxezPnqmE07Oei8/TjK/qivPVl6z3huLthvSv"></p>
-          <p data-encrypted="gOj1iqj8gNTlk7LAgNTvhvWFiOTXyLWK16Xri/TrzufGkfP1xcbBhu3rnY/BhviG0bK61uHinM2FhejZluSUkOTokef4zuvknJCh1qu3jNT9XR1XXZfKwMTT5ozO7JCQ5Ib7vtGxldbi7JbusoPs2ZT6ppbI85Hk2s7o+5qugdOwgoDr0oyu1Yrz2JOH8obi/4D8l4jk7M6zk9G0xYv0687n9pXsx8jE+IDw95G29YD2o9Gxpdbi95buhYXo4ZD2oJDk6JHn/c7qwpqssNOwvoDo9w=="></p>
-          <p data-encrypted="gOj1iLn5jMzhkJHpgN7LgOeMiOTRzrOn0bTFi/Xuyd7pmvvYyuf6hsz3l6zDhviD1JCO1uLGnO64hej2kPWhkOThkef/zuvn"></p>
-          <p data-encrypted="gOj1i5bsivLykrHujcnfg++ViOTexZid0bfwi/TIzuftkfH/y+/JgPPKna3agPGn14Cj0Nrclu2VherRkPeekOb0ndn8xPDjkaaD15aLjNT8jK3k"></p>
+          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>　<!--プロフィール-->
+          <p class="fade-in" data-encrypted="gOj1ipTVj/rjRh+W3NdFg+iljPHmzrKy16rfj/vmyvrllfX+xcPShsrnl6zAgu2y0bGM1uHklu2mhenwlPKnm9XUl932zurKkZiW1a27isrfjKzqjOLKl6z3huLUhvWpiOfyzrOe0bTEi/XuyMv5ls3vzvLLitLml6zghvuk1Y6W3MXEkvOhhejclvqekOT0keTwxezPnqmE07Oei8/TjK/qivPVl6z3huLthvSv"></p>
+          <p class="fade-in" data-encrypted="gOj1iqj8gNTlk7LAgNTvhvWFiOTXyLWK16Xri/TrzufGkfP1xcbBhu3rnY/BhviG0bK61uHinM2FhejZluSUkOTokef4zuvn"></p>
+          <p class="fade-in" data-encrypted="gOj1iLn5jMzhkJHpgN7LgOeMiOTRzrOn0bTFi/Xuyd7pmvvYyuf6hsz3l6zDhviD1JCO1uLGnO64hej2kPWhkOThkef/zuvn"></p>
+          <p class="fade-in" data-encrypted="gOj1i5bsivLykrHujcnfg++ViOTexZid0bfwi/TIzuftkfH/y+/JgPPKna3agPGn14Cj0Nrclu2VherRkPeekOb0ndn8xPDjkaaD15aLjNT8jK3k"></p>
         </div>
       </div>
     </section>
     <section class="greeting-section prose reading-width">
       <h2 class="greeting-title" data-encrypted="gOnhjKzkivP3l6zmhuLW"></h2>　<!--ごあいさつ-->
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
-      <p data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
+      <p class="fade-in" data-encrypted=""></p>
     </section>
   </main>
 
@@ -112,6 +144,17 @@
       menuToggle.setAttribute('aria-expanded', 'false');
       menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
+
+    // Intersection Observer for fade-in effect
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
