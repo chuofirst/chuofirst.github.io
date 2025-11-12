@@ -527,8 +527,8 @@ footer::before {
   font-size: clamp(2em, 5vw, 3em);
   font-weight: 800;
   margin-bottom: 60px;
-  color: var(--text-light);  /* 白文字 */
-  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);  /* 影を追加 */
+  color: var(--text-light);
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 .aboutus-section {
@@ -696,6 +696,169 @@ footer::before {
   font-size: 0.9em;
   box-shadow: 0 6px 15px rgba(255, 68, 68, 0.5);
   animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== 党首ページ（leader.html用） ===== */
+.leader-section {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+  min-height: calc(100vh - var(--header-h));
+  padding: 60px 20px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.leader-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* プロフィールカード */
+.leader-profile-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.leader-profile-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.leader-image-wrapper {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.leader-photo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.leader-photo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.leader-info {
+  text-align: left;
+}
+
+.leader-section-title {
+  font-size: clamp(1.8em, 4vw, 2.5em);
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+}
+
+.leader-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.leader-detail-item {
+  font-size: clamp(1.05em, 2vw, 1.3em);
+  color: var(--text-dark);
+  font-weight: 700;
+  line-height: 1.8;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-dark);
+  transition: all 0.3s ease;
+}
+
+.leader-detail-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.detail-label {
+  color: var(--text-dark);
+  font-weight: 800;
+}
+
+.detail-value {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* あいさつカード */
+.leader-greeting-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.leader-greeting-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.greeting-content {
+  text-align: left;
+}
+
+.greeting-text {
+  font-size: clamp(1.05em, 2vw, 1.25em);
+  color: var(--text-dark);
+  line-height: 2;
+  margin-bottom: 20px;
+  font-weight: 600;
+  padding-left: 15px;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+}
+
+.greeting-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ビジョンカード */
+.leader-vision-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.leader-vision-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.vision-content {
+  text-align: left;
+}
+
+.vision-text {
+  font-size: clamp(1.05em, 2vw, 1.25em);
+  color: var(--text-dark);
+  line-height: 2;
+  font-weight: 600;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 /* ===== 政策ページ ===== */
@@ -1360,6 +1523,13 @@ footer::before {
     width: 100%;
   }
 
+  /* 党首ページのレスポンシブ */
+  .leader-profile-card,
+  .leader-greeting-card,
+  .leader-vision-card {
+    padding: 30px 25px;
+  }
+
   .requirement-card {
     flex-direction: column;
     text-align: center;
@@ -1434,6 +1604,13 @@ footer::before {
     padding: 25px;
   }
 
+  /* 党首ページのスマホ対応 */
+  .leader-profile-card,
+  .leader-greeting-card,
+  .leader-vision-card {
+    padding: 25px 20px;
+  }
+
   .active-intro {
     padding: 30px 20px;
   }
@@ -1473,17 +1650,17 @@ footer::before {
   }
 }
 
-/* ===== 党員詳細ページ ===== */
+/* ===== 党員詳細ページ（旧スタイル、互換性のため残す） ===== */
 .member-link {
-  display: block;         /* <a> をブロック要素にする */
+  display: block;
   width: auto;
 }
 .member-link .member-card {
-  display: block;         /* 包んだカードもブロック化してレイアウトを崩さない */
+  display: block;
   width: 100%;
 }
 
-.leader-container {
+.leader-container-old {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
@@ -1511,7 +1688,6 @@ footer::before {
   border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-/* 左側のテキストエリア */
 .leader-content {
   flex: 2;
   min-width: 320px;
@@ -1536,25 +1712,25 @@ footer::before {
   font-weight: 600;
 }
 
-/* ===== Leader / Profile 共通タイポセット（news/policy寄せ） ===== */
-
-/* 読み物用ベース（本文色・行間・サイズ） */
+/* ===== 汎用読み物スタイル ===== */
 .prose {
   color: var(--text-dark);
   line-height: 1.8;
   letter-spacing: 0.02em;
-  font-weight: 600; /* news/policy寄りの少し太め */
+  font-weight: 600;
   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
 }
 
-.prose p { margin: 0 0 1.2em; }
+.prose p { 
+  margin: 0 0 1.2em; 
+}
+
 .prose p.lead {
   font-weight: 700;
   font-size: clamp(1.15rem, 2vw, 1.35rem);
   letter-spacing: 0.015em;
 }
 
-/* 見出し（サイズ段差をしっかり） */
 .prose h1, .leader-name {
   color: var(--text-dark);
   font-weight: 800;
@@ -1562,7 +1738,7 @@ footer::before {
   letter-spacing: 0.01em;
   margin: 0 0 0.5em;
   font-size: clamp(2rem, 5.5vw, 3.25rem);
-  text-shadow: 2px 2px 6px rgba(0,0,0,.35); /* 他ページの雰囲気に合わせて控えめ */
+  text-shadow: 2px 2px 6px rgba(0,0,0,.35);
 }
 
 .prose h2, .leader-role {
@@ -1573,11 +1749,15 @@ footer::before {
   font-size: clamp(1.25rem, 3.5vw, 1.75rem);
 }
 
-/* 箇条書き（news/policyに寄せて余白広め） */
-.prose ul, .prose ol { padding-left: 1.1em; margin: 0 0 1.1em; }
-.prose li { margin: 0.35em 0; }
+.prose ul, .prose ol { 
+  padding-left: 1.1em; 
+  margin: 0 0 1.1em; 
+}
 
-/* 引用・補足 */
+.prose li { 
+  margin: 0.35em 0; 
+}
+
 .prose blockquote {
   margin: 1.2em 0;
   padding: .75em 1em;
@@ -1586,21 +1766,10 @@ footer::before {
   border-radius: 12px;
 }
 
-/* 読み幅（行長を制御） */
-.reading-width { max-width: 70ch; }
-
-/* ===== Leader 個別の見た目だけ（レイアウトは既にOKなら触らない） ===== */
-.leader-card-container { max-width: 1000px; margin: 0 auto; }
-.leader-card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  border: 2px solid rgba(255,255,255,0.4);
-  padding: 36px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+.reading-width { 
+  max-width: 70ch; 
 }
 
-/* ===== 遊び心ある要素のスタイル ===== */
 .profile-photo {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
