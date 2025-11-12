@@ -527,7 +527,8 @@ footer::before {
   font-size: clamp(2em, 5vw, 3em);
   font-weight: 800;
   margin-bottom: 60px;
-  color: var(--text-dark);
+  color: var(--text-light);  /* 白文字 */
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);  /* 影を追加 */
 }
 
 .aboutus-section {
