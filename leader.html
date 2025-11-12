@@ -5,42 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="中央中等生ファーストの会党首のプロフィールページ">
-  <title>党首プロフィール- 中央中等生ファーストの会</title>
+  <title>党首プロフィール - 中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
   <style>body{visibility:hidden!important}</style>
-  <!-- カスタムスタイルの追加 -->
-  <style>
-    .leader-container {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .profile-photo {
-      display: block;
-      max-width: 200px;
-      height: auto;
-      margin: 0 auto 1em;
-      opacity: 0.8;
-      border-radius: 10px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .profile-photo:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-    .fade-in {
-      opacity: 0;
-      transition: opacity 0.6s ease-out;
-    }
-    .fade-in.show {
-      opacity: 1;
-    }
-  </style>
+  
   <!-- OGP設定 -->
-  <meta property="og:title" content="党首プロフィール">
+  <meta property="og:title" content="党首プロフィール - 中央中等生ファーストの会">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
   <meta property="og:image" content="ChuoFirst.png">
   <meta property="og:type" content="website">
@@ -75,29 +47,64 @@
   <div id="overlay" aria-hidden="true"></div>
 
   <main id="main-content">
-    <section class="page-section">
+    <section class="page-section leader-section">
       <div class="page-header">
-        <h1 class="page-title" data-encrypted="hPfGipr7SZvy0cjXwg=="></h1>　<!--名前-->
-        <h2 class="page-subtitle" data-encrypted="hu3vhovw"></h2> <!--役職-->
+        <h1 class="page-title" data-encrypted="hPfGipr7SZvy0cjXwg==">党首名</h1>
+        <p class="page-subtitle" data-encrypted="hu3vhovw">党首</p>
       </div>
+
       <div class="leader-container">
-        <div class="leader-image-container">
-          <img data-encrypted-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAAOECAYAAACIPwbJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAP+lSURBVHhe7P1/jF3nmecHPnJ7tSXQjIi2KarYzXJ3TJUYqWM64lowYk4z4842sUNFu5juTS8wAVbIoA0vFmjE2En+MNBAAAM9QP4x0MAAQidBhACewIDcATxiD+iFZFCgAEMaCqYiKVKplERFNEsU2xraMqNqrnu8f/h+r7/1red5zzm3blXdW/X9AIVz3p/nPT+q7uc+9Z5z7vnwww9/EcYYY4wxxphefEIzjDHGGGOMMTUWaGOMMcYYYwZggTbGGGOMMWYAFmhjjDHGGGMGYIE2xhhjjDFmABZoY4wxxhhjBmCBNsYYY4wxZgAWaGOMMcYYYwZggTbGGGOMMWYAFmhjjDHGGGMGYIE2xhhjjDFmABZoY4wxxhhjBmCBNsYYY4wxZgAWaGOMMcYYYwZggTbGGGOMMWYAFmhjjDHGGGMGYIE2xhhjjDFmABZoY4wxxhhjBmCBNsYYY4wxZgAWaGOMMcYYYwZggTbGGGOMMWYAFmhjjDHGGGMGYIE2xpgpsKEZxhhj9i33fPjhh7/QTGOMMTkQ5dWVu+O8G9fX4viJpYiIOLl87zgfLGiGMcaYucYCbYwxCRsj8eXIMktzjGR5deXuWJq5HHnog5fGGGPmGwu0McYkUzBYjJmWAGsfQf1g2WpvjDFmPvAcaGPMgUejzC8+vzpOL8hPBtpX9RCZXl25G6+v3N0i2pzWMmOMMbOHI9DGmANLNp85ZB4zZHjSaRgbEs3GthCNrvrjfN529KhvjDFmZ3EE2hhz4NggsQUnl+9Np2xoRLglqaiL/pHGFA5s78b1tXjx+dV4XcQ9EknOxJ23AxDdZngMxhhjpocj0MaYAwOk+cb1tVh///o4/8wXvzxev3F9LSIijp9Yakaidb0LbJsj0Xh6R5+50SrSLNobEfGdb/8gFh88MX4aSMiNjMYYY6aHBdoYs69RaT6ydjGurd2KiIjTS0cjIuK+x782rs/iDDmtbgDMZDrL4/rcF9JBUzqqdlHUjYj4/vOr8cNnvxkLy+fj2AOLcWTtYtxeulAKNaP7FMn2jTHGbMYCbYzZl0A6v/PtH8TND9ZjY+VSnF46OhbL9fevx+KDJ6TVrwRaBZajx5XoMhwh5nT0kGiti7Isb3XlbvzVxWdjY+VSxOhLwe2lCxERm/YP+9sSat7HSCLdxhhjfokF2hiz79iIiBefX40fvfZyPLzxary98Fh84fOPb5mWESKJEFOeWoE6rydyCfpIJkv4i8+vxu/+3kmtMkalWSX8xedXY/3963Hmi1+Oq6+8FO9deWZUslmgnzj8Tvy3734qjj2wOC5niYaAh7wMRsv0mIHW/hpjzH7GAm2M2Ve8vnI33v3uN+LthcciIuILn388lVUVYJZUCG4m1y2J1uixwgLNsgogsTeur20ZM2//xedX4+OXn47bSxfG0fWIiIXl8+N1BdNVYjRlRbev88IRpcc6o18ueN8t1caYg4AF2hizL4D4rr9/PW5+sL4p4qxiqxFdzkekOJIILeiSzyNrF+PthcfG0W8sjz2wGGe++OVNNypyv8zxE0tx9ZWX4uYH6xER8fDGq+PpJz967eVSlFssLJ/fNJabH6zHsQcWN0Ww+6DTRLLIfshxtlgbY/YTFmhjzNwDef7Ray+PJVWnPyg67YJlepVuOtTo68cvPz2WYtyMePmtN+PcqUfKZcWX/vBPx6IMsL0zd16IK2+sjLdRwdvQ7VVlp5eOpv1efuvN8Tq34zQDIb+9dCE95hy9/51EsI0xZl6xQBtj5hpEjCGhVURUpxoomF6BiDP3F6Ob8Hi" alt="党首の写真" class="profile-photo">
-        </div>
-        <div class="leader-content prose reading-width">
-          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>　<!--プロフィール-->
-          <p class="fade-in" data-encrypted="gOj1ipTVj/rjRh+W3NdGg+iljPHmzrOO0bfv"></p>
-          <p class="fade-in" data-encrypted="gOj1Xh+AxMGQ9YOV/OGR5fUcjtzNxKSj17r0gd38yO3gl8/DzvLOhsLnkZLehvi60bCz0dvFkMuDgtHflNmkkOTIl/X8y8vZmqyl07OTgOrxjKzFivPbkqT4huLZgPGIiOf1zrOv0bXvjeXny8bVkfP5zvLLh8rlkrvsgNS60bCw3eTCkOerhej+l8yAlsHNlt3Zysbsnrmt07OegOnfjKzFivPsl6zbhuL2hvWrg+LTxZSq0bToi/fmzublmvTeyPvjgPPpkJXGgN2D1oif0s7hkvuyhejZkPWHkOTAkeTrzur2mqya07K4gOndjK3qj/LunK3wgOLug9mPiOTuzrOW0bTni/fkyd7El9faycvIhN/sk7n0hviV0bGc0PbnnM6hgO39m9m1kOXukeTfyvDLkYuo07C0gOr+jK3k"></p>
-          <p class="fade-in" data-encrypted="gOj1i5XLjNbdkJXegs77gP2gjfnmzrOX1KLGi/XqzufHlP38y9bIgPD3kaL8hvi80bCz3cLkkdWmhejZlvuvlu/DkeTtzunumqyY07O+gOnSjK3nj+fqnK/BhuLcjd6fgsT1zrOY2pTvjM/kzubolOTRyMvdgPPLl6z+hvuk0bGY1uHjkvaXg9jnkPWDlurMmubJy+vCmq+g1ZyqhezqjKz/ivD4l63x"></p>
-          <p class="fade-in" data-encrypted="gOj1i5bsj+7unIfehuLcg+2vgvPqzrOb2p/Oi/f8zufOkfLwzvHuh8rel6zBjei61KuK1uLAlu66hejUkPShldDikef4zurLmqyM07OLgOneibrjivDhl6zqhuH5hvSvLCpZentkehU3IDBPayomJZzIpTgkJz0uNXoqgP6X1bm62t/hlu+shen+lt+hkOfskef4zununKa11oKigOj4gJHuivHzl6/XhuDWhvePiObKzrG51ZHdh8nmzufDkfLdzvLpgPPnl6/ghvmv"></p>
-        </div>
+        <!-- プロフィールカード -->
+        <article class="leader-profile-card">
+          <div class="leader-image-wrapper">
+            <img data-encrypted-src="leader_photo.jpg" src="leader_photo.jpg" alt="党首の写真" class="leader-photo">
+          </div>
+          <div class="leader-info">
+            <h2 class="leader-section-title" data-encrypted="gOvijK7LivHml6/QhuDOhveG">プロフィール</h2>
+            <div class="leader-details">
+              <p class="leader-detail-item" data-encrypted="gOj1ipTVj/rjRh+W3NdGg+iljPHmzrOO0bfv">
+                <span class="detail-label">生年月日：</span>
+                <span class="detail-value">2010年○月○日</span>
+              </p>
+              <p class="leader-detail-item" data-encrypted="gOj1Xh+AxMGQ9YOV/OGR5fUcjtzNxKSj17r0gd38yO3gl8/DzvLOhsLnkZLehvi60bCz0dvFkMuDgtHflNmkkOTIl/X8y8vZmqyl07OTgOrxjKzFivP3l6zmhuLW">
+                <span class="detail-label">出身地：</span>
+                <span class="detail-value">群馬県</span>
+              </p>
+              <p class="leader-detail-item" data-encrypted="gOj1i5XLjNbdkJXegs77gP2gjfnmzrOX1KLGi/XqzufHlP38y9bIgPD3kaL8hvi80bCz3cLkkdWmhejZlvuvlu/DkeTtzunumqyY07O+gOnSjK3nj+fqnK/BhuLcjd6fgsT1zrOY2pTvjM/kzubolOTRyMvdgPPLl6z+hvuk0bGY1uHjkvaXg9jnkPWDlurMmubJy+vCmq+g1ZyqhezqjKz/ivD4l63x">
+                <span class="detail-label">趣味：</span>
+                <span class="detail-value">読書、音楽鑑賞</span>
+              </p>
+              <p class="leader-detail-item" data-encrypted="gOj1i5bsj+7unIfehuLcg+2vgvPqzrOb2p/Oi/f8zufOkfLwzvHuh8rel6zBjei61KuK1uLAlu66hejUkPShldDikef4zurLmqyM07OLgOneibrjivDhl6zqhuH5hvSvLCpZentkehU3IDBPayomJZzIpTgkJz0uNXoqgP6X1bm62t/hlu+shen+lt+hkOfskef4zununKa11oKigOj4gJHuivHzl6/XhuDWhvePiObKzrG51ZHdh8nmzufDkfLdzvLpgPPnl6/ghvmv">
+                <span class="detail-label">座右の銘：</span>
+                <span class="detail-value">「継続は力なり」</span>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- あいさつカード -->
+        <article class="leader-greeting-card">
+          <h2 class="leader-section-title" data-encrypted="gOnhjKzkivP3l6zmhuLW">ごあいさつ</h2>
+          <div class="greeting-content">
+            <p class="greeting-text" data-encrypted="gOj1ioDAj9LSm5H7gsfMgci3iOTXy6uy26Pwh8nmzufikfH9zvLLgPDHl678hvqA0bOO1uDplu6Khen+l8yAlsHNlt3Zysbsnrmt07Obhez6h4D+ivDhkYn6huL6hvamiOX0zrOj0bTLi/f9yv3HlP/zzvLygPLkRh1ZUJyUhtOznlJdk8KehejVkPShl93Ol8HaydPInoC716aqgOvgjK/HivHPl6/KhuD6hvWDj9njzrK90bTIjvzvyNf3kfLhzvL+gPPDl6zvhviy0bGS1uLllu6ThejlkPWykOXh">
+              中央中等教育学校の生徒の皆さん、こんにちは。中央中等生ファーストの会の党首を務めさせていただいております。私たちの学校をより良い場所にするために、日々活動しております。
+            </p>
+            <p class="greeting-text" data-encrypted="gOj1jKz7ivPdkZP/huPzgPG3juP8xLOI1Ln6i/TEzuThkfH+xPLdhfj5l6z+hvuh17Wo3MX+lu6GhejYkPankOXilt7+zunnnqKM1Y+MgOnSjKzkivD5l6zNhuLrhvSv">
+              皆さん一人ひとりの声に耳を傾け、より良い学校生活の実現に向けて全力で取り組んでまいります。どうぞよろしくお願いいたします。
+            </p>
+          </div>
+        </article>
+
+        <!-- 想い・ビジョンカード -->
+        <article class="leader-vision-card">
+          <h2 class="leader-section-title">私たちの想い</h2>
+          <div class="vision-content">
+            <p class="vision-text" data-encrypted="gOj1jKzYivPsl63ygdvfgNCDj93Uyp+51aH8i/TBy+Lmmt7sy+fciu/Ml6zFhviy0bKz1uLGlu2WhertkPenkObfndn8ydDLlpG707CxgOj0jK/TivDXl677huLahveHiObKzrCf0bT0i/TwzubllN7AyPzXgPLol63ngcGW1Jib3ePtk/q0juvAkPSgkOXvmsT4ydHumqyZ07ORgOnxjKzAivL+l63/huHZhve4iOfezrOb0bTHi/TrzufPkfP5zvLPgPPMl6/5hvqr0bOO1uD2lu6GhejlkPWym8n4lNngwtftnZac3468gOnajK3ngfnWl6z3gdvkgc+OiOfryYqd14rgi/TEyMLzkfL7zvLLhebKkqHqhvu/146l1uHjlu6KhejlkPaqkOTlkeX2">
+              中央中等教育学校は素晴らしい学校です。しかし、まだまだ改善できる点があると感じています。生徒全員が笑顔で学校生活を送れるよう、私たちは様々な取り組みを進めてまいります。皆さんの意見を大切にし、共により良い未来を創っていきましょう。
+            </p>
+          </div>
+        </article>
       </div>
-    </section>
-    <section class="greeting-section prose reading-width">
-      <h2 class="greeting-title" class="fade-in" data-encrypted="gOnhjKzkivP3l6zmhuLW"></h2>　<!--ごあいさつ-->
-      <p class="fade-in" data-encrypted="gOj1ioDAj9LSm5H7gsfMgci3iOTXy6uy26Pwh8nmzufikfH9zvLLgPDHl678hvqA0bOO1uDplu6Khen+l8yAlsHNlt3Zysbsnrmt07Obhez6h4D+ivDhkYn6huL6hvamiOX0zrOj0bTLi/f9yv3HlP/zzvLygPLkRh1ZUJyUhtOznlJdk8KehejVkPShl93Ol8HaydPInoC716aqgOvgjK/HivHPl6/KhuD6hvWDj9njzrK90bTIjvzvyNf3kfLhzvL+gPPDl6zvhviy0bGS1uLllu6ThejlkPWykOXh"></p>
-      <p class="fade-in" data-encrypted="gOj1jKz7ivPdkZP/huPzgPG3juP8xLOI1Ln6i/TEzuThkfH+xPLdhfj5l6z+hvuh17Wo3MX+lu6GhejYkPankOXilt7+zunnnqKM1Y+MgOnSjKzkivD5l6zNhuLrhvSv"></p>
-      <p class="fade-in" data-encrypted="gOj1jKzYivPsl63ygdvfgNCDj93Uyp+51aH8i/TBy+Lmmt7sy+fciu/Ml6zFhviy0bKz1uLGlu2WhertkPenkObfndn8ydDLlpG707CxgOj0jK/TivDXl677huLahveHiObKzrCf0bT0i/TwzubllN7AyPzXgPLol63ngcGW1Jib3ePtk/q0juvAkPSgkOXvmsT4ydHumqyZ07ORgOnxjKzAivL+l63/huHZhve4iOfezrOb0bTHi/TrzufPkfP5zvLPgPPMl6/5hvqr0bOO1uD2lu6GhejlkPWym8n4lNngwtftnZac3468gOnajK3ngfnWl6z3gdvkgc+OiOfryYqd14rgi/TEyMLzkfL7zvLLhebKkqHqhvu/146l1uHjlu6KhejlkPaqkOTlkeX2"></p>
     </section>
   </main>
 
@@ -139,16 +146,27 @@
       menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
 
-    // Intersection Observer for fade-in effect
-    const observer = new IntersectionObserver(entries => {
+    // スクロールアニメーション
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
         }
       });
+    }, observerOptions);
+
+    document.querySelectorAll('.leader-profile-card, .leader-greeting-card, .leader-vision-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(card);
     });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
