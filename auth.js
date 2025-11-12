@@ -5,7 +5,7 @@ const ADMIN_EMAIL = 'chuo-2023025@edu-g.gsn.ed.jp';
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
 // Apps ScriptのWebアプリURL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0PMsOlhSZShY1u4H6MXA9iWyKyjz0mHWBss-w-A5VEv25-EjX9tff_wrDl_IDLnHL/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfsDXbgmrBluEbP_fDxGWh8DyjbsrCQkmsj3K9uOTlup6Bi189n3xACR_9PTUlSQLX/exec';
 
 // Google FormのURL
 const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfPCE0NPFVj2zHACsSPznFX5ZFYuXsqeYDF_VXl_n7glEyiHg/viewform';
@@ -181,60 +181,35 @@ function showRequestScreen() {
   `;
 
   requestDiv.innerHTML = `
-    <div style="width: 400px; height: 100px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+    <div style="width: 100%; max-width: 400px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
       <div id="logo-placeholder" style="color: white; font-size: 1.5em; font-weight: bold;">中央中等生ファーストの会</div>
     </div>
-    <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 500px; width: 100%;">
+    <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 700px; width: 100%;">
       <h2 style="margin: 0 0 20px 0; color: #333; text-align: center;">アクセス申請</h2>
-      <p style="margin: 0 0 30px 0; color: #666; text-align: center; line-height: 1.6;">このサイトを閲覧するには申請が必要です。<br>下のボタンから申請フォームを開いて、必要事項を入力してください。</p>
+      <p style="margin: 0 0 20px 0; color: #666; text-align: center;">このサイトを閲覧するには申請が必要です。</p>
       
-      <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
-        <h3 style="margin: 0 0 15px 0; font-size: 16px; color: #333;">📋 申請の流れ</h3>
-        <ol style="margin: 0; padding-left: 20px; color: #555; font-size: 14px; line-height: 1.8;">
-          <li>下のボタンから申請フォームを開く</li>
-          <li>メールアドレスを入力して送信</li>
-          <li>管理者が申請を確認</li>
-          <li>承認されると、メールが届きます</li>
-          <li>ログインしてサイトを閲覧できます</li>
-        </ol>
+      <iframe src="${GOOGLE_FORM_URL}?embedded=true" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0" style="border: none; border-radius: 10px; background: white;">読み込んでいます…</iframe>
+      
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="already-applied-btn" style="
+          background: #ccc;
+          color: #666;
+          font-size: 1em;
+          padding: 12px 30px;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        " onmouseover="this.style.background='#bbb'" onmouseout="this.style.background='#ccc'">
+          すでに申請済みの方はこちら
+        </button>
       </div>
-      
-      <button id="open-form-btn" style="
-        width: 100%;
-        background: #ee7800;
-        color: white;
-        font-size: 1.2em;
-        font-weight: 700;
-        padding: 15px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-      " onmouseover="this.style.background='#ff9933'" onmouseout="this.style.background='#ee7800'">
-        📝 申請フォームを開く
-      </button>
-      
-      <button id="already-applied-btn" style="
-        width: 100%;
-        background: #ccc;
-        color: #666;
-        font-size: 1em;
-        padding: 10px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      " onmouseover="this.style.background='#bbb'" onmouseout="this.style.background='#ccc'">
-        すでに申請済みの方はこちら
-      </button>
     </div>
   `;
 
   document.documentElement.appendChild(requestDiv);
 
   // bodyの内容を隠す（認証画面は除く）
-  const originalBodyContent = document.body.innerHTML;
   if (!document.body.hasAttribute('data-original-content')) {
     document.body.setAttribute('data-original-content', 'true');
     const wrapper = document.createElement('div');
@@ -250,14 +225,10 @@ function showRequestScreen() {
   img.onload = () => {
     const placeholder = document.getElementById('logo-placeholder');
     if (placeholder) {
-      placeholder.parentElement.innerHTML = `<img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 400px; height: auto;">`;
+      placeholder.parentElement.innerHTML = `<img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 100%; height: auto;">`;
     }
   };
   img.src = 'ChuoFirst.png';
-
-  document.getElementById('open-form-btn').addEventListener('click', () => {
-    window.open(GOOGLE_FORM_URL, '_blank');
-  });
 
   document.getElementById('already-applied-btn').addEventListener('click', () => {
     const requestScreen = document.getElementById('request-screen');
