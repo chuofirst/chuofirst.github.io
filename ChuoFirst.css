@@ -614,6 +614,106 @@ footer::before {
   z-index: 1;
 }
 
+/* メンバーリンク（カード全体をクリック可能に） */
+.member-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 35px;
+  transition: transform 0.3s ease;
+}
+
+.member-link:hover {
+  transform: translateY(-5px);
+}
+
+/* メンバーカード共通スタイル */
+.member-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  transition: all 0.4s ease;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.member-link:hover .member-card {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  transform: scale(1.02);
+}
+
+/* 党首カード（特別スタイル） */
+.leader-card {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.25));
+  border: 3px solid rgba(255, 215, 0, 0.7);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+  margin-bottom: 50px;
+  min-height: 180px;
+}
+
+.member-link:hover .leader-card {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.35));
+  box-shadow: 0 20px 50px rgba(255, 215, 0, 0.5);
+}
+
+/* バッジ */
+.member-badge {
+  position: absolute;
+  top: -14px;
+  right: 25px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--text-light);
+  font-weight: 900;
+  border-radius: 25px;
+  font-size: 0.9em;
+  box-shadow: 0 6px 15px rgba(238, 120, 0, 0.5);
+  letter-spacing: 1px;
+}
+
+.leader-badge {
+  background: linear-gradient(135deg, #ffd700, #ffb700);
+  color: var(--text-dark);
+  font-size: 1.1em;
+  padding: 10px 25px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* メンバー情報 */
+.member-info {
+  text-align: center;
+  width: 100%;
+}
+
+.member-name {
+  font-size: clamp(1.8em, 4vw, 2.5em);
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.leader-card .member-name {
+  font-size: clamp(2.2em, 5vw, 3em);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* メンバーグリッド */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
+  margin-top: 20px;
+}
+
 /* ===== ニュースページ ===== */
 .news-container {
   max-width: 900px;
@@ -1650,68 +1750,6 @@ footer::before {
   }
 }
 
-/* ===== 党員詳細ページ（旧スタイル、互換性のため残す） ===== */
-.member-link {
-  display: block;
-  width: auto;
-}
-.member-link .member-card {
-  display: block;
-  width: 100%;
-}
-
-.leader-container-old {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  align-items: flex-start;
-  max-width: 1100px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  padding: 36px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-}
-
-.leader-image-container {
-  flex: 1;
-  min-width: 280px;
-}
-.leader-image-container img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.leader-content {
-  flex: 2;
-  min-width: 320px;
-}
-.leader-content .leader-name {
-  font-size: clamp(2em, 6vw, 3.5em);
-  font-weight: 800;
-  margin-bottom: 15px;
-  color: var(--text-light);
-}
-.leader-content .leader-role {
-  font-size: clamp(1.2em, 4vw, 2em);
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: var(--text-dark);
-}
-.leader-content .leader-text p {
-  font-size: clamp(1.2em, 3.5vw, 1.6em);
-  line-height: 1.8;
-  margin-bottom: 20px;
-  color: var(--text-dark);
-  font-weight: 600;
-}
-
 /* ===== 汎用読み物スタイル ===== */
 .prose {
   color: var(--text-dark);
@@ -1731,7 +1769,7 @@ footer::before {
   letter-spacing: 0.015em;
 }
 
-.prose h1, .leader-name {
+.prose h1 {
   color: var(--text-dark);
   font-weight: 800;
   line-height: 1.2;
@@ -1741,7 +1779,7 @@ footer::before {
   text-shadow: 2px 2px 6px rgba(0,0,0,.35);
 }
 
-.prose h2, .leader-role {
+.prose h2 {
   color: var(--text-dark);
   font-weight: 700;
   line-height: 1.3;
