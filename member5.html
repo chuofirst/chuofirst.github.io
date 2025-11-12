@@ -5,11 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="中央中等生ファーストの会メンバーのプロフィールページ">
-  <title>党首プロフィール-中央中等生ファーストの会</title>
+  <title>党首プロフィール- 中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
-  <style>body { visibility: hidden !important; }</style>
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
-  
+  <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
+  <style>body{visibility:hidden!important}</style>
+  <!-- カスタムスタイルの追加 -->
+  <style>
+    .leader-container {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .profile-photo {
+      display: block;
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto 1em;
+      opacity: 0.8;
+      border-radius: 10px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .profile-photo:hover {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease-out;
+    }
+    .fade-in.show {
+      opacity: 1;
+    }
+  </style>
   <!-- OGP設定 -->
   <meta property="og:title" content="党首プロフィール">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
@@ -45,27 +74,27 @@
 
   <div id="overlay" aria-hidden="true"></div>
 
-  
-    <main id="main-content">
+  <main id="main-content">
     <section class="page-section">
       <div class="page-header">
         <h1 class="page-title" data-encrypted="iu/ki5fzSZTA4crn+g=="></h1>
-        <h2 class="page-subtitle" data-encrypted="hN/6iqb/jc7pnbjE"></h2>
+        <h2 class="page-subtitle" data-encrypted="gOj1ipfljNLC"></h2>
       </div>
       <div class="leader-container">
+        <div class="leader-image-container">
+          <img src="member5.jpg" alt="総務会長の写真" class="profile-photo">
+        </div>
         <div class="leader-content prose reading-width">
           <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>
-          <p data-encrypted="gOj1ipTVj/rjm5Hhit/ggM2ZhNnty6643Ynyh8n5y/HMkfP1zvHWgPHWl674hvqm0bGc3eTCkOS4her7kPaPkOTLlMXIxPz9mqyl07OTgOnxjKz5ivPbl6zghuH/hva/juDjxJSm0bTIjv7RzuTmkfH4zvHugPLn"></p>
-          <p data-encrypted="gOj1jKz7ivPdkZP/huPzhvW+iOTXy6aP17D5i/TEyOzJl/bRzvPnhP3bkbHDhviC1Ye90OjxkdO3j/zFkPWFkOT0keTSy9/enKan07CnhN7vjKz3ivD4l63x"></p>
-          <p data-encrypted="gOj1ibHmgc3inIfehuHhhvWKiOT9zrC71KnPi/TAxcHKls7ny+XVhendl6zMhviv0bK51uPqluyghevNkPe9kObPkeTbzurymqyY07OxgOnSjKzdivPkl6z3huPw"></p>
+          <!-- プロフィール （内容が未記入の場合、今後ここにテキストが入ります） -->
         </div>
       </div>
     </section>
     <section class="greeting-section prose reading-width">
       <h2 class="greeting-title" data-encrypted="gOnhjKzkivP3l6zmhuLW"></h2>　<!--ごあいさつ-->
+      <!-- ごあいさつの内容が未記入の場合、今後ここにテキストが入ります -->
     </section>
   </main>
-  
 
   <footer>
     <div class="footer-content">
@@ -104,6 +133,17 @@
       menuToggle.setAttribute('aria-expanded', 'false');
       menuToggle.setAttribute('aria-label', 'メニューを開く');
     });
+
+    // Intersection Observer for fade-in effect
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
