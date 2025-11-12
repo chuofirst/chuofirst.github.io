@@ -5,7 +5,7 @@ const ADMIN_EMAIL = 'chuo-2023025@edu-g.gsn.ed.jp';
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
 // Apps ScriptのWebアプリURL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfsDXbgmrBluEbP_fDxGWh8DyjbsrCQkmsj3K9uOTlup6Bi189n3xACR_9PTUlSQLX/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0PMsOlhSZShY1u4H6MXA9iWyKyjz0mHWBss-w-A5VEv25-EjX9tff_wrDl_IDLnHL/exec';
 
 // Google FormのURL
 const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfPCE0NPFVj2zHACsSPznFX5ZFYuXsqeYDF_VXl_n7glEyiHg/viewform';
