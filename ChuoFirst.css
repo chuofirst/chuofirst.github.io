@@ -614,6 +614,77 @@ footer::before {
   z-index: 1;
 }
 
+/* ===== メンバープロフィールページ（member1.html等） ===== */
+.member-profile-section {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+  min-height: calc(100vh - var(--header-h));
+  padding: 60px 20px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.member-profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.member-profile-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.member-profile-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.member-section-title {
+  font-size: clamp(1.8em, 4vw, 2.5em);
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.member-detail-text {
+  font-size: clamp(1.05em, 2vw, 1.25em);
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 2;
+  padding-left: 15px;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
+
+.member-greeting-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.member-greeting-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
 /* メンバーリンク（カード全体をクリック可能に） */
 .member-link {
   display: block;
@@ -668,7 +739,8 @@ footer::before {
 .member-badge {
   position: absolute;
   top: -14px;
-  right: 25px;
+  left: 50px;
+  transform: translateX(-50%);
   padding: 8px 20px;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
   color: var(--text-light);
@@ -685,6 +757,10 @@ footer::before {
   font-size: 1.1em;
   padding: 10px 25px;
   animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
 }
 
 /* メンバー情報 */
@@ -812,6 +888,12 @@ footer::before {
   margin: 0 auto;
   position: relative;
   z-index: 1;
+}
+
+/* 党首カードのラッパー（横幅制限） */
+.leader-card-wrapper {
+  max-width: 600px;
+  margin: 0 auto 50px;
 }
 
 /* プロフィールカード */
@@ -1698,6 +1780,7 @@ footer::before {
 
   .member-card {
     padding: 30px 20px;
+    margin-bottom: 35px;
   }
 
   .news-card {
@@ -1827,6 +1910,31 @@ footer::before {
 }
 
 /* ===== スクロールアニメーション（右からフェードイン） ===== */
+
+/* ===== 右からスライドインアニメーション ===== */
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-item {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.slide-in-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
 /* カード全体のアニメーション */
 .scroll-fade-in {
   opacity: 0;
