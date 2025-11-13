@@ -5,3 +5,4 @@ Disallow: /ChuoFirst_icon.png
 Disallow: /手書き文字.png
 Disallow: /Thegirl.jpg
 Disallow: /instagram.jpg
+Disallow: https://chuofirst.github.io
