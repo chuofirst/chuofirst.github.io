@@ -157,13 +157,13 @@
     const cardObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add('slide-in-active');
           
           // カード内のアイテムを順番にアニメーション
           const items = entry.target.querySelectorAll('.slide-in-item');
           items.forEach((item, index) => {
             setTimeout(() => {
-              item.classList.add('visible');
+              item.classList.add('slide-in-active');
             }, 200 + (index * 150)); // 200ms後から150msずつ遅延
           });
         }
