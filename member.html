@@ -161,6 +161,9 @@
   <script type="module" src="auth.js"></script>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.style.visibility = 'visible';
+    });
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const overlay = document.getElementById('overlay');
