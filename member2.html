@@ -10,35 +10,7 @@
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
   <style>body{visibility:hidden!important}</style>
-  <!-- カスタムスタイルの追加 -->
-  <style>
-    .leader-container {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .profile-photo {
-      display: block;
-      max-width: 200px;
-      height: auto;
-      margin: 0 auto 1em;
-      opacity: 0.8;
-      border-radius: 10px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .profile-photo:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-    .fade-in {
-      opacity: 0;
-      transition: opacity 0.6s ease-out;
-    }
-    .fade-in.show {
-      opacity: 1;
-    }
-  </style>
+  
   <!-- OGP設定 -->
   <meta property="og:title" content="党首プロフィール">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
@@ -75,35 +47,28 @@
   <div id="overlay" aria-hidden="true"></div>
 
   <main id="main-content">
-    <section class="page-section">
+    <section class="page-section member-profile-section">
       <div class="page-header">
         <h1 class="page-title" data-encrypted="hM/+ipzXSZvqycjW6g=="></h1>
-        <h2 class="page-subtitle" data-encrypted="gOj1ipfljNLC"></h2>
+        <p class="page-subtitle" data-encrypted="gOj1ipfljNLC"></p>
       </div>
-      <div class="leader-container">
-        <div class="leader-image-container">
-          <img src="member2.jpg" alt="広報の写真" class="profile-photo">
-        </div>
-        <div class="leader-content prose reading-width">
-          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>　<!--プロフィール-->
-          <p class="fade-in" data-encrypted="gOj1ipTVj/rjRh+W3NdFg+iljPHmzrKy16rfj/vmyvrllfX+xcPShsrnl6zAgu2y0bGM1uHklu2mhenwlPKnm9XUl932zurKkZiW1a27isrfjKzqjOLKl6z3huLUhvWpiOfyzrOe0bTEi/XuyMv5ls3vzvLLitLml6zghvuk1Y6W3MXEkvOhhejclvqekOT0keTwxezPnqmE07Oei8/TjK/qivPVl6z3huLthvSv"></p>
-          <p class="fade-in" data-encrypted="gOj1iqj8gNTlk7LAgNTvhvWFiOTXyLWK16Xri/TrzufGkfP1xcbBhu3rnY/BhviG0bK61uHinM2FhejZluSUkOTokef4zuvn"></p>
-          <p class="fade-in" data-encrypted="gOj1iLn5jMzhkJHpgN7LgOeMiOTRzrOn0bTFi/Xuyd7pmvvYyuf6hsz3l6zDhviD1JCO1uLGnO64hej2kPWhkOThkef/zuvn"></p>
-          <p class="fade-in" data-encrypted="gOj1i5bsivLykrHujcnfg++ViOTexZid0bfwi/TIzuftkfH/y+/JgPPKna3agPGn14Cj0Nrclu2VherRkPeekOb0ndn8xPDjkaaD15aLjNT8jK3k"></p>
-        </div>
+      <div class="member-profile-container">
+        <article class="member-profile-card slide-in-right">
+          <h2 class="member-section-title" data-encrypted="gOvijK7LivHml6/QhuDOhveG">プロフィール</h2>
+          <div class="member-details">
+          <p class="member-detail-text slide-in-item" data-encrypted="gOj1ipTVj/rjRh+W3NdFg+iljPHmzrKy16rfj/vmyvrllfX+xcPShsrnl6zAgu2y0bGM1uHklu2mhenwlPKnm9XUl932zurKkZiW1a27isrfjKzqjOLKl6z3huLUhvWpiOfyzrOe0bTEi/XuyMv5ls3vzvLLitLml6zghvuk1Y6W3MXEkvOhhejclvqekOT0keTwxezPnqmE07Oei8/TjK/qivPVl6z3huLthvSv"></p>
+          <p class="member-detail-text slide-in-item" data-encrypted="gOj1iqj8gNTlk7LAgNTvhvWFiOTXyLWK16Xri/TrzufGkfP1xcbBhu3rnY/BhviG0bK61uHinM2FhejZluSUkOTokef4zuvn"></p>
+          <p class="member-detail-text slide-in-item" data-encrypted="gOj1iLn5jMzhkJHpgN7LgOeMiOTRzrOn0bTFi/Xuyd7pmvvYyuf6hsz3l6zDhviD1JCO1uLGnO64hej2kPWhkOThkef/zuvn"></p>
+          <p class="member-detail-text slide-in-item" data-encrypted="gOj1i5bsivLykrHujcnfg++ViOTexZid0bfwi/TIzuftkfH/y+/JgPPKna3agPGn14Cj0Nrclu2VherRkPeekOb0ndn8xPDjkaaD15aLjNT8jK3k"></p>
+          </div>
+        </article>
       </div>
-    </section>
-    <section class="greeting-section prose reading-width">
-      <h2 class="greeting-title" data-encrypted="gOnhjKzkivP3l6zmhuLW"></h2>　<!--ごあいさつ-->
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
-      <p class="fade-in" data-encrypted=""></p>
+
+        <article class="member-greeting-card slide-in-right">
+          <h2 class="member-section-title" data-encrypted="gOnhjKzkivP3l6zmhuLW">ごあいさつ</h2>
+          <div class="greeting-content">
+          </div>
+        </article>
     </section>
   </main>
 
