@@ -10,35 +10,7 @@
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
   <style>body{visibility:hidden!important}</style>
-  <!-- カスタムスタイルの追加 -->
-  <style>
-    .leader-container {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .profile-photo {
-      display: block;
-      max-width: 200px;
-      height: auto;
-      margin: 0 auto 1em;
-      opacity: 0.8;
-      border-radius: 10px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .profile-photo:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-    .fade-in {
-      opacity: 0;
-      transition: opacity 0.6s ease-out;
-    }
-    .fade-in.show {
-      opacity: 1;
-    }
-  </style>
+
   <!-- OGP設定 -->
   <meta property="og:title" content="党首プロフィール">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
@@ -75,29 +47,45 @@
   <div id="overlay" aria-hidden="true"></div>
 
   <main id="main-content">
-    <section class="page-section">
+    <section class="page-section member-profile-section">
       <div class="page-header">
-        <h1 class="page-title" data-encrypted="hPfGiqHxSZvo8MXZxQ=="></h1>
-        <h2 class="page-subtitle" data-encrypted="gOrAjK/CivHjl67PjPbF"></h2>
+        <h1 class="page-title" data-encrypted="hPfGiqHxSZvo8MXZxQ==">メンバー名</h1>
+        <p class="page-subtitle" data-encrypted="gOrAjK/CivHjl67PjPbF">役職</p>
       </div>
-      <div class="leader-container">
-        <div class="leader-image-container">
-          <img src="member3.jpg" alt="サイバー長の写真" class="profile-photo">
-        </div>
-        <div class="leader-content prose reading-width">
-          <h2 data-encrypted="gOvijK7LivHml6/QhuDOhveG"></h2>　<!--プロフィール-->
-          <p class="fade-in" data-encrypted="gOj1XR1XWZfKwM7z5IfO/5G+yo3RkdGyoNPv6ZbusoXo6JD2npDn2pHm/M7p1pqsmdW3kIDp1oys+Yrz25es4Ibh/4b0rI7Y6sursteP9I3mzs7nx5f27sTV84DzzpKew4P9otGxp9bh5JbtpoXp8JD1sJDkzZfb+M7r5JGOvdOzm4fS/oqm/4zc15es2IDyzob1no7iw86zpdG374v17svL0pHx5sXV/4Xw+pes/Ib4stGxvtbj6ZDqt4/P5JD1hpXu3ZHn+87p6Zqts9eHpYX26Yyszorz5Jes1YDm6IzSu4jk0c6zmNG34Yv0xM7n+pHy2sj2/4Dw95yFxoLSptGwsA=="></p>
-          <p class="fade-in" data-encrypted="gOj1iqj8jcrekYndgdvfgtmkiOTXy66a1KjGi/f9y+nmkfL/zvL/gPPyl6zNhvms1KSL3P7Blu2vgOHimuGakOfhl8v9yNTmmq+w17aUgOnijK3ri/Lnlq3nhuLvhvWrj9rYzrOo0bXij9LuzufGkfLnzvHpgPPbl6zMgNqD15SV1uLCk9uWg+LnkPa/lNP5keTlzurDmqyM07OxgOr/jKzYivPkl6zshuPwhvW6iOTyzrOn0bXijM3vzufNkfLayPvThsjDl6zFgcGA0bGV1uL/lu6mgtLnl86mkOTvkeTTzuromqyY07OxhN3xiJTyivDhnJv2huL6hvamiOTmzrCx0bTIi/TAzubokfP4y/vDhszpl6/chvuU0bO01uDIlu+ghejYkPakkOTPkeX4ydPInoC707CCgOrMjK7givHTl63+huHggNCKg+b/zrOb1YDni/TQy/3WkfL8zvHuhs3gnIvqhvih0bGw1uHjlu+vhejhkPahkOfxl8vryuTbmqyV07O4gOr+jKzIivPcl63ygvftgMq/j9njzrOX0bfhjfDnyvL2kfLTzvHngPPPl6zkh/m50bGv1uLulu+sgc7zkPWykOTClt3ZyM/LnZWf15+8hPzqjK7zivDSl67PhuHLhveliOTXyY6q0bT0i/TkzuftkfLezvLhgPPNkp38hviI0bG21uL3lu6DhejVkPW0kOXh"></p>
-          <p class="fade-in" data-encrypted="gOj1iKLYjO7bl63yg//vjd6AiOTexZid0bfwi/TIzuftkfH/ycvegPPPnLz8g+KV0bGa1uL/lu6LhenzkPShkOfUkefNzujjmq6S2LmEhuXth4f4ivL7m5Hmjcvwgv2liOXwzrK9GtzE15DgnYD/9ZbOhlqG4faG9KyI5fXKurbXid2L9eIFjsXpm9+qlMHdW4b1h4jk0M6zvNG04Yv35M7m6w=="></p>
-          <p class="fade-in" data-encrypted="gOj1i5bsivPdkaX0gM3thvWHgsThzrO00bTLi/T2zuTikfLczvPkhPrjkZHVhviD1KiS0vfTlu2/js/5kPWyl9/ZkeTfzujomq+N07GlgOvZjK/0ivPkl6zZhuL2hvWKiOTCzrOn0bTnivX6z+b8kfLpzvHpgPPFl6z6hviK0bGw1uHjlu+v"></p>
-        </div>
+
+      <div class="member-profile-container">
+        <!-- プロフィールカード -->
+        <article class="member-profile-card slide-in-right">
+          <h2 class="member-section-title" data-encrypted="gOvijK7LivHml6/QhuDOhveG">プロフィール</h2>
+          <div class="member-details">
+            <p class="member-detail-text slide-in-item" data-encrypted="gOj1XR1XWZfKwM7z5IfO/5G+yo3RkdGyoNPv6ZbusoXo6JD2npDn2pHm/M7p1pqsmdW3kIDp1oys+Yrz25es4Ibh/4b0rI7Y6sursteP9I3mzs7nx5f27sTV84DzzpKew4P9otGxp9bh5JbtpoXp8JD1sJDkzZfb+M7r5JGOvdOzm4fS/oqm/4zc15es2IDyzob1no7iw86zpdG374v17svL0pHx5sXV/4Xw+pes/Ib4stGxvtbj6ZDqt4/P5JD1hpXu3ZHn+87p6Zqts9eHpYX26Yyszorz5Jes1YDm6IzSu4jk0c6zmNG34Yv0xM7n+pHy2sj2/4Dw95yFxoLSptGwsA==">
+            </p>
+            <p class="member-detail-text slide-in-item" data-encrypted="gOj1iKLYjO7bl63yg//vjd6AiOTexZid0bfwi/TIzuftkfH/ycvegPPPnLz8g+KV0bGa1uL/lu6LhenzkPShkOfUkefNzujjmq6S2LmEhuXth4f4ivL7m5Hmjcvwgv2liOXwzrK9GtzE15DgnYD/9ZbOhlqG4faG9KyI5fXKurbXid2L9eIFjsXpm9+qlMHdW4b1h4jk0M6zvNG04Yv35M7m6w==">
+            </p>
+            <p class="member-detail-text slide-in-item" data-encrypted="gOj1i5bsivPdkaX0gM3thvWHgsThzrO00bTLi/T2zuTikfLczvPkhPrjkZHVhviD1KiS0vfTlu2/js/5kPWyl9/ZkeTfzujomq+N07GlgOvZjK/0ivPkl6zZhuL2hvWKiOTCzrOn0bTnivX6z+b8kfLpzvHpgPPFl6z6hviK0bGw1uHjlu+v">
+            </p>
+          </div>
+        </article>
+
+        <!-- あいさつカード -->
+        <article class="member-greeting-card slide-in-right">
+          <h2 class="member-section-title" data-encrypted="gOnhjKzkivP3l6zmhuLW">ごあいさつ</h2>
+          <div class="greeting-content">
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1jK3qjcrekYndgdvfgtmkiOTXy66a1KjGi/f9y+nmkfL/zvL/gPPyl6zNhvms1KSL3P7Blu2vgOHimuGakOfhl8v9yNTmmq+w17aUgOnijK3ri/Lnlq3nhuLvhvWrj9rYzrOo0bXij9LuzufGkfLnzvHpgPPbl6zMgNqD15SV1uLCk9uWg+LnkPa/lNP5keTlzurDmqyM07OxgOr/jKzYivPkl6zshuPwhvW6iOTyzrOn0bXijM3vzufNkfLayPvThsjDl6zFgcGA0bGV1uL/lu6mgtLnl86mkOTvkeTTzuromqyY07OxhN3xiJTyivDhnJv2huL6hvamiOTmzrCx0bTIi/TAzubokfP4y/vDhszpl6/chvuU0bO01uDIlu+ghejYkPakkOTPkeX4ydPInoC707CCgOrMjK7givHTl63+huHggNCKg+b/zrOb1YDni/TQy/3WkfL8zvHuhs3gnIvqhvih0bGw1uHjlu+vhejhkPahkOfxl8vryuTbmqyV07O4gOr+jKzIivPcl63ygvftgMq/j9njzrOX0bfhjfDnyvL2kfLTzvHngPPPl6zkh/m50bGv1uLulu+sgc7zkPWykOTClt3ZyM/LnZWf15+8hPzqjK7zivDSl67PhuHLhveliOTXyY6q0bT0i/TkzuftkfLezvLhgPPNkp38hviI0bG21uL3lu6DhejVkPW0kOXh">
+            </p>
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1jKziivPNl63yg/vXguCdjfHGy5qZ0bTvjuPfzuf+kfLwycvIhtbLkJXGgtSk0bGX1uLnlu2nhevgmvSfkOfikeTSzurhmqyM07OsgOj3iIrnivDxl6z4huLWhvWLjfHGy4CL0bfxi/T4zufPkfLwzvL6itLml6zghvuk0bCz1uPkkdeAg83cl8yAlMjqlPPEyszMnJe907K4gOndjKziivP1nIXzjfL7hva/jevLzrOi0bTFi/TizufXkfLjzvL6gPLnkJXGgN2D1oif0s7hlu6CgtL4kPSsl931lfD4zurCn7Gy07C3i8LHhozqj/3jkarJgu31hvWhj9j3zrO015jFjtXOzufHkfLGzvLNgPPBl6zMhvi00bCw1uPkncWfj8j+lvGlmuXRl8jSy8vEmq2/07OdgOnijKzAivLykqLjgOTIg+iygvzpzrGL17Pmj+HcyuTQkfLczvLhgPPGl6z0gcOX25Gs0ObZnO+3hejcm96fmsTvkeTfzuvknKi62auWgOrniqXhivPQl6zVgsj5hvWMjvXozrO70bTAi/TJzuftkfLKzvL8gPLn">
+            </p>
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1i5XLjNbdkJXegs77hvapjMHHyY6q0bTNj8zuy8btkfLfyMzgi9Tkl6zBhviD0bGd1uPplu6ShevhkPWHkOTvkeX4zur2mq+h07Ofh9DYionIjcrek4D6huLZjPS3iOT9zrOv0bTni/XizufBlPPpzvLtgPDukYDNg9mM0bCw">
+            </p>
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1jKz7ivPkl6zVhuLvhvahiOTXyYqd0bTEi/Xuyd7plsnOzvLXgPPNl6/hhvih0bC+3OblkNKUhen/kPa/ldn3keTszununKa11oKigOj3">
+            </p>
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1i5XLjNbdkJXegs77hvWCj97zzrKx1KPTi/T4zuftlfrdxdn7gPPLkZT+hvih1oi41uLklu2ghej0kPWFkOT0keTSzurhmqyM07OsgOj3">
+            </p>
+            <p class="greeting-text slide-in-item" data-encrypted="gOj1jKzPivP1l6zthuH6hvagiOTuzrO/0bTpgdT3zuftlefHzvLyh8rvl6z5hviT0bGr1uPq">
+            </p>
+          </div>
+        </article>
       </div>
-    </section>
-    <section class="greeting-section prose reading-width">
-      <h2 class="greeting-title" data-encrypted="gOnhjKzkivP3l6zmhuLW"></h2>　<!--ごあいさつ-->
-      <p class="fade-in" data-encrypted="gOj1jK3qjcrekYndgdvfgtmkiOTXy66a1KjGi/f9y+nmkfL/zvL/gPPyl6zNhvWCiOfMzrCU0bbzi/bTxPPekfHmyPj8gPDkl63qgPy327G50PXelu6Gg9nPlv62kOXh"></p>
-      <p class="fade-in" data-encrypted="gOj1iKLYjO7bl63yg//vjd6AiOTexZid0bfwi/TIzuftkfH/ycvegPPPnLz8g+KV0bGa1uL/lu6LhenzkPShkOfUkefNzujjmq6S2LmEhuXth4f4ivL7m5Hmjcvwgv2liOXwzrK9GtzE15DgnYD/9ZbOhlqG4faG9KyI5fXKurbXid2L9eIFjsXpm9+qlMHdW4b1h4jk0M6zvNG04Yv35M7m6w=="></p>
-      <p class="fade-in" data-encrypted="gOj1i5bsivLykrHujcnfg++ViOTexZid0bfwi/TIzuftkfH/y+/JgPPKna3agPGn14Cj0Nrclu2VherRkPeekOb0ndn8xPDjkaaD15aLjNT8jK3k"></p>
     </section>
   </main>
 
