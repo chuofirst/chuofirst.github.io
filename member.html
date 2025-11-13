@@ -53,15 +53,17 @@
       </div>
 
       <div class="member-container">
-        <!-- 党首カード -->
-        <a href="leader.html" class="member-link">
-          <article class="member-card leader-card">
-            <div class="member-badge leader-badge">党首</div>
-            <div class="member-info">
-              <h2 class="member-name" data-encrypted="hPfGipr7SZvy0cjXwg==">党首名</h2>
-            </div>
-          </article>
-        </a>
+        <!-- 党首カード（横幅制限） -->
+        <div class="leader-card-wrapper">
+          <a href="leader.html" class="member-link">
+            <article class="member-card leader-card">
+              <div class="member-badge leader-badge">党首</div>
+              <div class="member-info">
+                <h2 class="member-name" data-encrypted="hPfGipr7SZvy0cjXwg==">党首名</h2>
+              </div>
+            </article>
+          </a>
+        </div>
 
         <!-- メンバーグリッド -->
         <div class="member-grid">
@@ -196,7 +198,7 @@
       });
     }, observerOptions);
 
-    document.querySelectorAll('.member-link').forEach(card => {
+    document.querySelectorAll('.member-link, .leader-card-wrapper').forEach(card => {
       card.style.opacity = '0';
       card.style.transform = 'translateY(30px)';
       card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
