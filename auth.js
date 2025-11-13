@@ -1,17 +1,16 @@
 // ========================================
 // 設定
 // ========================================
-const ADMIN_EMAIL = 'chuo-2023025@edu-g.gsn.ed.jp';
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
-// Apps ScriptのWebアプリURL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfsDXbgmrBluEbP_fDxGWh8DyjbsrCQkmsj3K9uOTlup6Bi189n3xACR_9PTUlSQLX/exec';
+// 承認済みドメインリスト（暗号化）
+const APPROVED_DOMAINS_ENCRYPTED = 'QRlDDx5BWhkZABEEDUFYAh0dSRIXVgA=';
 
-// Google FormのURL
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfPCE0NPFVj2zHACsSPznFX5ZFYuXsqeYDF_VXl_n7glEyiHg/viewform';
+// 申請フォームのURL
+const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfPCE0NPFVj2zHACsSPznFX5ZFYuXsqeYDF_VXl_n7glEyiHg/viewform';
 
 // ========================================
-// 復号化関数（変更なし）
+// 復号化関数
 // ========================================
 let __DECRYPTION_RUNNING = false;
 let __DECRYPTION_DONE = false;
@@ -58,9 +57,7 @@ function showDecryptedContent() {
   __DECRYPTION_RUNNING = true;
 
   // 認証画面を削除
-  const requestScreen = document.getElementById('request-screen');
   const loginScreen = document.getElementById('login-screen');
-  if (requestScreen) requestScreen.remove();
   if (loginScreen) loginScreen.remove();
 
   // bodyのスタイルをリセット
@@ -145,102 +142,32 @@ function showDecryptedContent() {
 }
 
 // ========================================
-// 申請画面（Google Form埋め込み）
+// 承認ドメインチェック
 // ========================================
-function showRequestScreen() {
-  // bodyのコンテンツを完全に隠す
-  document.body.style.cssText = `
-    visibility: visible !important;
-    overflow: hidden !important;
-    position: fixed !important;
-    width: 100% !important;
-    height: 100% !important;
-  `;
-
-  const existingScreen = document.getElementById('request-screen');
-  if (existingScreen) {
-    existingScreen.remove();
+function getApprovedDomains() {
+  try {
+    const decrypted = decryptContent(APPROVED_DOMAINS_ENCRYPTED);
+    return decrypted.split(',').map(d => d.trim()).filter(d => d);
+  } catch (e) {
+    console.error('ドメインリスト復号化エラー:', e);
+    return [];
   }
+}
 
-  const requestDiv = document.createElement('div');
-  requestDiv.id = 'request-screen';
-  requestDiv.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #cc6600 0%, #ee7800 50%, #ff9933 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999999;
-    overflow-y: auto;
-    padding: 20px;
-  `;
-
-  requestDiv.innerHTML = `
-    <div style="width: 100%; max-width: 400px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
-      <div id="logo-placeholder" style="color: white; font-size: 1.5em; font-weight: bold;">中央中等生ファーストの会</div>
-    </div>
-    <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 700px; width: 100%;">
-      <h2 style="margin: 0 0 20px 0; color: #333; text-align: center;">アクセス申請</h2>
-      <p style="margin: 0 0 20px 0; color: #666; text-align: center;">このサイトを閲覧するには申請が必要です。</p>
-      
-      <iframe src="${GOOGLE_FORM_URL}?embedded=true" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0" style="border: none; border-radius: 10px; background: white;">読み込んでいます…</iframe>
-      
-      <div style="margin-top: 20px; text-align: center;">
-        <button id="already-applied-btn" style="
-          background: #ccc;
-          color: #666;
-          font-size: 1em;
-          padding: 12px 30px;
-          border: none;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        " onmouseover="this.style.background='#bbb'" onmouseout="this.style.background='#ccc'">
-          すでに申請済みの方はこちら
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.documentElement.appendChild(requestDiv);
-
-  // bodyの内容を隠す（認証画面は除く）
-  if (!document.body.hasAttribute('data-original-content')) {
-    document.body.setAttribute('data-original-content', 'true');
-    const wrapper = document.createElement('div');
-    wrapper.id = 'original-content-wrapper';
-    wrapper.style.display = 'none';
-    while (document.body.firstChild) {
-      wrapper.appendChild(document.body.firstChild);
+function isEmailApproved(email) {
+  const approvedDomains = getApprovedDomains();
+  const emailLower = email.toLowerCase().trim();
+  
+  for (const domain of approvedDomains) {
+    if (emailLower.endsWith(domain.toLowerCase())) {
+      return true;
     }
-    document.body.appendChild(wrapper);
   }
-
-  const img = new Image();
-  img.onload = () => {
-    const placeholder = document.getElementById('logo-placeholder');
-    if (placeholder) {
-      placeholder.parentElement.innerHTML = `<img src="ChuoFirst.png" alt="中央中等生ファーストの会" style="max-width: 100%; height: auto;">`;
-    }
-  };
-  img.src = 'ChuoFirst.png';
-
-  document.getElementById('already-applied-btn').addEventListener('click', () => {
-    const requestScreen = document.getElementById('request-screen');
-    if (requestScreen) {
-      requestScreen.remove();
-    }
-    showLoginScreen();
-  });
+  return false;
 }
 
 // ========================================
-// ログイン画面（Apps Scriptでチェック）
+// ログイン画面
 // ========================================
 function showLoginScreen() {
   // bodyのコンテンツを完全に隠す
@@ -279,7 +206,7 @@ function showLoginScreen() {
     </div>
     <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); max-width: 500px;">
       <h2 style="margin: 0 0 20px 0; color: #333;">ログイン</h2>
-      <p style="margin: 0 0 30px 0; color: #666;">承認済みのメールアドレスでログインしてください。</p>
+      <p style="margin: 0 0 30px 0; color: #666;">メールアドレスを入力してください。</p>
       <input type="email" id="login-email-input" placeholder="メールアドレス" style="
         width: 100%;
         padding: 15px;
@@ -304,19 +231,21 @@ function showLoginScreen() {
       " onmouseover="this.style.background='#ff9933'" onmouseout="this.style.background='#ee7800'">
         ログイン
       </button>
-      <button id="back-to-request-btn" style="
-        width: 100%;
-        background: #ccc;
-        color: #666;
-        font-size: 1em;
-        padding: 10px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-      ">
-        まだ申請していない方はこちら
-      </button>
       <div id="login-status" style="margin-top: 20px; text-align: center; color: #999; font-size: 0.9em;"></div>
+      <div id="request-link" style="margin-top: 20px; text-align: center; display: none;">
+        <p style="color: #666; margin-bottom: 10px;">アクセス権限がありません。</p>
+        <a href="${REQUEST_FORM_URL}" target="_blank" style="
+          display: inline-block;
+          background: #ccc;
+          color: #666;
+          padding: 10px 20px;
+          border-radius: 10px;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        " onmouseover="this.style.background='#bbb'" onmouseout="this.style.background='#ccc'">
+          アクセス申請フォームへ
+        </a>
+      </div>
     </div>
   `;
 
@@ -345,103 +274,73 @@ function showLoginScreen() {
 
   const loginBtn = document.getElementById('login-btn');
   const statusDiv = document.getElementById('login-status');
+  const requestLink = document.getElementById('request-link');
 
-  loginBtn.addEventListener('click', async () => {
+  loginBtn.addEventListener('click', () => {
     const email = document.getElementById('login-email-input').value.trim().toLowerCase();
     
     if (!email) {
-      alert('メールアドレスを入力してください');
+      statusDiv.textContent = 'メールアドレスを入力してください';
+      statusDiv.style.color = '#dc3545';
       return;
     }
 
-    // ログインボタンを無効化
-    loginBtn.disabled = true;
-    loginBtn.style.background = '#ccc';
-    loginBtn.textContent = '確認中...';
-    statusDiv.textContent = 'サーバーに問い合わせています...';
-
-    try {
-      // Apps Scriptに問い合わせ
-      const response = await fetch(`${APPS_SCRIPT_URL}?action=check&email=${encodeURIComponent(email)}`);
-      const data = await response.json();
-
-      if (data.approved) {
-        // 承認済み
-        localStorage.setItem('user_email', email);
-        statusDiv.textContent = '✅ 承認されました!';
-        statusDiv.style.color = '#28a745';
-        
-        setTimeout(() => {
-          const loginScreen = document.getElementById('login-screen');
-          if (loginScreen) {
-            loginScreen.remove();
-          }
-          showDecryptedContent();
-        }, 500);
-      } else {
-        // 未承認
-        statusDiv.textContent = '❌ このメールアドレスは承認されていません';
-        statusDiv.style.color = '#dc3545';
-        loginBtn.disabled = false;
-        loginBtn.style.background = '#ee7800';
-        loginBtn.textContent = 'ログイン';
-        
-        setTimeout(() => {
-          alert('このメールアドレスは承認されていません。\n申請をお願いします。');
-        }, 500);
-      }
-    } catch (error) {
-      console.error('承認チェックエラー:', error);
-      statusDiv.textContent = '❌ エラーが発生しました';
+    // メールアドレスの形式チェック
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      statusDiv.textContent = '正しいメールアドレスを入力してください';
       statusDiv.style.color = '#dc3545';
-      loginBtn.disabled = false;
-      loginBtn.style.background = '#ee7800';
-      loginBtn.textContent = 'ログイン';
-      alert('サーバーとの通信に失敗しました。\nもう一度お試しください。');
+      return;
+    }
+
+    // 承認チェック
+    if (isEmailApproved(email)) {
+      // 承認済み
+      localStorage.setItem('user_email', email);
+      statusDiv.textContent = '✅ ログインしました';
+      statusDiv.style.color = '#28a745';
+      
+      setTimeout(() => {
+        const loginScreen = document.getElementById('login-screen');
+        if (loginScreen) {
+          loginScreen.remove();
+        }
+        showDecryptedContent();
+      }, 500);
+    } else {
+      // 未承認
+      statusDiv.textContent = '';
+      requestLink.style.display = 'block';
     }
   });
 
-  document.getElementById('back-to-request-btn').addEventListener('click', () => {
-    const loginScreen = document.getElementById('login-screen');
-    if (loginScreen) {
-      loginScreen.remove();
+  // Enterキーでログイン
+  document.getElementById('login-email-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      loginBtn.click();
     }
-    showRequestScreen();
   });
 }
 
 // ========================================
 // 認証チェック
 // ========================================
-async function checkAuth() {
+function checkAuth() {
   const savedEmail = localStorage.getItem('user_email');
   
-  if (savedEmail) {
-    // 保存されたメールアドレスがある場合、Apps Scriptで確認
-    try {
-      const response = await fetch(`${APPS_SCRIPT_URL}?action=check&email=${encodeURIComponent(savedEmail)}`);
-      const data = await response.json();
-      
-      if (data.approved) {
-        // 承認済み
-        showDecryptedContent();
-        return;
-      } else {
-        // 承認が取り消された場合
-        localStorage.removeItem('user_email');
-        showLoginScreen();
-        return;
-      }
-    } catch (error) {
-      console.error('承認チェックエラー:', error);
-      // エラーの場合はログイン画面へ
-      showLoginScreen();
-      return;
-    }
+  if (savedEmail && isEmailApproved(savedEmail)) {
+    // 保存されたメールアドレスが承認済み
+    showDecryptedContent();
+    return;
   }
   
-  // 初回または未承認の場合は申請画面
-  showRequestScreen();
+  // 未承認または初回アクセス
+  if (savedEmail && !isEmailApproved(savedEmail)) {
+    // 以前は承認されていたが、現在は未承認
+    localStorage.removeItem('user_email');
+  }
+  
+  showLoginScreen();
 }
 
 // ========================================
