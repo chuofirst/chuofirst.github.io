@@ -1918,6 +1918,7 @@ footer::before {
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
+.slide-in-right.visible,
 .slide-in-right.slide-in-active {
   opacity: 1;
   transform: translateX(0);
@@ -1929,7 +1930,8 @@ footer::before {
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.slide-in-item.visible {
+.slide-in-right.visible,
+.slide-in-item.slide-in-active {
   opacity: 1;
   transform: translateX(0);
 }
