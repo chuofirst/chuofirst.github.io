@@ -2038,11 +2038,11 @@ footer::before {
 }
 
 .poster-gallery-container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
 }
 
 /* ポスターアイテム */
@@ -2053,6 +2053,7 @@ footer::before {
   box-shadow: var(--shadow-medium);
   transition: all 0.4s ease;
   cursor: pointer;
+  width: 100%;
 }
 
 .poster-item:hover {
@@ -2062,44 +2063,23 @@ footer::before {
 
 .poster-image-wrapper {
   width: 100%;
-  height: 450px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #f0f0f0;
-  position: relative;
+  padding: 20px;
 }
 
 .poster-gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  display: block;
   transition: transform 0.5s ease;
+  object-fit: contain;
 }
 
 .poster-item:hover .poster-gallery-image {
-  transform: scale(1.1);
-}
-
-.poster-info {
-  padding: 25px;
-  background: white;
-}
-
-.poster-item-title {
-  font-size: 1.5em;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 10px;
-  background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.poster-item-description {
-  font-size: 1.1em;
-  color: #666;
-  font-weight: 500;
-  line-height: 1.6;
+  transform: scale(1.05);
 }
 
 /* View Moreボタン（index.htmlに追加用） */
@@ -2143,16 +2123,11 @@ footer::before {
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
   .poster-gallery-container {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
+    gap: 40px;
   }
 
   .poster-image-wrapper {
-    height: 380px;
-  }
-
-  .poster-info {
-    padding: 20px;
+    padding: 15px;
   }
 
   .view-more-link {
@@ -2169,20 +2144,11 @@ footer::before {
 
 @media (max-width: 600px) {
   .poster-gallery-container {
-    grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 30px;
   }
 
   .poster-image-wrapper {
-    height: 350px;
-  }
-
-  .poster-item-title {
-    font-size: 1.3em;
-  }
-
-  .poster-item-description {
-    font-size: 1em;
+    padding: 10px;
   }
 
   .view-more-link {
