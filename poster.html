@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポスター | 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+  <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  <style>body{visibility:hidden!important}</style>
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header>
+    <div class="header-left">
+      <a href="index.html">
+        <div class="logo">
+          <img src="images/logo.png" alt="中央中等生ファーストの会ロゴ">
+        </div>
+        <div class="logo-text">中央中等生ファーストの会</div>
+      </a>
+    </div>
+    <nav id="nav-menu">
+      <a href="index.html">ホーム</a>
+      <a href="leader.html">会長挨拶</a>
+      <a href="members.html">メンバー</a>
+      <a href="news.html">お知らせ</a>
+      <a href="active.html">活動内容</a>
+      <a href="poster.html" aria-current="page">ポスター</a>
+      <a href="contact.html">お問い合わせ</a>
+    </nav>
+    <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- オーバーレイ -->
+  <div id="overlay"></div>
+
+  <!-- メインコンテンツ -->
+  <main class="poster-page">
+    <!-- ページタイトルセクション -->
+    <section class="poster-page-hero">
+      <div class="poster-page-hero-content">
+        <h1 class="poster-page-title">ポスターギャラリー</h1>
+        <p class="poster-page-subtitle">中央中等生ファーストの会の活動を紹介するポスター集</p>
+      </div>
+    </section>
+
+    <!-- ポスターグリッド -->
+    <section class="poster-gallery">
+      <div class="poster-gallery-container">
+        
+        <!-- ポスター1 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster1.png" alt="ポスター1" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">中央中等生ファーストの会</h3>
+            <p class="poster-item-description">メインビジュアルポスター</p>
+          </div>
+        </div>
+
+        <!-- ポスター2 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster2.png" alt="ポスター2" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">活動紹介ポスター</h3>
+            <p class="poster-item-description">私たちの活動内容</p>
+          </div>
+        </div>
+
+        <!-- ポスター3 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster3.png" alt="ポスター3" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">イベント告知ポスター</h3>
+            <p class="poster-item-description">次回イベントのご案内</p>
+          </div>
+        </div>
+
+        <!-- ポスター4 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster4.png" alt="ポスター4" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">メンバー募集ポスター</h3>
+            <p class="poster-item-description">一緒に活動しませんか?</p>
+          </div>
+        </div>
+
+        <!-- ポスター5 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster5.png" alt="ポスター5" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">活動報告ポスター</h3>
+            <p class="poster-item-description">これまでの活動記録</p>
+          </div>
+        </div>
+
+        <!-- ポスター6 -->
+        <div class="poster-item scroll-fade-in">
+          <div class="poster-image-wrapper">
+            <img src="images/poster6.png" alt="ポスター6" class="poster-gallery-image">
+          </div>
+          <div class="poster-info">
+            <h3 class="poster-item-title">ビジョンポスター</h3>
+            <p class="poster-item-description">私たちが目指す未来</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- フッター -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-instagram">
+        <p class="footer-title">Instagram</p>
+        <a href="https://www.instagram.com/chuo1stkai/" target="_blank" rel="noopener noreferrer" class="footer-link">
+          @chuo1stkai
+        </a>
+      </div>
+      <div class="footer-contact">
+        <p class="footer-title">お問い合わせ</p>
+        <a href="contact.html" class="footer-link">お問い合わせフォーム</a>
+      </div>
+    </div>
+    <p class="footer-copyright">© 2024 中央中等生ファーストの会. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // メニュートグル
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // スクロールアニメーション
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-fade-in').forEach((element) => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
