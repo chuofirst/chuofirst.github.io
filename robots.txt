@@ -6,3 +6,14 @@ Disallow: /手書き文字.png
 Disallow: /Thegirl.jpg
 Disallow: /instagram.jpg
 Disallow: https://chuofirst.github.io
+Disallow: 中等はパワフルだ.png
+Disallow: 2.png
+Disallow: 3.png
+Disallow: 4.png
+Disallow: 5.png
+Disallow: 6.png
+Disallow: 7.png
+Disallow: 広報.png
+Disallow: これ以上中等を壊すな.png
+Disallow: 自民党岸田.png
+Disallow: 立憲民主党相模原市議会選ビラ.png
