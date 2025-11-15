@@ -1981,3 +1981,217 @@ footer::before {
     transition: none !important;
   }
 }
+
+
+
+/* ポスターページヒーローセクション */
+.poster-page-hero {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+  color: var(--text-light);
+  padding: 100px 20px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.poster-page-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.03) 10px, rgba(255, 255, 255, 0.03) 20px);
+  animation: backgroundMove 20s linear infinite;
+}
+
+.poster-page-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.poster-page-title {
+  font-size: clamp(2.5em, 6vw, 4em);
+  font-weight: 900;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  letter-spacing: 3px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.poster-page-subtitle {
+  font-size: clamp(1.1em, 2.5vw, 1.5em);
+  font-weight: 600;
+  opacity: 0.95;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* ポスターギャラリー */
+.poster-gallery {
+  background-color: var(--bg-light);
+  padding: 80px 5vw;
+  min-height: 70vh;
+}
+
+.poster-gallery-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 40px;
+}
+
+/* ポスターアイテム */
+.poster-item {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.poster-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.poster-image-wrapper {
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  position: relative;
+}
+
+.poster-gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.poster-item:hover .poster-gallery-image {
+  transform: scale(1.1);
+}
+
+.poster-info {
+  padding: 25px;
+  background: white;
+}
+
+.poster-item-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.poster-item-description {
+  font-size: 1.1em;
+  color: #666;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* View Moreボタン（index.htmlに追加用） */
+.view-more-link {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: 700;
+  padding: 12px 30px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--text-light);
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-more-link::after {
+  content: '→';
+  font-size: 1.3em;
+  transition: transform 0.3s ease;
+}
+
+.view-more-link:hover {
+  background: var(--text-light);
+  color: var(--primary-color);
+  transform: translateX(5px);
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+}
+
+.view-more-link:hover::after {
+  transform: translateX(5px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 900px) {
+  .poster-gallery-container {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .poster-image-wrapper {
+    height: 380px;
+  }
+
+  .poster-info {
+    padding: 20px;
+  }
+
+  .view-more-link {
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.1em;
+    padding: 10px 25px;
+  }
+
+  .poster-page-hero {
+    padding: 80px 20px 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .poster-gallery-container {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .poster-image-wrapper {
+    height: 350px;
+  }
+
+  .poster-item-title {
+    font-size: 1.3em;
+  }
+
+  .poster-item-description {
+    font-size: 1em;
+  }
+
+  .view-more-link {
+    position: static;
+    margin-top: 20px;
+    display: inline-flex;
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .poster-page-hero {
+    padding: 60px 20px 50px;
+  }
+}
