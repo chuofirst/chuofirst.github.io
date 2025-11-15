@@ -2038,11 +2038,11 @@ footer::before {
 }
 
 .poster-gallery-container {
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 50px;
 }
 
 /* ポスターアイテム */
@@ -2063,23 +2063,44 @@ footer::before {
 
 .poster-image-wrapper {
   width: 100%;
+  max-height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
-  padding: 20px;
+  padding: 30px;
 }
 
 .poster-gallery-image {
   max-width: 100%;
+  max-height: 600px;
   height: auto;
+  width: auto;
   display: block;
   transition: transform 0.5s ease;
   object-fit: contain;
 }
 
 .poster-item:hover .poster-gallery-image {
-  transform: scale(1.05);
+  transform: scale(1.03);
+}
+
+/* ポスター情報（テキストがある場合） */
+.poster-info {
+  padding: 25px 30px;
+  background: white;
+  text-align: center;
+}
+
+.poster-item-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* View Moreボタン（index.htmlに追加用） */
@@ -2124,10 +2145,20 @@ footer::before {
 @media (max-width: 900px) {
   .poster-gallery-container {
     gap: 40px;
+    max-width: 700px;
   }
 
   .poster-image-wrapper {
-    padding: 15px;
+    padding: 20px;
+    max-height: 500px;
+  }
+
+  .poster-gallery-image {
+    max-height: 500px;
+  }
+
+  .poster-info {
+    padding: 20px 25px;
   }
 
   .view-more-link {
@@ -2148,7 +2179,20 @@ footer::before {
   }
 
   .poster-image-wrapper {
-    padding: 10px;
+    padding: 15px;
+    max-height: 400px;
+  }
+
+  .poster-gallery-image {
+    max-height: 400px;
+  }
+
+  .poster-info {
+    padding: 18px 20px;
+  }
+
+  .poster-item-title {
+    font-size: 1.3em;
   }
 
   .view-more-link {
