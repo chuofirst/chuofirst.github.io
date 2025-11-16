@@ -2269,11 +2269,22 @@ footer::before {
   min-width: 180px;
   padding: 8px 0;
   z-index: 1100;
-  margin-top: 8px;
+  margin-top: 0;
 }
 
 /* ホバー時にメニュー表示 */
 .nav-dropdown:hover .nav-dropdown-menu {
+  display: block;
+}
+
+/* ドロップダウン全体にパディングを追加して隙間をカバー */
+.nav-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 8px;
   display: block;
 }
 
