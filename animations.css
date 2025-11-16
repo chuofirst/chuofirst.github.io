@@ -170,3 +170,7 @@
     transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
 }
+
+.text-anim-wrapper .black-text span {
+  color: var(--text-dark) !important;
+}
