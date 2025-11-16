@@ -7,6 +7,7 @@
         <meta name="description" content="中央中等生ファーストの会は、中央中等生の未来をより良くするために活動する政治団体です。">
         <title>中央中等生ファーストの会</title>
         <link rel="stylesheet" href="ChuoFirst.css">
+        <link rel="stylesheet" href="animations.css">
         <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
         <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
         <style>body{visibility:hidden!important}</style>
@@ -62,6 +63,7 @@
         <main id="main-content">
             <!-- ポスターセクション -->
             <section class="poster-section" aria-labelledby="poster-heading">
+              <section class="hero gradient-animation" id="hero-section">
                 <h2 id="poster-heading" class="poster-heading">ポスター2025</h2>
                 <div class="poster-container">
                     <div class="poster-text">
@@ -75,6 +77,7 @@
                     </div>
                 </div>
                 <a href="poster.html" class="view-more-link">View More</a>
+              </section>
             </section>
             <!-- メッセージセクション -->
             <section class="message-section" aria-labelledby="message-heading">
@@ -114,8 +117,10 @@
                 </a>
             </div>
         </footer>
+        
         <!-- Firebase Authentication -->
         <script type="module" src="auth.js"></script>
+        <script src="animations.js"></script>
         <script>
             const menuToggle = document.getElementById('menu-toggle');
             const navMenu = document.getElementById('nav-menu');
