@@ -55,30 +55,34 @@ class AnimationSystem {
   }
   
   applyTextAnimation(element, animType) {
+    let globalIndex = 0;
+    
     // HTMLの構造を保持しながら文字を分割
     const processNode = (node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         const text = node.textContent;
-        const span = document.createElement('span');
+        const container = document.createDocumentFragment();
         
-        text.split('').forEach((char, index) => {
+        text.split('').forEach((char) => {
           const charSpan = document.createElement('span');
           charSpan.textContent = char === ' ' ? '\u00A0' : char;
           charSpan.style.setProperty('--index', globalIndex++);
-          span.appendChild(charSpan);
+          charSpan.style.display = 'inline-block';
+          container.appendChild(charSpan);
         });
         
-        return span;
+        return container;
       } else if (node.nodeType === Node.ELEMENT_NODE) {
-        const newElement = node.cloneNode(false);
-        
-        // BRタグの場合はそのまま返す
+        // BRタグの場合は特別処理
         if (node.tagName === 'BR') {
-          globalIndex += 2; // BRタグで少し間を空ける
-          return newElement;
+          const br = document.createElement('br');
+          // BRタグの後に少し遅延を追加
+          globalIndex += 3;
+          return br;
         }
         
-        // 子ノードを再帰的に処理
+        // その他の要素は再帰的に処理
+        const newElement = node.cloneNode(false);
         Array.from(node.childNodes).forEach(child => {
           const processed = processNode(child);
           if (processed) {
@@ -88,9 +92,10 @@ class AnimationSystem {
         
         return newElement;
       }
+      return null;
     };
     
-    let globalIndex = 0;
+    // オリジナルの内容を保存
     const originalContent = element.cloneNode(true);
     
     // 既存の内容をクリア
@@ -137,7 +142,7 @@ class ParticleSystem {
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
     `;
     
     this.container.style.position = 'relative';
@@ -190,6 +195,57 @@ class ParticleSystem {
     });
     
     requestAnimationFrame(() => this.animate());
+  }
+}
+
+// ===== 3. スクロールアニメーション =====
+class ScrollAnimator {
+  constructor() {
+    this.observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    this.init();
+  }
+  
+  init() {
+    // 監視対象要素にdata-animation属性を付けておく
+    const animatedElements = document.querySelectorAll('[data-animation]');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const animationType = entry.target.dataset.animation;
+          
+          if (animationType === 'text-reveal') {
+            this.textReveal(entry.target);
+          } else {
+            entry.target.classList.add('active');
+          }
+          
+          // 一度アニメーションしたら監視を停止
+          observer.unobserve(entry.target);
+        }
+      });
+    }, this.observerOptions);
+    
+    animatedElements.forEach(element => {
+      observer.observe(element);
+    });
+  }
+  
+  textReveal(element) {
+    const text = element.textContent;
+    element.textContent = '';
+    element.classList.add('active');
+    
+    text.split('').forEach((char, index) => {
+      const span = document.createElement('span');
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      span.style.setProperty('--index', index);
+      element.appendChild(span);
+    });
   }
 }
 
@@ -280,15 +336,20 @@ document.addEventListener('DOMContentLoaded', () => {
   new AnimationSystem();
   new InteractiveEffects();
   new LoadingAnimation();
+  new ScrollAnimator();
   
-  // パーティクルは特定の要素にのみ適用（必要に応じて）
-  // 例: ヒーローセクションにパーティクルを追加
-  if (document.querySelector('.hero')) {
-    new ParticleSystem('hero-section', {
-      particleCount: 30,
+  // パーティクルは特定の要素にのみ適用
+  // poster-sectionにIDを追加してからパーティクルを適用する場合
+  const posterSection = document.querySelector('.poster-section');
+  if (posterSection && posterSection.id === 'poster-particles') {
+    new ParticleSystem('poster-particles', {
+      particleCount: 20,
       color: '#ffaa33',
       maxSize: 2,
       speed: 0.3
     });
   }
 });
+
+// グローバルに公開
+window.AnimationHelper = AnimationHelper;
