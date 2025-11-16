@@ -2229,7 +2229,7 @@ footer::before {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
-  display: block;
+  display: inline-block;
   transition: all var(--transition-base);
   position: relative;
 }
@@ -2246,11 +2246,11 @@ footer::before {
   transform: translateX(-50%);
 }
 
-.nav-dropdown-toggle:hover::before {
+.nav-dropdown:hover .nav-dropdown-toggle::before {
   width: 80%;
 }
 
-.nav-dropdown-toggle:hover {
+.nav-dropdown:hover .nav-dropdown-toggle {
   color: var(--primary-color);
   background-color: rgba(238, 120, 0, 0.1);
   transform: translateY(-2px);
