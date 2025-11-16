@@ -146,3 +146,27 @@
     transform: translateY(0);
   }
 }
+
+
+/* 跳ねながら転がる専用の複合アニメーション */
+.anim-bounce-roll-special {
+  animation: 
+    bounceRollCombo 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes bounceRollCombo {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) translateX(-100px) rotate(-360deg) scale(0.8);
+  }
+  40% {
+    transform: translateY(-20px) translateX(-50px) rotate(-180deg) scale(1.1);
+  }
+  70% {
+    transform: translateY(10px) translateX(-20px) rotate(-90deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+}
