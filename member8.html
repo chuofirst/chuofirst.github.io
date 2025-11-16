@@ -9,36 +9,7 @@
   <link rel="stylesheet" href="ChuoFirst.css">
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
-  <style>body{visibility:hidden!important}</style>
-  <!-- カスタムスタイルの追加 -->
-  <style>
-    .leader-container {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .profile-photo {
-      display: block;
-      max-width: 200px;
-      height: auto;
-      margin: 0 auto 1em;
-      opacity: 0.8;
-      border-radius: 10px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .profile-photo:hover {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-    .fade-in {
-      opacity: 0;
-      transition: opacity 0.6s ease-out;
-    }
-    .fade-in.show {
-      opacity: 1;
-    }
-  </style>
+  
   <!-- OGP設定 -->
   <meta property="og:title" content="党首プロフィール">
   <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
@@ -113,37 +84,6 @@
   <!-- Firebase Authentication -->
   <script type="module" src="auth.js"></script>
 
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isOpen);
-      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-    });
-
-    overlay.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      overlay.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'メニューを開く');
-    });
-
-    // Intersection Observer for fade-in effect
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
-        }
-      });
-    });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+  <script src="member-profile.js"></script>
 </body>
 </html>
