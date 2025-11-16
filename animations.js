@@ -1,4 +1,111 @@
-// ===== アニメーション制御用JavaScript =====
+// ===== 複合アニメーションシステム =====
+
+class AnimationSystem {
+  constructor() {
+    this.observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    this.init();
+  }
+  
+  init() {
+    // data-anim属性を持つ要素を監視
+    const animatedElements = document.querySelectorAll('[data-anim]');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.applyAnimations(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, this.observerOptions);
+    
+    animatedElements.forEach(element => {
+      // 初期状態を設定
+      element.classList.add('anim-init');
+      observer.observe(element);
+    });
+  }
+  
+  applyAnimations(element) {
+    const animations = element.dataset.anim.split(' ');
+    const textAnim = element.dataset.textAnim;
+    const delay = element.dataset.animDelay || 0;
+    
+    // 遅延実行
+    setTimeout(() => {
+      // テキストアニメーションの処理
+      if (textAnim) {
+        this.applyTextAnimation(element, textAnim);
+      }
+      
+      // 通常のアニメーションを適用
+      animations.forEach(anim => {
+        if (anim && !anim.startsWith('text-')) {
+          element.classList.add(`anim-${anim}`);
+        }
+      });
+      
+      // 初期状態クラスを削除
+      element.classList.remove('anim-init');
+    }, delay * 1000);
+  }
+  
+  applyTextAnimation(element, animType) {
+    // HTMLの構造を保持しながら文字を分割
+    const processNode = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const span = document.createElement('span');
+        
+        text.split('').forEach((char, index) => {
+          const charSpan = document.createElement('span');
+          charSpan.textContent = char === ' ' ? '\u00A0' : char;
+          charSpan.style.setProperty('--index', globalIndex++);
+          span.appendChild(charSpan);
+        });
+        
+        return span;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        const newElement = node.cloneNode(false);
+        
+        // BRタグの場合はそのまま返す
+        if (node.tagName === 'BR') {
+          globalIndex += 2; // BRタグで少し間を空ける
+          return newElement;
+        }
+        
+        // 子ノードを再帰的に処理
+        Array.from(node.childNodes).forEach(child => {
+          const processed = processNode(child);
+          if (processed) {
+            newElement.appendChild(processed);
+          }
+        });
+        
+        return newElement;
+      }
+    };
+    
+    let globalIndex = 0;
+    const originalContent = element.cloneNode(true);
+    
+    // 既存の内容をクリア
+    element.innerHTML = '';
+    element.classList.add('text-anim-wrapper', `text-${animType}`);
+    
+    // 処理したコンテンツを追加
+    Array.from(originalContent.childNodes).forEach(child => {
+      const processed = processNode(child);
+      if (processed) {
+        element.appendChild(processed);
+      }
+    });
+  }
+}
 
 // ===== 2. パーティクルエフェクト =====
 class ParticleSystem {
@@ -86,57 +193,6 @@ class ParticleSystem {
   }
 }
 
-// ===== 3. スクロールアニメーション =====
-class ScrollAnimator {
-  constructor() {
-    this.observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    this.init();
-  }
-  
-  init() {
-    // 監視対象要素にdata-animation属性を付けておく
-    const animatedElements = document.querySelectorAll('[data-animation]');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const animationType = entry.target.dataset.animation;
-          
-          if (animationType === 'text-reveal') {
-            this.textReveal(entry.target);
-          } else {
-            entry.target.classList.add('active');
-          }
-          
-          // 一度アニメーションしたら監視を停止
-          observer.unobserve(entry.target);
-        }
-      });
-    }, this.observerOptions);
-    
-    animatedElements.forEach(element => {
-      observer.observe(element);
-    });
-  }
-  
-  textReveal(element) {
-    const text = element.textContent;
-    element.textContent = '';
-    element.classList.add('active');
-    
-    text.split('').forEach((char, index) => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      span.style.setProperty('--index', index);
-      element.appendChild(span);
-    });
-  }
-}
-
 // ===== 4. インタラクティブ要素 =====
 class InteractiveEffects {
   constructor() {
@@ -221,11 +277,11 @@ class LoadingAnimation {
 // ===== 初期化 =====
 document.addEventListener('DOMContentLoaded', () => {
   // 各エフェクトの初期化
-  new ScrollAnimator();
+  new AnimationSystem();
   new InteractiveEffects();
   new LoadingAnimation();
   
-  // パーティクルは特定の要素にのみ適用
+  // パーティクルは特定の要素にのみ適用（必要に応じて）
   // 例: ヒーローセクションにパーティクルを追加
   if (document.querySelector('.hero')) {
     new ParticleSystem('hero-section', {
