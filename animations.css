@@ -1,0 +1,148 @@
+/* ===== 1. 動くグラデーション背景 ===== */
+.gradient-animation {
+  background: linear-gradient(-45deg, #ee7800, #ff9933, #ff6b35, #ffa500);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== 3. スクロールアニメーション ===== */
+/* 跳ねるように登場 */
+.bounce-in {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.bounce-in.active {
+  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  70% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 文字が1文字ずつ現れる */
+.text-reveal {
+  opacity: 1;
+}
+
+.text-reveal span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.text-reveal.active span {
+  animation: letterPop 0.5s ease forwards;
+  animation-delay: calc(var(--index) * 0.05s);
+}
+
+@keyframes letterPop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 回転しながら登場 */
+.rotate-in {
+  opacity: 0;
+  transform: rotateY(90deg);
+}
+
+.rotate-in.active {
+  animation: rotateIn 0.6s ease forwards;
+}
+
+@keyframes rotateIn {
+  to {
+    opacity: 1;
+    transform: rotateY(0);
+  }
+}
+
+/* ===== 4. 波紋エフェクト ===== */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: ripple-effect 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* マウスカーソルの光 */
+.cursor-glow {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(238, 120, 0, 0.8), transparent);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease-out;
+  mix-blend-mode: screen;
+}
+
+/* ===== 5. ローディング演出 ===== */
+.logo-assembly {
+  animation: assembleAndBounce 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes assembleAndBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ページ全体のフェードイン */
+.page-fade-in {
+  animation: pageFadeIn 0.8s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
