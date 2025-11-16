@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="中央中等生ファーストの会メンバーのプロフィールページ">
-  <title>党首プロフィール- 中央中等生ファーストの会</title>
+  <title>メンバープロフィール- 中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
 
   <!-- OGP設定 -->
-  <meta property="og:title" content="党首プロフィール">
-  <meta property="og:description" content="中央中等生ファーストの会の党首のプロフィール">
+  <meta property="og:title" content="メンバープロフィール">
+  <meta property="og:description" content="メンバーのプロフィール">
   <meta property="og:image" content="ChuoFirst.png">
   <meta property="og:type" content="website">
 </head>
@@ -144,7 +144,7 @@
           const items = entry.target.querySelectorAll('.slide-in-item');
           items.forEach((item, index) => {
             setTimeout(() => {
-              item.classList.add('visible');
+              item.classList.add('slide-in-active');
             }, 200 + (index * 150)); // 200ms後から150msずつ遅延
           });
         }
