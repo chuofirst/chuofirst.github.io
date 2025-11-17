@@ -328,6 +328,31 @@ class LoadingAnimation {
   }
 }
 
+
+// ===== スクロールでフェードイン（メッセージセクション用） =====
+function initFadeInOnScroll() {
+  const targets = document.querySelectorAll('.fade-in-on-scroll');
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2  // 要素が20%見えたら発火
+  });
+
+  targets.forEach(el => observer.observe(el));
+}
+
+// ドキュメント読み込み後に起動
+window.addEventListener('DOMContentLoaded', () => {
+  initFadeInOnScroll();
+});
+
+
 // ===== 初期化 =====
 document.addEventListener('DOMContentLoaded', () => {
   // 各エフェクトの初期化
