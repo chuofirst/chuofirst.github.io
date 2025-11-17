@@ -270,16 +270,13 @@ nav a[aria-current="page"] {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== 修正済み: ポスターセクション ===== */
+/* ===== ポスターセクション ===== */
 .poster-section {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
   color: var(--text-light);
-  padding: 80px 5vw 2000px 4vw; /* padding-bottomを200pxに増やして余白確保 */
+  padding: 80px 5vw 60px; /* ← シンプルに修正 */
   position: relative;
-  overflow: visible;
   min-height: auto;
-  display: flex;
-  flex-direction: column;
 }
 
 .poster-section::before {
@@ -325,7 +322,7 @@ nav a[aria-current="page"] {
   justify-content: space-between;
   align-items: center;
   gap: 60px;
-  max-width: 500px;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -350,7 +347,6 @@ nav a[aria-current="page"] {
 
 .poster-title .black-text {
   color: var(--text-dark);
-  text-align: start;
 }
 
 .poster-image {
@@ -372,11 +368,11 @@ nav a[aria-current="page"] {
   transform: scale(1.05) rotate(-2deg);
 }
 
-/* View Moreボタン - 相対配置に変更して確実に表示 */
+/* View Moreボタン */
 .view-more-link {
-  position: relative; /* absoluteから変更 */
-  margin: 60px auto 0; /* 中央配置 */
-  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--text-light);
   text-decoration: none;
   font-size: 1.2em;
@@ -388,9 +384,8 @@ nav a[aria-current="page"] {
   border-radius: 30px;
   transition: all 0.3s ease;
   z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  margin: 60px auto 0;
+  position: relative;
 }
 
 .view-more-link::after {
@@ -489,49 +484,6 @@ nav a[aria-current="page"] {
   margin: 0 auto;
 }
 
-/* ===== SNSセクション ===== */
-.sns-section {
-  background-color: #fff;
-  color: var(--text-dark);
-  text-align: center;
-  padding: 100px 20px;
-}
-
-.sns-heading {
-  font-size: 2.5em;
-  font-weight: 800;
-  margin-bottom: 40px;
-  text-decoration: underline;
-  text-underline-offset: 8px;
-  background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.sns-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.sns-name {
-  font-size: 1.6em;
-  font-weight: 700;
-}
-
-.instagram-embed {
-  width: 100%;
-  max-width: 540px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-
-.instagram-embed .instagram-media {
-  margin: 0 auto !important;
-}
 
 /* ===== フッター ===== */
 footer {
@@ -562,16 +514,15 @@ footer::before {
 .footer-content {
   position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* ← 追加 */
   align-items: center;
+  gap: 20px; /* ← 追加 */
   max-width: 500px;
   margin: 0 auto;
 }
 
 .footer-contact {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  order: 1; /* ← 追加: 上に配置 */
 }
 
 .footer-contact a {
@@ -582,7 +533,16 @@ footer::before {
   transition: all var(--transition-base);
   padding: 8px 12px;
   border-radius: 8px;
+  display: inline-block; /* ← 追加 */
 }
+
+.footer-logo {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  order: 2; /* ← 追加: 真ん中に配置 */
+}
+
 
 .footer-contact a:hover {
   color: var(--primary-light);
@@ -596,17 +556,6 @@ footer::before {
   height: auto;
 }
 
-.footer-instagram {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  box-shadow: var(--shadow-medium);
-  transition: all var(--transition-base);
-  animation: pulse 2s ease-in-out infinite;
-}
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
@@ -1773,7 +1722,7 @@ footer::before {
   }
 
   .poster-section {
-    padding: 60px 20px;
+    padding: 60px 20px 40px;
   }
 
   .poster-container {
@@ -1781,22 +1730,13 @@ footer::before {
     gap: 30px;
     margin-top: 40px;
   }
-
-  .footer-instagram {
-    position: static;
-    margin-top: 20px;
+  
+  .view-more-link {
+    margin: 40px auto 0; /* ← 追加 */
+    font-size: 1.1em;
+    padding: 10px 25px;
   }
-
-  .footer-contact {
-    position: static;
-    margin-bottom: 20px;
-  }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 20px;
-  }
-
+  
   .member-grid {
     grid-template-columns: 1fr;
   }
@@ -1882,6 +1822,16 @@ footer::before {
     align-self: start;
     max-width: 350px;
     width: 80%;
+  }
+
+  .poster-section {
+    padding: 50px 15px 30px; /* ← 追加 */
+  }
+
+  .view-more-link {
+    margin: 30px auto 0; /* ← 追加 */
+    font-size: 1em;
+    padding: 10px 20px;
   }
 
   .member-card {
