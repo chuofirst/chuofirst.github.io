@@ -215,6 +215,13 @@ nav a[aria-current="page"] {
   overflow: hidden;
 }
 
+/* 斜め線を確実に削除 */
+.hero::before,
+.hero::after {
+  display: none !important;
+  content: none !important;
+}
+
 .hero-image {
   position: absolute;
   top: 0;
@@ -234,6 +241,14 @@ nav a[aria-current="page"] {
   grid-template-rows: 1fr 1fr;
   padding: 40px;
   color: white;
+  background: none !important;
+}
+
+/* hero-overlay の疑似要素も削除 */
+.hero-overlay::before,
+.hero-overlay::after {
+  display: none !important;
+  content: none !important;
 }
 
 .hero-logo-left {
@@ -269,6 +284,7 @@ nav a[aria-current="page"] {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 
 /* ===== ポスターセクション ===== */
 .poster-section {
