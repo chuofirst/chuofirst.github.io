@@ -1,117 +1,187 @@
-/* ===== 1. 動くグラデーション背景 ===== */
-.gradient-animation {
-  background: linear-gradient(-45deg, #ee7800, #ff9933, #ff6b35, #ffa500);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ===== 3. スクロールアニメーション ===== */
-/* 跳ねるように登場 */
-.bounce-in {
+/* ===== アニメーション初期化 ===== */
+.anim-init {
   opacity: 0;
-  transform: translateY(30px);
 }
 
-.bounce-in.active {
-  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+/* ===== テキストアニメーション共通スタイル ===== */
+.text-anim-wrapper {
+  display: inline-block;
 }
 
-@keyframes bounceIn {
+.text-anim-wrapper .char-anim {
+  display: inline-block;
+  opacity: 0;
+  transform-origin: center center;
+}
+
+/* white-textクラスの文字は白色を保持 */
+.text-anim-wrapper span:not(.char-anim) .char-anim {
+  color: inherit;
+}
+
+/* black-textクラスの文字は黒色を保持 */
+.text-anim-wrapper .black-text .char-anim {
+  color: var(--text-dark) !important;
+}
+
+/* ===== テキストアニメーション: bounce-roll ===== */
+.text-bounce-roll .char-anim {
+  animation: charBounceRoll 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation-delay: calc(var(--char-index) * 0.05s);
+}
+
+@keyframes charBounceRoll {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.9);
+    transform: translateY(50px) rotate(-180deg) scale(0.3);
   }
-  70% {
-    transform: translateY(-5px) scale(1.02);
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) rotate(10deg) scale(1.1);
+  }
+  80% {
+    transform: translateY(5px) rotate(-5deg) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) rotate(0deg) scale(1);
   }
 }
 
-/* 文字が1文字ずつ現れる */
-.text-reveal {
-  opacity: 1;
+/* ===== テキストアニメーション: fade-in ===== */
+.text-fade-in .char-anim {
+  animation: charFadeIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--char-index) * 0.03s);
 }
 
-.text-reveal span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.text-reveal.active span {
-  animation: letterPop 0.5s ease forwards;
-  animation-delay: calc(var(--index) * 0.05s);
-}
-
-@keyframes letterPop {
+@keyframes charFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* 回転しながら登場 */
-.rotate-in {
-  opacity: 0;
-  transform: rotateY(90deg);
+/* ===== テキストアニメーション: slide-in ===== */
+.text-slide-in .char-anim {
+  animation: charSlideIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--char-index) * 0.02s);
 }
 
-.rotate-in.active {
-  animation: rotateIn 0.6s ease forwards;
-}
-
-@keyframes rotateIn {
+@keyframes charSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
   to {
     opacity: 1;
-    transform: rotateY(0);
+    transform: translateX(0);
   }
 }
 
-/* ===== 4. 波紋エフェクト ===== */
-.ripple-container {
-  position: relative;
-  overflow: hidden;
+/* ===== テキストアニメーション: wave ===== */
+.text-wave .char-anim {
+  animation: charWave 1s ease-in-out forwards;
+  animation-delay: calc(var(--char-index) * 0.05s);
 }
 
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(0);
-  animation: ripple-effect 0.6s ease-out;
-  pointer-events: none;
+@keyframes charWave {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
-@keyframes ripple-effect {
-  to {
-    transform: scale(4);
+/* ===== 通常のアニメーション（非テキスト） ===== */
+.anim-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* マウスカーソルの光 */
-.cursor-glow {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(238, 120, 0, 0.8), transparent);
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease-out;
-  mix-blend-mode: screen;
+.anim-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
 }
 
-/* ===== 5. ローディング演出 ===== */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-scale-in {
+  animation: scaleIn 0.8s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== 複合アニメーション: bounce-roll-special ===== */
+.anim-bounce-roll-special {
+  animation: bounceRollCombo 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes bounceRollCombo {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) translateX(-100px) rotate(-360deg) scale(0.8);
+  }
+  40% {
+    transform: translateY(-20px) translateX(-50px) rotate(-180deg) scale(1.1);
+  }
+  70% {
+    transform: translateY(10px) translateX(-20px) rotate(-90deg) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+/* ===== ローディング演出 ===== */
 .logo-assembly {
   animation: assembleAndBounce 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -147,30 +217,59 @@
   }
 }
 
-
-/* 跳ねながら転がる専用の複合アニメーション */
-.anim-bounce-roll-special {
-  animation: 
-    bounceRollCombo 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+/* ===== カーソルグロー ===== */
+.cursor-glow {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(238, 120, 0, 0.6), transparent);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  transition: transform 0.1s ease;
 }
 
-@keyframes bounceRollCombo {
-  0% {
+/* ===== リップルエフェクト ===== */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: rippleEffect 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes rippleEffect {
+  to {
+    transform: scale(4);
     opacity: 0;
-    transform: translateY(50px) translateX(-100px) rotate(-360deg) scale(0.8);
-  }
-  40% {
-    transform: translateY(-20px) translateX(-50px) rotate(-180deg) scale(1.1);
-  }
-  70% {
-    transform: translateY(10px) translateX(-20px) rotate(-90deg) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
   }
 }
 
-.text-anim-wrapper .black-text span {
-  color: var(--text-dark) !important;
+/* ===== レスポンシブ: アニメーション簡略化 ===== */
+@media (max-width: 768px) {
+  .text-bounce-roll .char-anim {
+    animation-duration: 0.6s;
+  }
+  
+  .char-anim {
+    animation-delay: calc(var(--char-index) * 0.03s) !important;
+  }
+}
+
+/* ===== アニメーション無効化（アクセシビリティ） ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .char-anim {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
