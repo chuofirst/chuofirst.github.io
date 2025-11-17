@@ -564,7 +564,7 @@ footer::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
