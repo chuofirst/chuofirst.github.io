@@ -509,7 +509,7 @@ nav a[aria-current="page"] {
 footer {
   background: var(--bg-footer);
   padding: 40px 20px;
-  text-align: center;
+  /* text-align: center; ← 削除（中央揃えを解除） */
   position: relative;
   overflow: hidden;
 }
@@ -534,15 +534,16 @@ footer::before {
 .footer-content {
   position: relative;
   display: flex;
-  flex-direction: column; /* ← 追加 */
-  align-items: center;
-  gap: 20px; /* ← 追加 */
+  flex-direction: column; /* 追加済み */
+  align-items: flex-start; /* ← 中央揃えから左揃えに変更 */
+  gap: 20px;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto; /* フッター内容を中央寄せ・でも内部は左揃え */
 }
 
 .footer-contact {
-  order: 1; /* ← 追加: 上に配置 */
+  order: 1; /* 上に配置 */
+  align-self: flex-start; /* ← 左上配置のため明示 */
 }
 
 .footer-contact a {
@@ -553,16 +554,15 @@ footer::before {
   transition: all var(--transition-base);
   padding: 8px 12px;
   border-radius: 8px;
-  display: inline-block; /* ← 追加 */
+  display: inline-block;
 }
 
 .footer-logo {
   width: 300px;
   max-width: 100%;
   height: auto;
-  order: 2; /* ← 追加: 真ん中に配置 */
+  order: 2; /* 真ん中に配置 */
 }
-
 
 .footer-contact a:hover {
   color: var(--primary-light);
@@ -570,21 +570,11 @@ footer::before {
   transform: translateY(-2px);
 }
 
-.footer-logo {
-  width: 300px;
-  max-width: 100%;
-  height: auto;
-}
-
-
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
 }
 
-.footer-instagram:hover {
-  transform: scale(1.2) rotate(10deg);
-}
 
 /* ===== 私たちについてページ ===== */
 .aboutus {
