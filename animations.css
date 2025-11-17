@@ -22,9 +22,10 @@
   background: linear-gradient(135deg,
     #ff0080,
     #ff8c00,
-    #40e0d0,
-    #1e90ff,
-    #ff0080
+    #ff9933,
+    #ee7800,
+    #f15a22,
+    #faa755
   );
   background-size: 400% 400%;
   animation: bgGradientMove 14s ease infinite;
