@@ -274,9 +274,10 @@ nav a[aria-current="page"] {
 .poster-section {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
   color: var(--text-light);
-  padding: 80px 5vw;
+  padding: 80px 5vw 120px; /* ← padding-bottomを120pxに増やす */
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* ← hidden から visible に変更 */
+  min-height: auto; /* ← 追加: 内容に応じて自動調整 */
 }
 
 .poster-section::before {
