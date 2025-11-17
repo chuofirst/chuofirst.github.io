@@ -65,10 +65,9 @@ class AnimationSystem {
         
         text.split('').forEach((char) => {
           const charSpan = document.createElement('span');
+          charSpan.className = 'char-anim';
           charSpan.textContent = char === ' ' ? '\u00A0' : char;
-          charSpan.style.setProperty('--index', globalIndex++);
-          charSpan.style.display = 'inline-block';
-          charSpan.style.whiteSpace = 'pre'; // 空白を保持
+          charSpan.style.setProperty('--char-index', globalIndex++);
           container.appendChild(charSpan);
         });
         
@@ -77,12 +76,10 @@ class AnimationSystem {
         // BRタグの場合は特別処理
         if (node.tagName === 'BR') {
           const br = document.createElement('br');
-          // BRタグの後に少し遅延を追加
-          globalIndex += 3;
           return br;
         }
         
-        // その他の要素は再帰的に処理
+        // SPANタグなどはそのまま保持
         const newElement = node.cloneNode(false);
         Array.from(node.childNodes).forEach(child => {
           const processed = processNode(child);
