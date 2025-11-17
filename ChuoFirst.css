@@ -213,6 +213,7 @@ nav a[aria-current="page"] {
   width: 100%;
   height: 90vh;
   overflow: hidden;
+  background: none !important;
 }
 
 /* 斜め線を確実に削除 */
@@ -220,6 +221,7 @@ nav a[aria-current="page"] {
 .hero::after {
   display: none !important;
   content: none !important;
+  background: none !important;
 }
 
 .hero-image {
@@ -249,6 +251,7 @@ nav a[aria-current="page"] {
 .hero-overlay::after {
   display: none !important;
   content: none !important;
+  background: none !important;
 }
 
 .hero-logo-left {
