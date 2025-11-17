@@ -68,6 +68,7 @@ class AnimationSystem {
           charSpan.textContent = char === ' ' ? '\u00A0' : char;
           charSpan.style.setProperty('--index', globalIndex++);
           charSpan.style.display = 'inline-block';
+          charSpan.style.whiteSpace = 'pre'; // 空白を保持
           container.appendChild(charSpan);
         });
         
@@ -350,6 +351,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-// グローバルに公開
-window.AnimationHelper = AnimationHelper;
