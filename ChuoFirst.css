@@ -274,7 +274,7 @@ nav a[aria-current="page"] {
 .poster-section {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
   color: var(--text-light);
-  padding: 80px 5vw 180px; /* padding-bottomを180pxに増やして余白確保 */
+  padding: 80px 5vw 2000px 4vw; /* padding-bottomを200pxに増やして余白確保 */
   position: relative;
   overflow: visible;
   min-height: auto;
