@@ -295,6 +295,7 @@ nav a[aria-current="page"] {
   color: var(--text-light);
   padding: 80px 5vw 60px; /* ← シンプルに修正 */
   position: relative;
+  overflow: hidden;
   min-height: auto;
 }
 
