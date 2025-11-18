@@ -8,6 +8,7 @@
   <title>ニュース - 中央中等生ファーストの会</title>
   <link rel="stylesheet" href="ChuoFirst.css">
   <link rel="stylesheet" href="animations.css">
+  <script src="head_foot_components.js" defer></script>
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
   <style>body{visibility:hidden!important}</style>
@@ -18,39 +19,9 @@
   <meta property="og:type" content="website">
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <a href="index.html" aria-label="ホームページへ戻る">
-        <div class="logo">
-          <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ" width="70" height="70">
-        </div>
-        <div class="logo-text">中央中等生ファーストの会</div>
-      </a>
-    </div>
 
-    <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <nav id="nav-menu" aria-label="メインナビゲーション">
-      <a href="aboutus.html">私たちについて</a>
-      <a href="member.html">メンバー</a>
-      <a href="news.html" aria-current="page">ニュース</a>
-      <a href="policy.html">政策</a>
-      <a href="active.html">活動</a>
-      <div class="nav-dropdown">
-        <span class="nav-dropdown-toggle">ポスター&機関紙</span>
-        <div class="nav-dropdown-menu">
-          <a href="poster.html">ポスター</a>
-          <a href="PR.html">広報</a>
-        </div>
-      </div>
-      <a href="recruit.html">候補者公募</a>
-    </nav>
-  </header>
-
+  <div id="header-container"></div>
+  
   <div id="overlay" aria-hidden="true"></div>
 
   <main id="main-content">
@@ -99,17 +70,8 @@
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-contact">
-        <a href="form.html">お問い合わせ</a>
-      </div>
-      <a href="https://chuofirst.github.io" aria-label="ホームページへ戻る">
-        <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="footer-logo" width="300" height="100">
-      </a>
-    </div>
-  </footer>
-
+  <div id="footer-container"></div>
+  
   <!-- Firebase Authentication -->
   <script type="module" src="auth.js"></script>
   <script src="animations.js"></script>
