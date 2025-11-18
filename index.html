@@ -21,35 +21,9 @@
         <meta property="og:type" content="website">
     </head>
     <body>
-        <header>
-            <div class="header-left">
-                <a href="index.html" aria-label="ホームページへ戻る">
-                    <div class="logo">
-                        <img src="ChuoFirst_icon.png" alt="中央中等生ファーストの会ロゴ" width="70" height="70">
-                    </div>
-                    <div class="logo-text">中央中等生ファーストの会</div>
-                </a>
-            </div>
-            <button class="menu-toggle" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav id="nav-menu" aria-label="メインナビゲーション">
-                <a href="aboutus.html">私たちについて</a>
-                <a href="member.html">メンバー</a>
-                <a href="news.html">ニュース</a>
-                <a href="policy.html">政策</a>
-                <div class="nav-dropdown">
-                  <span class="nav-dropdown-toggle">ポスター&機関紙</span>
-                  <div class="nav-dropdown-menu">
-                    <a href="poster.html">ポスター</a>
-                    <a href="PR.html">広報</a>
-                  </div>
-                </div>
-                <a href="recruit.html">候補者公募</a>
-            </nav>
-        </header>
+        <!-- ヘッダー -->
+        <div id="header-container"></div>
+        
         <div id="overlay" aria-hidden="true"></div>
         <!-- ヒーローセクション -->
         <section class="hero" aria-label="トップビジュアル">
@@ -86,17 +60,9 @@
                   </p>
             </section>
         </main>
-        <footer>
-            <div class="footer-content">
-                <div class="footer-contact">
-                    <a href="form.html">お問い合わせ</a>
-                    <a href="blog.html">党員専用ページ</a>
-                </div>
-                <a href="https://chuofirst.github.io" aria-label="ホームページへ戻る">
-                    <img src="ChuoFirst.png" alt="中央中等生ファーストの会" class="footer-logo" width="300" height="100">
-                </a>
-            </div>
-        </footer>
+
+        <!-- フッター -->
+        <div id="footer-container"></div>
         
         <!-- Firebase Authentication -->
         <script type="module" src="auth.js"></script>
