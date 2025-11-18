@@ -66,47 +66,40 @@
   <script type="module" src="auth.js"></script>
 
   <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
+    window.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menu-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      const overlay = document.getElementById('overlay');
 
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isOpen);
-      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-    });
-
-    overlay.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      overlay.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'メニューを開く');
-    });
-
-    // スクロールアニメーション
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, index * 100);
-        }
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        menuToggle.setAttribute('aria-expanded', isOpen);
+        menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
       });
-    }, observerOptions);
 
-    document.querySelectorAll('.scroll-fade-in').forEach((element) => {
-      observer.observe(element);
+      overlay.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'メニューを開く');
+      });
+
+      document.querySelectorAll('#nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+          overlay.classList.remove('active');
+          menuToggle.classList.remove('active');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.setAttribute('aria-label', 'メニューを開く');
+        });
+      });
     });
   </script>
+
 </body>
 </html>
+
 
