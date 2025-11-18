@@ -560,13 +560,13 @@ footer::before {
 }
 
 .footer-logo {
-  width: auto;
-  height: 90px;
+  width: min(55%, 480px);
+  height: auto;
   aspect-ratio: 1 / 1;  
   max-width: 100%;
   object-fit: contain;
   display: block;
-  margin: 20px auto 0;
+  margin: 40px auto 25px;
 }
 
 .footer-contact a:hover {
