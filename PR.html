@@ -65,14 +65,13 @@
   <script type="module" src="auth.js"></script>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const menuToggle = document.getElementById('menu-toggle');
-      const navMenu = document.getElementById('nav-menu');
-      const overlay = document.getElementById('overlay');
+  window.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
 
-      // ここがポイント：要素がなければ何もしない
-      if (!menuToggle || !navMenu || !overlay) return;
-
+    // ── ① メニュー周り：要素があるときだけイベントを付ける ──
+    if (menuToggle && navMenu && overlay) {
       menuToggle.addEventListener('click', () => {
         const isOpen = navMenu.classList.toggle('active');
         overlay.classList.toggle('active');
@@ -101,12 +100,36 @@
           menuToggle.setAttribute('aria-label', 'メニューを開く');
         });
       });
+    }
+
+    // ── ② スクロールフェードイン：ここは絶対に return で飛ばさない ──
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-fade-in').forEach((element) => {
+      observer.observe(element);
     });
-  </script>
+  });
+</script>
+
 
 
 </body>
 </html>
+
 
 
 
