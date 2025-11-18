@@ -71,12 +71,18 @@
       const navMenu = document.getElementById('nav-menu');
       const overlay = document.getElementById('overlay');
 
+      // ここがポイント：要素がなければ何もしない
+      if (!menuToggle || !navMenu || !overlay) return;
+
       menuToggle.addEventListener('click', () => {
         const isOpen = navMenu.classList.toggle('active');
         overlay.classList.toggle('active');
         menuToggle.classList.toggle('active');
         menuToggle.setAttribute('aria-expanded', isOpen);
-        menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+        menuToggle.setAttribute(
+          'aria-label',
+          isOpen ? 'メニューを閉じる' : 'メニューを開く'
+        );
       });
 
       overlay.addEventListener('click', () => {
@@ -99,7 +105,9 @@
     });
   </script>
 
+
 </body>
 </html>
+
 
 
