@@ -122,17 +122,20 @@
       const navMenu = document.getElementById('nav-menu');
       const overlay = document.getElementById('overlay');
 
-      menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        overlay.classList.toggle('active');
-      });
+  if (menuToggle && navMenu && overlay) {
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
 
-      overlay.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        overlay.classList.remove('active');
-      });
+    overlay.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+  }
+
     });
 
     // スクロールアニメーション
@@ -158,5 +161,6 @@
   </script>
 </body>
 </html>
+
 
 
