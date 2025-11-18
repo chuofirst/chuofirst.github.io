@@ -207,6 +207,40 @@ nav a[aria-current="page"] {
   pointer-events: all;
 }
 
+/* ===== スマホ用メニュー表示 ===== */
+@media (max-width: 900px) {
+  /* ハンバーガーを表示 */
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* ナビをデフォルトでは隠す（右からスライドイン） */
+  #nav-menu {
+    position: fixed;
+    top: var(--header-h);
+    right: 0;
+    left: auto;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.97);
+    padding: 20px;
+    gap: 10px;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+    min-width: 220px;
+  }
+
+  /* .active が付いたときだけ表示 */
+  #nav-menu.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
 /* ===== ヒーローセクション ===== */
 .hero {
   position: relative;
