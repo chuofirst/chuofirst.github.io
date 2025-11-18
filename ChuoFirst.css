@@ -535,15 +535,16 @@ footer::before {
   position: relative;
   display: flex;
   flex-direction: column; /* 追加済み */
-  align-items: flex-start; /* ← 中央揃えから左揃えに変更 */
+  align-items: center; /* ← 中央揃えから左揃えに変更 */
   gap: 20px;
-  max-width: 500px;
-  margin: 0 auto; /* フッター内容を中央寄せ・でも内部は左揃え */
+  max-width: 100%;
+  margin: 0; /* フッター内容を中央寄せ・でも内部は左揃え */
 }
 
 .footer-contact {
-  order: 1; /* 上に配置 */
-  align-self: flex-start; /* ← 左上配置のため明示 */
+  position: absolute;
+  top: 0;
+  left: 20px;
 }
 
 .footer-contact a {
@@ -560,8 +561,8 @@ footer::before {
 .footer-logo {
   width: 300px;
   max-width: 100%;
-  height: auto;
-  order: 2; /* 真ん中に配置 */
+  display: block;
+  margin: 20px auto 0;
 }
 
 .footer-contact a:hover {
