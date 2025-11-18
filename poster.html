@@ -117,21 +117,22 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.body.style.visibility = 'visible';
-    });
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
 
-    menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
-      navMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-    });
+      const menuToggle = document.getElementById('menu-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      const overlay = document.getElementById('overlay');
 
-    overlay.addEventListener('click', () => {
-      menuToggle.classList.remove('active');
-      navMenu.classList.remove('active');
-      overlay.classList.remove('active');
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+      });
+
+      overlay.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+      });
     });
 
     // スクロールアニメーション
@@ -157,4 +158,5 @@
   </script>
 </body>
 </html>
+
 
