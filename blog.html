@@ -23,14 +23,42 @@
   
   <div id="overlay" aria-hidden="true"></div>
 
-  <main id="main-content">
+  <main id="main-content" class="blog-page">
+    <section class="blog-thread fade-in-on-scroll">
+      <header class="blog-thread-header">
+        <h1 class="blog-thread-title">【党員専用】中央中等生ファースト雑談スレッド</h1>
+        <p class="blog-thread-meta">
+          ※党員のみ閲覧・書き込み可（書き込みはGoogleフォームから）
+        </p>
+      </header>
 
+      <div id="blog-thread-body" class="blog-thread-body">
+        読み込み中...
+      </div>
+
+      <footer class="blog-thread-footer">
+        ※このページの内容・スクリーンショットは党員以外に共有しないでください。
+      </footer>
+    </section>
+
+    <section class="blog-form-section">
+      <h2 class="blog-form-title">書き込み方法</h2>
+      <p class="blog-form-note">
+        書き込みは、下のボタンから開くGoogleフォームに入力してください。<br>
+        フォーム送信後、数秒〜数十秒でこのページに反映されます。
+      </p>
+      <a href="ここにGoogleフォームのURLを貼る" target="_blank" class="blog-submit-btn">
+        書き込みフォームを開く
+      </a>
+    </section>
   </main>
+
 
   <div id="footer-container"></div>  
 
   <!-- Firebase Authentication -->
   <script type="module" src="auth.js"></script>
+  <script type="module" src="blog_sheet.js"></script>
   <script src="animations.js"></script>
   
 </body>
