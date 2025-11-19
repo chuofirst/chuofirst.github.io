@@ -1,4 +1,4 @@
-// blog-sheet.js
+// blog_sheet.js
 
 // 党員専用チェック
 const email = localStorage.getItem("user_email");
@@ -9,30 +9,29 @@ if (email && !canBlog) {
   window.location.replace("cantsee.html");
 }
 
-// シートの設定
-const SHEET_ID = "1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E";
-const SHEET_NAME = "Responses"; // シートタブ名そのまま（空白はOK）
+// ===== Googleスプレッドシート設定 =====
+const SHEET_ID = "1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E"; // 自分のID
+const SHEET_NAME = "Responses"; // タブ名（A:タイムスタンプ, B:ユーザーネーム, C:内容）
 
-// gviz形式のJSONを返してくれるURL
 const SHEET_URL =
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?` +
   `tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
 const threadBody = document.getElementById("blog-thread-body");
 
-// 日付フォーマットを2ch風に
+// 日付をそれっぽい形に整形
 function formatDate(date) {
   const y = date.getFullYear();
-  const m = `${date.getMonth() + 1}`.padStart(2, "0");
-  const d = `${date.getDate()}`.padStart(2, "0");
-  const hh = `${date.getHours()}`.padStart(2, "0");
-  const mm = `${date.getMinutes()}`.padStart(2, "0");
-  const ss = `${date.getSeconds()}`.padStart(2, "0");
-  const youbi = ["日","月","火","水","木","金","土"][date.getDay()];
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mm = String(date.getMinutes()).padStart(2, "0");
+  const ss = String(date.getSeconds()).padStart(2, "0");
+  const youbi = ["日", "月", "火", "水", "木", "金", "土"][date.getDay()];
   return `${y}/${m}/${d}(${youbi}) ${hh}:${mm}:${ss}`;
 }
 
-// レス1件をDOMに追加
+// 1レス分をDOMに追加
 function appendPost(index, timestamp, name, body) {
   const article = document.createElement("article");
   article.className = "blog-post";
@@ -50,9 +49,23 @@ function appendPost(index, timestamp, name, body) {
 
   const dateSpan = document.createElement("span");
   dateSpan.className = "blog-post-date";
-  let dateObj = new Date(timestamp);
-  if (isNaN(dateObj.getTime())) dateObj = new Date();
-  dateSpan.textContent = `投稿日：${formatDate(dateObj)}`;
+
+  // タイムスタンプは、f(フォーマット済み文字列)優先 → v をFallback
+  let dateText = "";
+  if (timestamp) {
+    try {
+      const d = new Date(timestamp);
+      if (!isNaN(d.getTime())) {
+        dateText = formatDate(d);
+      }
+    } catch (e) {
+      // 失敗したら何もしない
+    }
+  }
+  if (!dateText) {
+    dateText = formatDate(new Date());
+  }
+  dateSpan.textContent = `投稿日：${dateText}`;
 
   const idSpan = document.createElement("span");
   idSpan.className = "blog-post-id";
@@ -86,15 +99,18 @@ async function loadPosts() {
     const res = await fetch(SHEET_URL);
     const text = await res.text();
 
-    // gvizのラッパーを外してJSONだけ取り出す
-    const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
-    if (!match) {
+    // gvizのラッパーからJSON部分だけ抜き出す
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    if (start === -1 || end === -1) {
       threadBody.textContent = "データの読み込みに失敗しました。";
       return;
     }
 
-    const json = JSON.parse(match[1]);
-    const rows = json.table.rows || [];
+    const jsonStr = text.substring(start, end + 1);
+    const data = JSON.parse(jsonStr);
+
+    const rows = (data.table && data.table.rows) || [];
 
     threadBody.innerHTML = "";
 
@@ -104,12 +120,20 @@ async function loadPosts() {
     }
 
     rows.forEach((row, idx) => {
-      // A:タイムスタンプ, B:名前, C:本文 の想定
-      const ts = row.c[0]?.v || "";
-      const name = row.c[1]?.v || "";
-      const body = row.c[2]?.v || "";
+      // A: タイムスタンプ, B: ユーザーネーム, C: 内容
+      const c = row.c || [];
+      const tsCell = c[0]; // A列
+      const nameCell = c[1]; // B列
+      const bodyCell = c[2]; // C列
 
-      appendPost(idx + 1, ts, name, body);
+      const timestamp =
+        (tsCell && tsCell.f) || (tsCell && tsCell.v) || ""; // f優先
+      const name = (nameCell && nameCell.v) || "";
+      const body = (bodyCell && bodyCell.v) || "";
+
+      // 1行目はヘッダーじゃなくて回答の1件目のはずだけど、
+      // もしヘッダー行があるならここでスキップ条件を入れてもOK
+      appendPost(idx + 1, timestamp, name, body);
     });
   } catch (err) {
     console.error(err);
