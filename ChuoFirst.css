@@ -2549,10 +2549,7 @@ footer::before {
 
   /* タップでトグル */
   .nav-dropdown-toggle::after {
-    content: '▼';
-    font-size: 0.8em;
-    margin-left: 8px;
-    transition: transform 0.3s ease;
+    content: none;
   }
 
   .nav-dropdown.active .nav-dropdown-toggle::after {
