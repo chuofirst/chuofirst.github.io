@@ -1,9 +1,5 @@
 // メンバープロフィールページ共通JavaScript
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.body.style.visibility = 'visible';
-});
-
 // 右からスライドインのアニメーション
 const observerOptions = {
   threshold: 0.1,
