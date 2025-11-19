@@ -715,7 +715,6 @@ footer::before {
   position: relative;
   font-size: 1.15em;
   color: var(--text-dark);
-  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 .aboutus p::before {
