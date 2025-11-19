@@ -10,8 +10,8 @@ if (email && !canBlog) {
 }
 
 // シートの設定
-const SHEET_ID = "ここにシートID";   // 例: "1AbCdEfGhIjKlMnOpQrStUvWxYz1234567890"
-const SHEET_NAME = "フォームの回答 1"; // シートタブ名そのまま（空白はOK）
+const SHEET_ID = "1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E";
+const SHEET_NAME = "Responses"; // シートタブ名そのまま（空白はOK）
 
 // gviz形式のJSONを返してくれるURL
 const SHEET_URL =
