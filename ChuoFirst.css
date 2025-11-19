@@ -2722,6 +2722,7 @@ footer::before {
   height: 800px;
   border: none;
   display: block;
+  align-items: center;
 }
 
 .blog-form-note {
