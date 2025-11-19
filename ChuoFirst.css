@@ -2718,7 +2718,7 @@ footer::before {
 }
 
 .blog-form-iframe {
-  width: 100%;
+  width: 90%;
   height: 800px;
   border: none;
   display: block;
