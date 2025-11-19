@@ -2594,72 +2594,65 @@ footer::before {
   z-index: 1;
 }
 
-/* 書き込みカード */
-.blog-submit-card {
-  background: rgba(255, 255, 255, 0.2);
+/* 書き込みフォームカード（埋め込み版） */
+.blog-form-card {
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(15px);
   border-radius: 20px;
-  padding: 30px 35px;
+  padding: 35px;
   margin-bottom: 40px;
   border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.blog-form-header {
   display: flex;
   align-items: center;
-  gap: 25px;
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid rgba(238, 120, 0, 0.3);
 }
 
-.blog-submit-card:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-}
-
-.blog-submit-icon {
-  font-size: 3em;
+.blog-form-icon {
+  font-size: 2.5em;
   flex-shrink: 0;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
 }
 
-.blog-submit-content {
-  flex: 1;
-}
-
-.blog-submit-title {
+.blog-form-title {
   font-size: clamp(1.5em, 3vw, 2em);
   font-weight: 800;
   color: var(--text-dark);
-  margin: 0 0 10px;
-}
-
-.blog-submit-text {
-  font-size: clamp(1em, 2vw, 1.15em);
-  color: var(--text-dark);
-  font-weight: 600;
-  line-height: 1.7;
   margin: 0;
 }
 
-.blog-submit-btn {
-  flex-shrink: 0;
-  padding: 15px 30px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-  color: var(--text-light);
-  text-decoration: none;
-  font-size: 1.1em;
-  font-weight: 800;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(238, 120, 0, 0.4);
-  position: relative;
+.blog-form-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  white-space: nowrap;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.blog-submit-btn:hover {
-  transform: translateX(5px) scale(1.05);
-  box-shadow: 0 10px 30px rgba(238, 120, 0, 0.6);
+.blog-form-iframe {
+  width: 100%;
+  height: 800px;
+  border: none;
+  display: block;
+}
+
+.blog-form-note {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 0.95em;
+  color: #666;
+  font-weight: 600;
+  font-style: italic;
 }
 
 /* スレッドラッパー（5ch風） */
@@ -2816,15 +2809,22 @@ footer::before {
 
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
-  .blog-submit-card {
-    flex-direction: column;
-    text-align: center;
+  .blog-form-card {
     padding: 25px 20px;
   }
 
-  .blog-submit-btn {
-    width: 100%;
-    max-width: 300px;
+  .blog-form-header {
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+
+  .blog-form-icon {
+    font-size: 2em;
+  }
+
+  .blog-form-iframe {
+    height: 700px;
   }
 
   .blog-thread-header {
@@ -2848,12 +2848,26 @@ footer::before {
 }
 
 @media (max-width: 600px) {
-  .blog-submit-card {
+  .blog-form-card {
     padding: 20px 15px;
   }
 
-  .blog-submit-icon {
-    font-size: 2.5em;
+  .blog-form-header {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .blog-form-icon {
+    font-size: 1.8em;
+  }
+
+  .blog-form-iframe {
+    height: 650px;
+  }
+
+  .blog-form-note {
+    font-size: 0.85em;
+    margin-top: 15px;
   }
 
   .blog-thread-header {
