@@ -45,7 +45,7 @@
       </div>
 
       <div class="blog-container">
-        
+
         <!-- スレッド表示エリア（5ch風） -->
         <div class="blog-thread-wrapper">
           <div class="blog-thread-header">
@@ -58,23 +58,26 @@
           </div>
         </div>
 
-         <!-- 書き込みフォームへのリンク -->
-        <div class="blog-submit-card ripple-container">
-          <div class="blog-submit-icon">✍️</div>
-          <div class="blog-submit-content">
-            <h2 class="blog-submit-title">書き込む</h2>
-            <p class="blog-submit-text">Googleフォームから書き込めます。送信後、ページを再読み込みすると反映されます。</p>
+        <!-- 書き込みフォーム埋め込み -->
+        <div class="blog-form-card">
+          <div class="blog-form-header">
+            <div class="blog-form-icon">✍️</div>
+            <h2 class="blog-form-title">書き込む</h2>
           </div>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLScZGb5N6pYqAgQPMK3G8daY7fb3RsrUUS5pp_D38eeXj4mQCA/viewform" 
-             target="_blank" 
-             class="blog-submit-btn ripple-container">
-            書き込みフォームへ →
-          </a>
+          <div class="blog-form-wrapper">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScZGb5N6pYqAgQPMK3G8daY7fb3RsrUUS5pp_D38eeXj4mQCA/viewform?embedded=true" 
+                    class="blog-form-iframe" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+              読み込んでいます…
+            </iframe>
+          </div>
+          <p class="blog-form-note">※フォーム送信後、ページを再読み込みすると反映されます</p>
         </div>
 
-
         <!-- 注意書き -->
-        <div class="blog-notice-card ripple-container">
+        <div class="blog-notice-card">
           <div class="blog-notice-icon">⚠️</div>
           <p class="blog-notice-text">
             このページのURL・内容・スクリーンショットは、党員以外に共有しないでください。
