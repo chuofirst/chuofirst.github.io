@@ -66,6 +66,7 @@ function showDecryptedContent() {
   // bodyのスタイルをリセット
   document.body.style.cssText = '';
   document.body.style.setProperty('visibility', 'visible', 'important');
+  document.body.classList.add('authorized');
 
   // 元のコンテンツを復元
   const wrapper = document.getElementById('original-content-wrapper');
