@@ -16,6 +16,20 @@
   <meta property="og:description" content="中央中等生ファーストの会の党員専用ページ">
   <meta property="og:image" content="ChuoFirst.png">
   <meta property="og:type" content="website">
+  
+  <!-- チラ見え防止: 初期状態でコンテンツを完全に隠す -->
+  <style>
+    body {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    body.authorized {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transition: opacity 0.3s ease;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,29 +37,51 @@
   
   <div id="overlay" aria-hidden="true"></div>
 
-  <main id="main-content" class="blog-page">
-    <h1 class="blog-title">【党員専用】中央中等生ファースト雑談スレッド</h1>
+  <main id="main-content">
+    <section class="page-section blog-section bg-anim-gradient">
+      <div class="page-header">
+        <h1 class="page-title">党員専用ページ</h1>
+        <p class="page-subtitle">中央中等生ファースト 雑談スレッド</p>
+      </div>
 
-    <section class="blog-thread fade-in-on-scroll">
-      <div id="blog-thread-body" class="blog-thread-body">
-        読み込み中...
+      <div class="blog-container">
+        
+        <!-- 書き込みフォームへのリンク -->
+        <div class="blog-submit-card ripple-container">
+          <div class="blog-submit-icon">✍️</div>
+          <div class="blog-submit-content">
+            <h2 class="blog-submit-title">書き込む</h2>
+            <p class="blog-submit-text">Googleフォームから書き込めます。送信後、ページを再読み込みすると反映されます。</p>
+          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScZGb5N6pYqAgQPMK3G8daY7fb3RsrUUS5pp_D38eeXj4mQCA/viewform" 
+             target="_blank" 
+             class="blog-submit-btn ripple-container">
+            書き込みフォームへ →
+          </a>
+        </div>
+
+        <!-- スレッド表示エリア（5ch風） -->
+        <div class="blog-thread-wrapper">
+          <div class="blog-thread-header">
+            <span class="blog-thread-title">📋 中央中等生ファースト 雑談スレッド</span>
+            <span class="blog-thread-count" id="post-count">0 レス</span>
+          </div>
+          
+          <div id="blog-thread-body" class="blog-thread-body">
+            <div class="blog-loading">読み込み中...</div>
+          </div>
+        </div>
+
+        <!-- 注意書き -->
+        <div class="blog-notice-card ripple-container">
+          <div class="blog-notice-icon">⚠️</div>
+          <p class="blog-notice-text">
+            このページのURL・内容・スクリーンショットは、党員以外に共有しないでください。
+          </p>
+        </div>
+        
       </div>
     </section>
-
-    <section class="blog-form-section">
-      <h2 class="blog-form-title">書き込み方法</h2>
-      <p class="blog-form-note">
-        書き込みは、下のボタンから開くGoogleフォームに入力してください。<br>
-        フォーム送信後、少し時間をおいてこのページを再読み込みすると反映されます。
-      </p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLScZGb5N6pYqAgQPMK3G8daY7fb3RsrUUS5pp_D38eeXj4mQCA/viewform" target="_blank" class="blog-submit-btn">
-        書き込みフォームを開く
-      </a>
-    </section>
-
-    <p class="blog-notice">
-      ※このページのURL・内容・スクリーンショットは、党員以外に共有しないでください。
-    </p>
   </main>
 
   <div id="footer-container"></div>  
