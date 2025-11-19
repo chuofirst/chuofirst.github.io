@@ -4,26 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.style.visibility = 'visible';
 });
 
-const menuToggle = document.getElementById('menu-toggle');
-const navMenu = document.getElementById('nav-menu');
-const overlay = document.getElementById('overlay');
-
-menuToggle.addEventListener('click', () => {
-  const isOpen = navMenu.classList.toggle('active');
-  overlay.classList.toggle('active');
-  menuToggle.classList.toggle('active');
-  menuToggle.setAttribute('aria-expanded', isOpen);
-  menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-});
-
-overlay.addEventListener('click', () => {
-  navMenu.classList.remove('active');
-  overlay.classList.remove('active');
-  menuToggle.classList.remove('active');
-  menuToggle.setAttribute('aria-expanded', 'false');
-  menuToggle.setAttribute('aria-label', 'メニューを開く');
-});
-
 // 右からスライドインのアニメーション
 const observerOptions = {
   threshold: 0.1,
