@@ -1,16 +1,30 @@
-// blog_sheet.js
+// ===== 党員専用チェック（auth.js完了後に実行） =====
+function checkBlogAccess() {
+  const email = localStorage.getItem("user_email");
+  const canBlog = localStorage.getItem("user_can_blog") === "1";
 
-// ===== 党員専用チェック =====
-const email = localStorage.getItem("user_email");
-const canBlog = localStorage.getItem("user_can_blog") === "1";
-
-if (email && !canBlog) {
-  // ログインはしてるけど党員権限なし → 追い出す
-  window.location.replace("cantsee.html");
-} else if (email && canBlog) {
-  // 権限OK → bodyにauthorizedクラスを追加して表示
-  document.body.classList.add('authorized');
+  if (email && !canBlog) {
+    // ログインはしてるけど党員権限なし → 追い出す
+    window.location.replace("cantsee.html");
+  } else if (email && canBlog) {
+    // 権限OK → bodyにauthorizedクラスを追加して表示
+    document.body.classList.add('authorized');
+  }
 }
+
+// auth.jsの処理を待つ（最大3秒）
+let checkCount = 0;
+const checkInterval = setInterval(() => {
+  const email = localStorage.getItem("user_email");
+  const canBlog = localStorage.getItem("user_can_blog");
+  
+  // localStorageに値が設定されたら、または3秒経過したら実行
+  if ((email && canBlog !== null) || checkCount > 30) {
+    clearInterval(checkInterval);
+    checkBlogAccess();
+  }
+  checkCount++;
+}, 100);
 
 // ===== Googleスプレッドシート設定 =====
 const SHEET_ID = "1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E";
@@ -49,7 +63,7 @@ function appendPost(index, timestamp, name, body) {
 
   const nameSpan = document.createElement("span");
   nameSpan.className = "blog-post-name";
-  nameSpan.textContent = `${name || "党員"}`;
+  nameSpan.textContent = `名前：${name || "党員"}`;
 
   const dateSpan = document.createElement("span");
   dateSpan.className = "blog-post-date";
