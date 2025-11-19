@@ -11,7 +11,6 @@
   <script src="head_foot_components.js" defer></script>
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
-  <style>body{visibility:hidden!important}</style>
   
   <meta property="og:title" content="メンバー - 中央中等生ファーストの会">
   <meta property="og:description" content="中央中等生ファーストの会のメンバー紹介">
@@ -130,29 +129,6 @@
   <script src="animations.js"></script>  
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.style.visibility = 'visible';
-    });
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isOpen);
-      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-    });
-
-    overlay.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      overlay.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'メニューを開く');
-    });
-
     // メンバーカードのアニメーション
     const observerOptions = {
       threshold: 0.1,
