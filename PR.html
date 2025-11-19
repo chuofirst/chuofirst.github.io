@@ -65,44 +65,6 @@
   <script type="module" src="auth.js"></script>
 
   <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
-
-    // ── ① メニュー周り：要素があるときだけイベントを付ける ──
-    if (menuToggle && navMenu && overlay) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navMenu.classList.toggle('active');
-        overlay.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', isOpen);
-        menuToggle.setAttribute(
-          'aria-label',
-          isOpen ? 'メニューを閉じる' : 'メニューを開く'
-        );
-      });
-
-      overlay.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        overlay.classList.remove('active');
-        menuToggle.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'メニューを開く');
-      });
-
-      document.querySelectorAll('#nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('active');
-          overlay.classList.remove('active');
-          menuToggle.classList.remove('active');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.setAttribute('aria-label', 'メニューを開く');
-        });
-      });
-    }
-
-    // ── ② スクロールフェードイン：ここは絶対に return で飛ばさない ──
     const observerOptions = {
       root: null,
       rootMargin: '0px',
@@ -129,6 +91,7 @@
 
 </body>
 </html>
+
 
 
 
