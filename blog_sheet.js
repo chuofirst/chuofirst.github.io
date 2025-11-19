@@ -63,7 +63,7 @@ function appendPost(index, timestamp, name, body) {
 
   const nameSpan = document.createElement("span");
   nameSpan.className = "blog-post-name";
-  nameSpan.textContent = `名前：${name || "党員"}`;
+  nameSpan.textContent = `${name || "党員"}`;
 
   const dateSpan = document.createElement("span");
   dateSpan.className = "blog-post-date";
@@ -82,7 +82,7 @@ function appendPost(index, timestamp, name, body) {
   if (!dateText) {
     dateText = formatDate(new Date());
   }
-  dateSpan.textContent = `投稿日：${dateText}`;
+  dateSpan.textContent = `${dateText}`;
 
   const idSpan = document.createElement("span");
   idSpan.className = "blog-post-id";
