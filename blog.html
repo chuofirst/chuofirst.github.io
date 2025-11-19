@@ -46,7 +46,19 @@
 
       <div class="blog-container">
         
-        <!-- 書き込みフォームへのリンク -->
+        <!-- スレッド表示エリア（5ch風） -->
+        <div class="blog-thread-wrapper">
+          <div class="blog-thread-header">
+            <span class="blog-thread-title">📋 中央中等生ファースト 雑談スレッド</span>
+            <span class="blog-thread-count" id="post-count">0 レス</span>
+          </div>
+          
+          <div id="blog-thread-body" class="blog-thread-body">
+            <div class="blog-loading">読み込み中...</div>
+          </div>
+        </div>
+
+         <!-- 書き込みフォームへのリンク -->
         <div class="blog-submit-card ripple-container">
           <div class="blog-submit-icon">✍️</div>
           <div class="blog-submit-content">
@@ -60,17 +72,6 @@
           </a>
         </div>
 
-        <!-- スレッド表示エリア（5ch風） -->
-        <div class="blog-thread-wrapper">
-          <div class="blog-thread-header">
-            <span class="blog-thread-title">📋 中央中等生ファースト 雑談スレッド</span>
-            <span class="blog-thread-count" id="post-count">0 レス</span>
-          </div>
-          
-          <div id="blog-thread-body" class="blog-thread-body">
-            <div class="blog-loading">読み込み中...</div>
-          </div>
-        </div>
 
         <!-- 注意書き -->
         <div class="blog-notice-card ripple-container">
