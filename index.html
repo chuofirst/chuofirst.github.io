@@ -18,6 +18,19 @@
         <meta property="og:description" content="中央中等生の未来をより良くするために活動する政治団体">
         <meta property="og:image" content="ChuoFirst.png">
         <meta property="og:type" content="website">
+        <!-- チラ見え防止: 初期状態でコンテンツを完全に隠す -->
+        <style>
+          body {
+            visibility: hidden !important;
+            opacity: 0 !important;
+          }
+    
+          body.authorized {
+            visibility: visible !important;
+            opacity: 1 !important;
+            transition: opacity 0.3s ease;
+          }
+        </style>
     </head>
     <body>
         <!-- ヘッダー -->
