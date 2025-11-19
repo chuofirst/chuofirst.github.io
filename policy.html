@@ -11,8 +11,6 @@
   <script src="head_foot_components.js" defer></script>
   <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
   <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
-  <style>body{visibility:hidden!important}</style>
-
   
   <meta property="og:title" content="政策 - 中央中等生ファーストの会">
   <meta property="og:description" content="中央中等生ファーストの会の政策">
@@ -52,26 +50,5 @@
   <script type="module" src="auth.js"></script>
   <script src="animations.js"></script>
   
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const overlay = document.getElementById('overlay');
-
-    menuToggle.addEventListener('click', () => {
-      const isOpen = navMenu.classList.toggle('active');
-      overlay.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isOpen);
-      menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
-    });
-
-    overlay.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      overlay.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'メニューを開く');
-    });
-  </script>
 </body>
 </html>
