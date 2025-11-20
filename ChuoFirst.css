@@ -35,7 +35,7 @@ body {
   background-color: var(--primary-color);
 }
 
-.visually-hidden {
+.visually-hidden 
   position: absolute;
   width: 1px;
   height: 1px;
@@ -2258,8 +2258,9 @@ footer::before {
   box-shadow: var(--shadow-medium);
   transition: all 0.4s ease;
   cursor: pointer;
-  width: 100%;
-  max-width: 480px; 
+  width: auto;
+  max-width: 480px;
+  display: inline-block;
 }
 
 .poster-item:hover {
@@ -2268,13 +2269,13 @@ footer::before {
 }
 
 .poster-image-wrapper {
-  width: 100%;
+  width: auto;
   max-height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
-  padding: 30px;
+  padding: 0;
 }
 
 .poster-gallery-image {
