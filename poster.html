@@ -114,7 +114,8 @@
   
   <script type="module" src="auth.js"></script>
   <script src="animations.js"></script>
-  
+
+    <!-- 背景グラデーション（上だけ #ff9933 固定） -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // 暖色系（オレンジ寄り）のランダム色をHSLで生成
@@ -142,30 +143,34 @@
       console.log('使われたグラデーション:', colors);
     });
   </script>
+
+  <!-- ポスターカードのスクロール出現アニメーション -->
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const item = document.querySelector('.poster-gallery .poster-item'); 
-    // 横に1枚だけ並べている場合、1要素だけ取得
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('scroll-appear');
-          observer.unobserve(entry.target);
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+      // ポスターギャラリー内のカード全部
+      const items = document.querySelectorAll('.poster-gallery .poster-item');
+
+      if (!items.length) return;
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // ここで in-view を付ける！（scroll-appear は最初からHTMLに付いてる）
+            entry.target.classList.add('in-view');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3
       });
-    }, {
-      threshold: 0.3
+
+      items.forEach(item => observer.observe(item));
     });
-    
-    if (item) {
-      observer.observe(item);
-    }
-  });
   </script>
 
 </body>
 </html>
+
 
 
 
