@@ -139,29 +139,28 @@
   </script>
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // 暖色系のランダム色をHSLで生成（赤〜黄色、薄くて明るい色）
+    // 暖色系（オレンジ寄り）のランダム色をHSLで生成
     function randomWarmColor() {
-      const hue = Math.floor(Math.random() * 61);             // 赤～黄の色相：0〜60
-      const saturation = Math.floor(50 + Math.random() * 31); // 彩度：50〜80%
-      const lightness = Math.floor(70 + Math.random() * 21);  // 明度：70〜90%
+      const hue = Math.floor(15 + Math.random() * 31);        // 15〜45°ぐらい（オレンジ〜黄寄り）
+      const saturation = Math.floor(50 + Math.random() * 31); // 彩度 50〜80%
+      const lightness = Math.floor(70 + Math.random() * 21);  // 明度 70〜90%（薄めで邪魔しない）
       return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
     }
 
     // 5色の暖色をランダム生成
     const colors = Array.from({ length: 5 }, () => randomWarmColor());
 
-    // body に線形グラデーションを適用（上→下、5色グラデーション）
+    // body に線形グラデーション（上→下の5色）を適用
     document.body.style.backgroundImage = `linear-gradient(to bottom, ${colors.join(', ')})`;
     document.body.style.backgroundAttachment = 'scroll';
     document.body.style.backgroundRepeat = 'no-repeat';
 
-    // デバッグ用（どんな色が選ばれているか確認したいとき）
     console.log('使われたグラデーション:', colors);
   });
 </script>
-
 </body>
 </html>
+
 
 
 
