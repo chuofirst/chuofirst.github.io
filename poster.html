@@ -138,30 +138,31 @@
     });
   </script>
   <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // 暖色系（オレンジ寄り）のランダム色をHSLで生成
-    function randomWarmColor() {
-      const hue = Math.floor(15 + Math.random() * 31);        // 15〜45°ぐらい（オレンジ〜黄寄り）
-      const saturation = Math.floor(50 + Math.random() * 31); // 彩度 50〜80%
-      const lightness = Math.floor(70 + Math.random() * 21);  // 明度 70〜90%（薄めで邪魔しない）
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+      // 暖色系（オレンジ寄り）のランダム色をHSLで生成
+      function randomWarmColor() {
+        const hue = Math.floor(15 + Math.random() * 31);        // 15〜45°（オレンジ〜黄寄り）
+        const saturation = Math.floor(50 + Math.random() * 31); // 彩度 50〜80%
+        const lightness = Math.floor(70 + Math.random() * 21);  // 明度 70〜90%（薄め）
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+      }
 
-    // 5色の暖色をランダム生成
-    const colors = Array.from({ length: 5 }, () => randomWarmColor());
+      // 一番上は固定カラー #ff9933
+      const fixedTop = '#ff9933';
 
-    // body に線形グラデーション（上→下の5色）を適用
-    document.body.style.backgroundImage = `linear-gradient(to bottom, ${colors.join(', ')})`;
-    document.body.style.backgroundAttachment = 'scroll';
-    document.body.style.backgroundRepeat = 'no-repeat';
+      // 残り4色をランダム生成
+      const randomColors = Array.from({ length: 4 }, () => randomWarmColor());
 
-    console.log('使われたグラデーション:', colors);
-  });
-</script>
+      // 先頭に固定色を置いて、合計5色に
+      const colors = [fixedTop, ...randomColors];
+
+      // body に線形グラデーション（上→下の5色）を適用
+      document.body.style.backgroundImage = `linear-gradient(to bottom, ${colors.join(', ')})`;
+      document.body.style.backgroundAttachment = 'scroll';
+      document.body.style.backgroundRepeat = 'no-repeat';
+
+      console.log('使われたグラデーション:', colors);
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
