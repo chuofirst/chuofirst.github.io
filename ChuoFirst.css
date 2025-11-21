@@ -2264,7 +2264,7 @@ footer::before {
 }
 
 .poster-item:hover {
-  transform: translateY(-10px);
+  --card-offset: -10px; /* ここでオフセットだけ変える */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
@@ -2368,11 +2368,11 @@ html, body {
   }
 }
 
-.poster-item.scroll-appear {
+/* .poster-item.scroll-appear {
   opacity: 0;
   transform: translateY(40px);
   animation: slideUpFade 0.8s ease-out forwards;
-}
+} */
 
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
@@ -3023,4 +3023,67 @@ html, body {
 .scroll-appear.in-view {   /* 出現した時付くクラス */
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ==== ポスターカード：スクロール連動3Dアニメーション ==== */
+
+/* カスタムプロパティ宣言 */
+@property --card-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --card-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --card-offset {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* 基本状態：transformはここで一括管理 */
+.poster-gallery .poster-item {
+  --card-scale: 1;
+  --card-angle: 0deg;
+  --card-offset: 0px;
+
+  transform-origin: center;
+  transform: translateY(var(--card-offset)) 
+             scale(var(--card-scale)) 
+             rotateX(var(--card-angle));
+
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* スクロールに合わせて、上・下で少し遠近感をつける */
+@keyframes card-shrink-top {
+  0% {
+    --card-scale: 0.8;
+    --card-angle: -40deg;
+    transform-origin: top center;
+  }
+}
+
+@keyframes card-shrink-bottom {
+  0% {
+    --card-scale: 0.8;
+    --card-angle: 40deg;
+    transform-origin: bottom center;
+  }
+}
+
+/* 対応ブラウザでは view() タイムラインを使う */
+@supports (animation-timeline: view()) {
+  .poster-gallery .poster-item {
+    animation: card-shrink-top both ease-in-out,
+               card-shrink-bottom both ease-in-out reverse;
+    animation-timeline: view(block);
+    animation-range: entry, exit;
+  }
 }
