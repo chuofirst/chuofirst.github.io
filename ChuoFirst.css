@@ -2348,6 +2348,21 @@ footer::before {
   transform: translateX(5px);
 }
 
+.poster-page-hero {
+  background: none !important;
+  position: relative;
+}
+.poster-page-hero::before {
+  content: none !important;
+}
+.poster-gallery {
+  background: none !important;
+}
+html, body {
+  min-height: 100%;
+}
+
+
 /* レスポンシブ対応 */
 @media (max-width: 900px) {
   .poster-gallery-container {
