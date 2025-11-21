@@ -3052,12 +3052,16 @@ html, body {
   perspective: 4000px;
 }
 
+.poster-gallery {
+  perspective: 4000px;
+}
+
 /* ポスターカード本体：CodePen の article 相当 */
 .poster-gallery .poster-item {
-  item-scale: 1;
-  item-angle: 0deg;
-  deg: 0.8deg; /* ちょい斜め */
-  y: 0;
+  --item-scale: 1;
+  --item-angle: 0deg;
+  --deg: 0.8deg; /* ちょい斜め */
+  --y: 0;
 
   transform-origin: center;
   transform:
@@ -3069,7 +3073,6 @@ html, body {
   will-change: transform;
   transform-style: preserve-3d;
 
-  /* もとの transition: all 0.4s ease; があるけど、 transform 用に少しキビキビさせる */
   transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
 }
 
@@ -3091,29 +3094,25 @@ html, body {
 }
 
 .poster-gallery .poster-item:nth-child(2n) {
-  deg: -0.8deg;
+  --deg: -0.8deg;
 }
 
 .poster-gallery .poster-item:nth-child(2n + 1) {
-  deg: -0.6deg;
+  --deg: -0.6deg;
 }
 
 .poster-gallery .poster-item:nth-child(3n) {
-  deg: 0.6deg;
+  --deg: 0.6deg;
 }
 
 .poster-gallery .poster-item:nth-child(4n + 2) {
-  deg: -0.75deg;
+  --deg: -0.75deg;
 }
 
 .poster-gallery .poster-item:nth-child(5n) {
-  deg: 0.25deg;
+  --deg: 0.25deg;
 }
 
 .poster-gallery .poster-item:nth-child(6n + 3) {
-  deg: -0.3deg;
-}
-
-.poster-gallery .poster-item:nth-child(7n) {
-  deg: 0.9deg;
+  --deg: -0.3deg;
 }
