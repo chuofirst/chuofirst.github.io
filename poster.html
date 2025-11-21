@@ -27,7 +27,7 @@
 
   
   <main class="poster-page">
-    <section class="poster-page-hero bg-anim-gradient">
+    <section class="poster-page-hero">
       <div class="poster-page-hero-content">
         <h1 class="poster-page-title">ポスターギャラリー</h1>
         <p class="poster-page-subtitle">中央中等生ファーストの会の活動を紹介するポスター集</p>
@@ -136,7 +136,31 @@
     document.querySelectorAll('.scroll-fade-in').forEach((element) => {
       observer.observe(element);
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // 暖色系のランダム色をHSLで生成（赤〜黄色、薄くて明るい色）
+      function randomWarmColor() {
+        const hue = Math.floor(Math.random() * 61);             // 赤～黄の色相：0〜60
+        const saturation = Math.floor(50 + Math.random() * 31); // 彩度：50〜80%
+        const lightness = Math.floor(70 + Math.random() * 21);  // 明度：70〜90%
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+      }
+
+      // 上下の2色をランダムに生成
+      const colorTop = randomWarmColor();
+      const colorBottom = randomWarmColor();
+
+      // body に線形グラデーションを適用（上→下）
+      document.body.style.backgroundImage = `linear-gradient(to bottom, ${colorTop}, ${colorBottom})`;
+      document.body.style.backgroundAttachment = 'scroll';  // スクロールに追従させる
+      document.body.style.backgroundRepeat = 'no-repeat';
+
+      // デバッグ用に色をログに表示
+      console.log('使われたグラデーション:', colorTop, '→', colorBottom);
+    });
   </script>
 </body>
 </html>
+
 
