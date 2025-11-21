@@ -358,6 +358,17 @@ function checkAuth() {
     localStorage.setItem('user_email', savedEmail);
     localStorage.setItem('user_can_blog', canBlog ? '1' : '0');
 
+    // いま開いているページが blog.html かどうかを判定
+    const path = window.location.pathname || '';
+    const isBlogPage = path.endsWith('/blog.html') || path.endsWith('blog.html');
+
+    // blog.html なのに blog 権限がない人 → 中身を見せずに即リダイレクト
+    if (isBlogPage && !canBlog) {
+      window.location.replace('cantsee.html');
+      return;
+    }
+
+    // それ以外 → 普通にコンテンツ表示
     showDecryptedContent();
     return;
   }
@@ -369,6 +380,7 @@ function checkAuth() {
 
   showLoginScreen();
 }
+
 
 
 // ========================================
