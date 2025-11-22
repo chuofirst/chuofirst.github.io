@@ -3016,13 +3016,13 @@ html, body {
 }
 
 .poster-gallery {
-  perspective: 4000px;  /* 900px → 4000px に変更 */
-  perspective-origin: center center;  /* center 60vh → center center に変更 */
+  perspective: 4000px;
+  perspective-origin: center center;
 }
 
 .poster-gallery .poster-item {
   backface-visibility: visible;
   transform-style: preserve-3d;
   will-change: transform;
-  transition: all 0.3s ease;  /* このままでOK */
+  transition: transform 0.1s ease-out, box-shadow 0.3s ease;  /* transformだけ短く */
 }
