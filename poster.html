@@ -143,75 +143,66 @@
       console.log('使われたグラデーション:', colors);
     });
   </script>
-  <!-- ポスターのスクロール3Dアニメ -->
-    <!-- ポスターのスクロール3Dアニメ（直方体の面っぽく） -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.poster-gallery .poster-item');
+<!-- ポスターのスクロール3Dアニメ（立体強化版） -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.poster-gallery .poster-item');
 
-      function updateCards() {
-        const vh = window.innerHeight;
-        const focalY = vh * 0.6;   // ★ 正面で見せたい高さ（画面のちょい下）
+  function updateCards() {
+    const vh = window.innerHeight;
+    const focalY = vh * 0.6;   // 正面位置（画面の少し下）
 
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const center = rect.top + rect.height / 2;
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
 
-          // focalY を基準に -1 ～ 1 に正規化
-          const tRaw = (center - focalY) / (vh * 0.5);
-          const t = Math.max(-1, Math.min(1, tRaw));  // -1 上 / 0 正面 / 1 下
+      // -1（上）～ 0（正面）～ 1（下）
+      const tRaw = (center - focalY) / (vh * 0.5);
+      const t = Math.max(-1, Math.min(1, tRaw));
 
-          const maxTilt = 55;     // 上下の回転角（共通）
-          const maxZ = 200;       // 奥行き方向の移動量
-          const edgeAmount = 0.2; // 上下の「つぶれ」量（0.2 = 最大20%縦縮み）
+      const maxTilt = 55;
+      const maxZ = 220;
 
-          // 角度と軸
-          let angle;
-          if (t > 0.1) {
-            // 画面の下側：下面からグイっと出てくる
-            angle = t * maxTilt;
-            card.style.transformOrigin = 'center bottom';
-          } else if (t < -0.1) {
-            // 画面の上側：上面に回り込んでいく
-            angle = t * maxTilt;
-            card.style.transformOrigin = 'center top';
-          } else {
-            // 正面あたり
-            angle = 0;
-            card.style.transformOrigin = 'center center';
-          }
-
-          // 奥行き：t > 0 で手前、t < 0 で奥
-          const z = -t * maxZ;
-
-          // 縦方向だけの縮み
-          //   中央(t≈0) → 1.0（つぶれなし）
-          //   上下(t≈±1) → 1 - edgeAmount（少し縦短く）
-          let edgeScale;
-          if (Math.abs(t) < 0.1) {
-            edgeScale = 1;
-          } else {
-            edgeScale = 1 - edgeAmount * Math.min(1, Math.abs(t));
-          }
-
-          // ★ ここで直接 transform を書く（CSS変数は使わない）
-          card.style.transform = `
-            translateZ(${z}px)
-            rotateX(${angle}deg)
-            scaleY(${edgeScale})
-            scaleX(${1 - 0.25 * Math.abs(t)})
-          `;
-        });
+      // 角度
+      let angle;
+      if (t > 0.1) {
+        angle = t * maxTilt;
+        card.style.transformOrigin = 'center bottom';
+      } else if (t < -0.1) {
+        angle = t * maxTilt;
+        card.style.transformOrigin = 'center top';
+      } else {
+        angle = 0;
+        card.style.transformOrigin = 'center center';
       }
 
-      updateCards();                  // 初期描画
-      window.addEventListener('scroll', updateCards);
-      window.addEventListener('resize', updateCards);
+      // 奥行き
+      const z = -t * maxZ;
+
+      // ★ 上下で急激に潰すカーブ（超重要）
+      const squash = Math.pow(Math.abs(t), 1.5); // ←これが効き方を急にする
+      const scaleY = 1 - 0.45 * squash;          // 上下方向つぶれ量
+      const scaleX = 1 - 0.55 * squash;          // 横方向つぶれ量
+
+      // ★ 直接transformを上書き（CSS変数使わない）
+      card.style.transform = `
+        translateZ(${z}px)
+        rotateX(${angle}deg)
+        scale(${scaleX}, ${scaleY})
+      `;
     });
-  </script>
+  }
+
+  updateCards();
+  window.addEventListener('scroll', updateCards);
+  window.addEventListener('resize', updateCards);
+});
+</script>
+
 
 </body>
 </html>
+
 
 
 
