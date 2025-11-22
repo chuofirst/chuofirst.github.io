@@ -150,44 +150,45 @@
 
       function updateCards() {
         const vh = window.innerHeight;
+        const focalY = vh * 0.6;   // ★ ここが「正面で見せたい高さ」：画面の60%あたり
 
         cards.forEach(card => {
           const rect = card.getBoundingClientRect();
           const center = rect.top + rect.height / 2;
 
-          // 画面中央からの距離を -1 ～ 1 に正規化
-          const tRaw = (center - vh / 2) / (vh / 2);
-          const t = Math.max(-1, Math.min(1, tRaw));  // -1 (かなり上) ～ 1 (かなり下)
+          // 画面中央じゃなくて「focalY」を基準に -1〜1 に正規化
+          const tRaw = (center - focalY) / (vh * 0.5);
+          const t = Math.max(-1, Math.min(1, tRaw));  // -1 (だいぶ上) ～ 1 (だいぶ下)
 
-          const maxTiltTop = 60;     // 上側での回転角
-          const maxTiltBottom = 80;  // 下側での回転角（ちょい強め）
-          const minScale = 0.85;     // 上下でどれくらい小さくするか
-          const maxZ = 250;          // 奥行き方向の移動量（px）
+          const maxTiltTop = 55;     // 上側の回転角（少しだけ弱め）
+          const maxTiltBottom = 75;  // 下側の回転角（下面から出てくる感を強め）
+          const minScale = 0.9;      // サイズ変化は控えめに（ほぼ1倍）
+          const maxZ = 220;          // 奥行き方向の移動量
 
-          // 角度：
-          //  t > 0（画面の下側）  → 正の角度 = 下辺が手前に倒れてくる（下面っぽい）
-          //  t < 0（画面の上側）  → 負の角度 = 上辺が手前に倒れていく（上面っぽい）
+          // 角度と軸の切り替え
           let angle;
-          if (t > 0) {
+          if (t > 0.1) {
+            // 画面の下側：下面からグイっと出てくる
             angle = t * maxTiltBottom;
             card.style.transformOrigin = 'center bottom';
-          } else if (t < 0) {
+          } else if (t < -0.1) {
+            // 画面の上側：上面に回り込んでいく
             angle = t * maxTiltTop;
             card.style.transformOrigin = 'center top';
           } else {
+            // 正面付近：まっすぐ
             angle = 0;
             card.style.transformOrigin = 'center center';
           }
 
-          // スケール：中央で1、上下で minScale に近づく
+          // スケール：あまり変えすぎない（奥行き感の補助程度）
           const scale = 1 - (1 - minScale) * Math.abs(t);
 
           // Z方向：
-          //  t > 0（下側） → 手前（+Z）
-          //  t < 0（上側） → 奥（-Z）
+          //  t > 0（下側） → 手前に出てくる
+          //  t < 0（上側） → 奥に引っ込む
           const z = -t * maxZ;
 
-          // CSSカスタムプロパティに反映
           card.style.setProperty('--poster-scale', scale.toFixed(3));
           card.style.setProperty('--poster-angle', angle.toFixed(1) + 'deg');
           card.style.setProperty('--poster-z', z.toFixed(0) + 'px');
@@ -200,8 +201,10 @@
     });
   </script>
 
+
 </body>
 </html>
+
 
 
 
