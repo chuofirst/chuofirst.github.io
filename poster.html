@@ -150,46 +150,58 @@
 
     function updateCards() {
       const vh = window.innerHeight;
-      const focalY = vh * 0.6;   // 正面にしたい高さ（ここは今のままでOK）
+      const focalY = vh * 0.6;   // 正面にしたい高さ
 
       cards.forEach(card => {
         const rect = card.getBoundingClientRect();
         const center = rect.top + rect.height / 2;
 
-        // 画面中央じゃなくて「focalY」を基準に -1〜1 に正規化
+        // 画面の 60% を基準に -1 ～ 1 に正規化
         const tRaw = (center - focalY) / (vh * 0.5);
-        const t = Math.max(-1, Math.min(1, tRaw));  // -1 (だいぶ上) ～ 1 (だいぶ下)
+        const t = Math.max(-1, Math.min(1, tRaw));
 
-        // ★ ここを書き換える：上下で同じ振り幅にして、全体ちょいゆっくり
-        const maxTilt = 55;     // 上下共通の回転角
-        const minScale = 0.9;   // サイズ変化は控えめのまま
-        const maxZ = 200;       // Z方向の移動も少しだけ抑える
+        const maxTilt = 55;
+        const minScale = 0.9;
+        const maxZ = 200;
 
         // 角度と軸
         let angle;
         if (t > 0.1) {
-          // 下側：下面から起き上がる
-          angle = t * maxTilt;             // ★ 上と同じ maxTilt を使う
+          // 下側にいる → 下面から出てくる
+          angle = t * maxTilt;
           card.style.transformOrigin = 'center bottom';
         } else if (t < -0.1) {
-          // 上側：上面に回り込む
-          angle = t * maxTilt;             // ★ ここも同じ
+          // 上側にいる → 上面に回り込む
+          angle = t * maxTilt;
           card.style.transformOrigin = 'center top';
         } else {
-          // 正面
           angle = 0;
           card.style.transformOrigin = 'center center';
         }
 
-        // スケール：中央1、上下で minScale
+        // 全体スケール：ほぼ一定（奥行き補助程度）
         const scale = 1 - (1 - minScale) * Math.abs(t);
 
         // Z方向：t > 0 で手前、t < 0 で奥
         const z = -t * maxZ;
 
+        // ★ 縦方向だけの縮み：
+        //   t が大きいほど（上 or 下に離れるほど）上下どちらかの辺が潰れて見えるようにする
+        //   中央 t ≒ 0 → 1.0（＝縮まない）
+        //   端 t ≒ ±1 → 0.85（＝少し縦短く）
+        const edgeScaleAmount = 0.15;  // 縮みの強さ（0.15 = 最大で15%縮む）
+
+        let edgeScale;
+        if (Math.abs(t) < 0.1) {
+          edgeScale = 1; // 正面付近は縦スケールしない
+        } else {
+          edgeScale = 1 - edgeScaleAmount * Math.min(1, Math.abs(t));
+        }
+
         card.style.setProperty('--poster-scale', scale.toFixed(3));
         card.style.setProperty('--poster-angle', angle.toFixed(1) + 'deg');
         card.style.setProperty('--poster-z', z.toFixed(0) + 'px');
+        card.style.setProperty('--poster-scale-edge', edgeScale.toFixed(3));
       });
     }
 
@@ -203,6 +215,7 @@
 
 </body>
 </html>
+
 
 
 
