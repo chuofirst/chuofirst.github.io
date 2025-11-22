@@ -3019,7 +3019,7 @@ html, body {
 /* ==== ポスター用 3D スクロールアニメ（JS用の器） ==== */
 
 .poster-gallery {
-  perspective: 1200px;  /* 奥行き感 */
+  perspective: 900px;  /* 奥行き感 */
   perspective-origin: center 60vh;
 }
 
