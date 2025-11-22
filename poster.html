@@ -158,8 +158,9 @@
         const distanceFromCenter = (cardCenter - viewportHeight / 2) / (viewportHeight / 2);
         const t = Math.max(-1, Math.min(1, distanceFromCenter));  // -1 (だいぶ上) ～ 1 (だいぶ下)
 
-        const maxTilt = 60;     // 上下でどれだけ回転させるか（度）
-        const minScale = 0.85;   // 上下でどれくらい小さくするか
+        const maxTilt = 75;      // 上下でどれだけ回転させるか（度）
+        const minScale = 0.8;    // 上下でどれくらい小さくするか
+        const maxZ = 200;        // 奥行き方向の移動量（px）
 
         // スケール：中央で1、上下に行くほど少し小さく
         const scale = 1 - (1 - minScale) * Math.abs(t);
@@ -169,8 +170,14 @@
         //   t < 0（画面の上側）  → 負の角度 = 上側が手前に倒れていく（上面に貼ってある感じ）
         const angle = t * maxTilt;
 
+        // Z方向の位置：
+        //   t > 0（下側） → 手前に出てくる
+        //   t < 0（上側） → 奥に引っ込む
+        const z = -t * maxZ;
+
         card.style.setProperty('--item-scale', scale.toFixed(3));
         card.style.setProperty('--item-angle', angle.toFixed(1) + 'deg');
+        card.style.setProperty('--item-z', z.toFixed(0) + 'px');
       });
     }
 
@@ -180,10 +187,9 @@
   });
 </script>
 
-
-
 </body>
 </html>
+
 
 
 
