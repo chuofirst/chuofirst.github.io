@@ -143,52 +143,66 @@
       console.log('使われたグラデーション:', colors);
     });
   </script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.poster-gallery .poster-item');
+    <!-- ポスターのスクロール3Dアニメ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.poster-gallery .poster-item');
 
-    function updateCards() {
-      const viewportHeight = window.innerHeight;
+      function updateCards() {
+        const vh = window.innerHeight;
 
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const cardCenter = rect.top + rect.height / 2;
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
 
-        // 画面中央からの距離を -1 ～ 1 に正規化
-        const distanceFromCenter = (cardCenter - viewportHeight / 2) / (viewportHeight / 2);
-        const t = Math.max(-1, Math.min(1, distanceFromCenter));  // -1 (だいぶ上) ～ 1 (だいぶ下)
+          // 画面中央からの距離を -1 ～ 1 に正規化
+          const tRaw = (center - vh / 2) / (vh / 2);
+          const t = Math.max(-1, Math.min(1, tRaw));  // -1 (かなり上) ～ 1 (かなり下)
 
-        const maxTilt = 75;      // 上下でどれだけ回転させるか（度）
-        const minScale = 0.8;    // 上下でどれくらい小さくするか
-        const maxZ = 200;        // 奥行き方向の移動量（px）
+          const maxTiltTop = 60;     // 上側での回転角
+          const maxTiltBottom = 80;  // 下側での回転角（ちょい強め）
+          const minScale = 0.85;     // 上下でどれくらい小さくするか
+          const maxZ = 250;          // 奥行き方向の移動量（px）
 
-        // スケール：中央で1、上下に行くほど少し小さく
-        const scale = 1 - (1 - minScale) * Math.abs(t);
+          // 角度：
+          //  t > 0（画面の下側）  → 正の角度 = 下辺が手前に倒れてくる（下面っぽい）
+          //  t < 0（画面の上側）  → 負の角度 = 上辺が手前に倒れていく（上面っぽい）
+          let angle;
+          if (t > 0) {
+            angle = t * maxTiltBottom;
+            card.style.transformOrigin = 'center bottom';
+          } else if (t < 0) {
+            angle = t * maxTiltTop;
+            card.style.transformOrigin = 'center top';
+          } else {
+            angle = 0;
+            card.style.transformOrigin = 'center center';
+          }
 
-        // 角度：
-        //   t > 0（画面の下側）  → 正の角度 = 下側が手前に倒れてくる（下面から現れる）
-        //   t < 0（画面の上側）  → 負の角度 = 上側が手前に倒れていく（上面に貼ってある感じ）
-        const angle = t * maxTilt;
+          // スケール：中央で1、上下で minScale に近づく
+          const scale = 1 - (1 - minScale) * Math.abs(t);
 
-        // Z方向の位置：
-        //   t > 0（下側） → 手前に出てくる
-        //   t < 0（上側） → 奥に引っ込む
-        const z = -t * maxZ;
+          // Z方向：
+          //  t > 0（下側） → 手前（+Z）
+          //  t < 0（上側） → 奥（-Z）
+          const z = -t * maxZ;
 
-        card.style.setProperty('--item-scale', scale.toFixed(3));
-        card.style.setProperty('--item-angle', angle.toFixed(1) + 'deg');
-        card.style.setProperty('--item-z', z.toFixed(0) + 'px');
-      });
-    }
+          // CSSカスタムプロパティに反映
+          card.style.setProperty('--poster-scale', scale.toFixed(3));
+          card.style.setProperty('--poster-angle', angle.toFixed(1) + 'deg');
+          card.style.setProperty('--poster-z', z.toFixed(0) + 'px');
+        });
+      }
 
-    updateCards(); // 初期描画
-    window.addEventListener('scroll', updateCards);
-    window.addEventListener('resize', updateCards);
-  });
-</script>
+      updateCards();                  // 初期描画
+      window.addEventListener('scroll', updateCards);
+      window.addEventListener('resize', updateCards);
+    });
+  </script>
 
 </body>
 </html>
+
 
 
 
