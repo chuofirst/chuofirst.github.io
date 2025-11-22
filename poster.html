@@ -162,9 +162,56 @@
       console.log('使われたグラデーション:', colors);
     });
   </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.poster-item');
+  
+  if (items.length === 0) return;
+
+  function updateItems() {
+    const viewportHeight = window.innerHeight;
+    
+    items.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      const itemTop = rect.top;
+      const itemBottom = rect.bottom;
+      const itemCenter = itemTop + rect.height / 2;
+      
+      // 画面内の位置を0-1で計算
+      let progress;
+      
+      if (itemCenter < viewportHeight / 2) {
+        // 画面上半分（上から入ってくる）
+        progress = itemBottom / viewportHeight;
+        const angle = -60 + (progress * 60); // -60deg → 0deg
+        const scale = 0.5 + (progress * 0.5); // 0.5 → 1
+        const opacity = Math.min(scale, 0.8);
+        
+        item.style.transform = `scale(${scale}) rotateX(${angle}deg)`;
+        item.style.opacity = opacity;
+      } else {
+        // 画面下半分（下から入ってくる）
+        progress = 1 - (itemTop / viewportHeight);
+        const angle = 60 - (progress * 60); // 60deg → 0deg
+        const scale = 0.5 + (progress * 0.5); // 0.5 → 1
+        const opacity = Math.min(scale, 0.8);
+        
+        item.style.transform = `scale(${scale}) rotateX(${angle}deg)`;
+        item.style.opacity = opacity;
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateItems, { passive: true });
+  window.addEventListener('resize', updateItems);
+  
+  updateItems();
+});
+</script>
 
 </body>
 </html>
+
 
 
 
