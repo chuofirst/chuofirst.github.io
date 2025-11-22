@@ -3016,86 +3016,15 @@ html, body {
 }
 
 
-/* ==== ポスター用スクロール3Dアニメ（JS連動版） ==== */
+/* ==== ポスター用 3D スクロールアニメ（JS用の器） ==== */
 
-/* カスタムプロパティ宣言（この3つを JS から書き換える） */
-@property --poster-scale {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
-
-@property --poster-angle {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
-
-@property --poster-z {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: 0px;
-}
-
-@property --poster-scale-edge {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
-
-/* ポスターセクションに遠近感を付ける */
 .poster-gallery {
-  perspective: 900px;  /* 小さいほど奥行きが強く見える */
+  perspective: 900px;  /* 奥行き感 */
 }
 
 .poster-gallery .poster-item {
-  /* 原点は JS からも上書きするけど、デフォルトは中央 */
-  transform-origin: center center;
-
-  /* Z方向 → X回転 → スケール の順でかける */
-  transform:
-    translateZ(var(--poster-z))
-    rotateX(var(--poster-angle))
-    scale(var(--poster-scale));
-    scaleY(var(--poster-scale-edge));
-
   transform-style: preserve-3d;
   will-change: transform;
+  /* バウンスしないように transform には transition かけない */
   transition: box-shadow 0.3s ease;
 }
-
-/* ホバー時：少しだけ浮かせる（箱の手前に来る感じ） */
-.poster-gallery .poster-item:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-}
-
-/* ブラウザが animation-timeline:view() をサポートしているときだけ有効化 */
-@supports (animation-timeline: view()) {
-  .poster-gallery .poster-item {
-    animation: shrink-top both ease-in-out,
-               shrink-bottom both ease-in-out reverse;
-    animation-timeline: view(block);
-    animation-range: entry, exit;
-  }
-}
-
-/* ちょいランダムな傾き */
-.poster-gallery .poster-item:nth-child(2n) {
-  --deg: -0.8deg;
-}
-.poster-gallery .poster-item:nth-child(2n + 1) {
-  --deg: -0.6deg;
-}
-.poster-gallery .poster-item:nth-child(3n) {
-  --deg: 0.6deg;
-}
-.poster-gallery .poster-item:nth-child(4n + 2) {
-  --deg: -0.75deg;
-}
-.poster-gallery .poster-item:nth-child(5n) {
-  --deg: 0.25deg;
-}
-.poster-gallery .poster-item:nth-child(6n + 3) {
-  --deg: -0.3deg;
-}
-
