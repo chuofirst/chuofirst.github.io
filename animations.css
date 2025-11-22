@@ -317,8 +317,7 @@
 }
 
 .poster-gallery .poster-item:hover {
-  transform: translateY(-10px) scale(1.05) !important;
-  transform-origin: center center !important;
+  transform: scale(1.05) translateY(-10px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
