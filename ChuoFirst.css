@@ -3015,7 +3015,8 @@ html, body {
   }
 }
 
-/* ==== CodePen の 3D カード動き移植版 ==== */
+
+/* ==== ポスター：スクロール連動 3D カード（CodePen ベース） ==== */
 
 /* カスタムプロパティ宣言（スケールと角度） */
 @property --item-scale {
@@ -3052,10 +3053,6 @@ html, body {
   perspective: 4000px;
 }
 
-.poster-gallery {
-  perspective: 4000px;
-}
-
 /* ポスターカード本体：CodePen の article 相当 */
 .poster-gallery .poster-item {
   --item-scale: 1;
@@ -3073,14 +3070,14 @@ html, body {
   will-change: transform;
   transform-style: preserve-3d;
 
-  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  /* 動きが分かりやすいように少しキビキビめ */
+  transition: transform 0.25s ease-out, box-shadow 0.3s ease;
 }
 
-/* ホバー時：CodePen と同じで「まっすぐ＋ちょい浮く」だけ変える */
+/* ホバー時：まっすぐ＋少し持ち上がる */
 .poster-gallery .poster-item:hover {
   --deg: 0deg;
   --y: -1.25ch;
-  /* box-shadow は既存の指定を活かすならそのまま / ここに書いてもOK */
 }
 
 /* ブラウザが animation-timeline:view() をサポートしているときだけ有効化 */
@@ -3093,6 +3090,7 @@ html, body {
   }
 }
 
+/* ちょっとだけランダムに傾ける（CodePen の utilities 相当） */
 .poster-gallery .poster-item:nth-child(2n) {
   --deg: -0.8deg;
 }
@@ -3115,4 +3113,8 @@ html, body {
 
 .poster-gallery .poster-item:nth-child(6n + 3) {
   --deg: -0.3deg;
+}
+
+.poster-gallery .poster-item:nth-child(7n) {
+  --deg: 0.9deg;
 }
