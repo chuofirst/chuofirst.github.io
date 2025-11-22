@@ -165,51 +165,25 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const items = document.querySelectorAll('.poster-item');
-  if (items.length === 0) return;
-
-  function updateItems() {
-    items.forEach((item) => {
-      const rect = item.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // entry progress (下から上へ0→1)
-      const entryProgress = Math.max(0, Math.min(1, 
-        (windowHeight - rect.top) / windowHeight
-      ));
-      
-      // exit progress (上から下へ0→1)  
-      const exitProgress = Math.max(0, Math.min(1,
-        rect.bottom / windowHeight
-      ));
-      
-      // 下から入る時
-      if (rect.top > windowHeight / 2) {
-        const progress = entryProgress;
-        const scale = 0.5 + (0.5 * progress);
-        const angle = 60 - (60 * progress);
-        
-        item.style.transformOrigin = 'bottom';
-        item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
-      }
-      // 上に抜ける時
-      else {
-        const progress = exitProgress;
-        const scale = 0.5 + (0.5 * progress);
-        const angle = -60 + (60 * progress);
-        
-        item.style.transformOrigin = 'top';
-        item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
       }
     });
-  }
-
-  window.addEventListener('scroll', updateItems, { passive: true });
-  updateItems();
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px'
+  });
+  
+  items.forEach(item => observer.observe(item));
 });
 </script>
   
 </body>
 </html>
+
 
 
 
