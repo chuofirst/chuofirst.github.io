@@ -143,40 +143,49 @@
       console.log('使われたグラデーション:', colors);
     });
   </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.poster-gallery .poster-item');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.poster-gallery .poster-item');
 
-      function updateCards() {
-        const viewportHeight = window.innerHeight;
+    function updateCards() {
+      const viewportHeight = window.innerHeight;
 
-        cards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const cardCenter = rect.top + rect.height / 2;
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
 
-          // 画面の真ん中からの距離（-1 ～ 1 にクランプ）
-          const distanceFromCenter = (cardCenter - viewportHeight / 2) / (viewportHeight / 2);
-          const t = Math.max(-1, Math.min(1, distanceFromCenter));
+        // 画面の真ん中からの距離（-1 ～ 1 に正規化）
+        const distanceFromCenter = (cardCenter - viewportHeight / 2) / (viewportHeight / 2);
+        const t = Math.max(-1, Math.min(1, distanceFromCenter)); // -1〜1にクランプ
 
-          const minScale = 0.5;   // 端っこでどのくらい小さくするか
-          const maxTilt = 60;     // 端っこでの傾き（度）
+        // t = 0 付近（画面中央）で真正面
+        // t > 0（画面の下側にいる時）は手前から起き上がってくる
+        // t < 0（画面の上側にいる時）は奥に倒れて去っていく
 
-          const scale = 1 - (1 - minScale) * Math.abs(t);   // 中央で1、上下で0.5
-          const angle = -t * maxTilt;                       // 上はマイナス、下はプラスに傾く
+        const maxTilt = 80;       // 端っこでの回転角（度）かなりデカめに
+        const minScale = 0.75;    // 端っこでの縮小率（小さくしすぎない）
 
-          card.style.setProperty('--item-scale', scale.toFixed(3));
-          card.style.setProperty('--item-angle', angle.toFixed(1) + 'deg');
-        });
-      }
+        // 中央で scale=1、上下に行くほど minScale に近づく
+        const scale = 1 - (1 - minScale) * Math.abs(t);
 
-      updateCards(); // 初期表示
-      window.addEventListener('scroll', updateCards);
-      window.addEventListener('resize', updateCards);
-    });
-  </script>
+        // 角度：中央0deg、下にいるときは -maxTilt、上にいるときは +maxTilt
+        const angle = -t * maxTilt;
+
+        card.style.setProperty('--item-scale', scale.toFixed(3));
+        card.style.setProperty('--item-angle', angle.toFixed(1) + 'deg');
+      });
+    }
+
+    updateCards(); // 初期表示
+    window.addEventListener('scroll', updateCards);
+    window.addEventListener('resize', updateCards);
+  });
+</script>
+
 
 </body>
 </html>
+
 
 
 
