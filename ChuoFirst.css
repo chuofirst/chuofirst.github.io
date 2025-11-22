@@ -3028,5 +3028,5 @@ html, body {
   transform-style: preserve-3d;
   will-change: transform;
   /* バウンスしないように transform には transition かけない */
-  transition: box-shadow 0.3s ease;
+  /* ransition: box-shadow 0.3s ease; */
 }
