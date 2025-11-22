@@ -3055,7 +3055,7 @@ html, body {
 
   transform-style: preserve-3d;
   will-change: transform;
-  transition: transform 0.25s ease-out, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 /* ホバー時：少しだけ浮かせる（箱の手前に来る感じ） */
