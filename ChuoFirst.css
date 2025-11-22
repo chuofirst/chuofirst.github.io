@@ -3016,77 +3016,80 @@ html, body {
 }
 
 
-/* ==== ポスターカード：スクロール連動3Dアニメーション（JS制御版） ==== */
+/* ==== ポスター用スクロール3Dアニメ（JS連動版） ==== */
 
-/* カスタムプロパティ宣言 */
-@property --item-scale {
+/* カスタムプロパティ宣言（この3つを JS から書き換える） */
+@property --poster-scale {
   syntax: "<number>";
   inherits: true;
   initial-value: 1;
 }
 
-@property --item-angle {
+@property --poster-angle {
   syntax: "<angle>";
   inherits: true;
   initial-value: 0deg;
 }
 
-@property --item-z {
+@property --poster-z {
   syntax: "<length>";
   inherits: true;
   initial-value: 0px;
 }
 
-/* 奥行きを強めにする */
+/* ポスターセクションに遠近感を付ける */
 .poster-gallery {
   perspective: 900px;  /* 小さいほど奥行きが強く見える */
 }
 
-/* ポスターカード本体：回転の軸を中心に */
+/* ポスターカード本体：3D変形はここで管理 */
 .poster-gallery .poster-item {
-  --item-scale: 1;
-  --item-angle: 0deg;  /* JS でガンガン振る角度 */
-  --deg: 0.5deg;
-  --y: 0;
-
-  /* 板の真ん中を支点に回転させる（箱の一面っぽい動きにする） */
+  /* 原点は JS からも上書きするけど、デフォルトは中央 */
   transform-origin: center center;
 
+  /* Z方向 → X回転 → スケール の順でかける */
   transform:
-    translateZ(var(--item-z))
-    rotateX(var(--item-angle))
-    scale(var(--item-scale))
-    rotate(var(--deg));
+    translateZ(var(--poster-z))
+    rotateX(var(--poster-angle))
+    scale(var(--poster-scale));
 
-  will-change: transform;
   transform-style: preserve-3d;
-
-  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
+  transition: transform 0.25s ease-out, box-shadow 0.3s ease;
 }
 
-/* ホバー時：ほんの少しだけ浮かせる（ここは今まで通りでOK） */
+/* ホバー時：少しだけ浮かせる（箱の手前に来る感じ） */
 .poster-gallery .poster-item:hover {
-  --deg: 0deg;
-  --y: -1.25ch;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-/* ランダムっぽい紙の傾き（見た目用） */
+/* ブラウザが animation-timeline:view() をサポートしているときだけ有効化 */
+@supports (animation-timeline: view()) {
+  .poster-gallery .poster-item {
+    animation: shrink-top both ease-in-out,
+               shrink-bottom both ease-in-out reverse;
+    animation-timeline: view(block);
+    animation-range: entry, exit;
+  }
+}
+
+/* ちょいランダムな傾き */
 .poster-gallery .poster-item:nth-child(2n) {
   --deg: -0.8deg;
 }
-
+.poster-gallery .poster-item:nth-child(2n + 1) {
+  --deg: -0.6deg;
+}
 .poster-gallery .poster-item:nth-child(3n) {
   --deg: 0.6deg;
 }
-
 .poster-gallery .poster-item:nth-child(4n + 2) {
   --deg: -0.75deg;
 }
-
 .poster-gallery .poster-item:nth-child(5n) {
   --deg: 0.25deg;
 }
-
 .poster-gallery .poster-item:nth-child(6n + 3) {
   --deg: -0.3deg;
 }
+
