@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const scaleY = 1 - 0.45 * squash;          // 上下方向つぶれ量
       const scaleX = 1 - 0.55 * squash;          // 横方向つぶれ量
 
-      card.querySelector('.poster-3d').style.transform = `
+      card.style.transform = `
         translateZ(${z}px)
         rotateX(${angle}deg)
         scale(${scaleX}, ${scaleY})
@@ -220,24 +220,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
