@@ -166,46 +166,61 @@
 <script>
 // 3Dスクロールアニメーション
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('Script loaded'); // デバッグ用
+  
   const gallery = document.querySelector('.poster-gallery');
   const items = document.querySelectorAll('.poster-item');
 
-  if (!gallery || items.length === 0) return;
+  console.log('Gallery:', gallery); // デバッグ用
+  console.log('Items:', items.length); // デバッグ用
+
+  if (!gallery || items.length === 0) {
+    console.log('Gallery or items not found');
+    return;
+  }
 
   function updateCards() {
     const galleryRect = gallery.getBoundingClientRect();
-    const galleryCenter = galleryRect.top + galleryRect.height / 2;
+    const viewportHeight = window.innerHeight;
+    const galleryCenter = viewportHeight / 2;
 
-    items.forEach((item) => {
+    items.forEach((item, index) => {
       const rect = item.getBoundingClientRect();
       const itemCenter = rect.top + rect.height / 2;
-      const offset = itemCenter - galleryCenter;
-      const maxRotation = 15;
-      const maxTranslate = 50;
-
-      // 画面中央からの距離に応じて回転とずらしを計算
-      const scrollFactor = Math.max(-1, Math.min(1, offset / (galleryRect.height / 2)));
       
-      const rotateX = scrollFactor * maxRotation;
-      const translateZ = Math.abs(scrollFactor) * -maxTranslate;
+      // 画面中央との距離を計算
+      const distanceFromCenter = itemCenter - galleryCenter;
+      
+      // -1 から 1 の範囲に正規化
+      const normalizedDistance = distanceFromCenter / viewportHeight;
+      
+      // 回転角度（最大15度）
+      const rotateX = normalizedDistance * 15;
+      
+      // Z軸方向の移動（最大-100px）
+      const translateZ = Math.abs(normalizedDistance) * -100;
+      
+      // 透明度
+      const opacity = 1 - Math.abs(normalizedDistance) * 0.3;
 
-      item.style.transform = `
-        rotateX(${rotateX}deg) 
-        translateZ(${translateZ}px)
-      `;
+      item.style.transform = `rotateX(${rotateX}deg) translateZ(${translateZ}px)`;
+      item.style.opacity = Math.max(0.5, opacity);
     });
   }
 
-  // スクロール時に更新
-  window.addEventListener('scroll', updateCards);
+  // イベントリスナー
+  window.addEventListener('scroll', updateCards, { passive: true });
   window.addEventListener('resize', updateCards);
   
   // 初回実行
   updateCards();
+  
+  console.log('Animation initialized'); // デバッグ用
 });
 </script>
 
-
 </body>
 </html>
+
 
 
