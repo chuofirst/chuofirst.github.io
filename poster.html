@@ -170,47 +170,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateItems() {
     const viewportHeight = window.innerHeight;
+    const viewportCenter = viewportHeight / 2;
     
     items.forEach((item) => {
       const rect = item.getBoundingClientRect();
-      const itemTop = rect.top;
-      const itemBottom = rect.bottom;
-      const itemCenter = itemTop + rect.height / 2;
+      const itemCenter = rect.top + rect.height / 2;
       
-      let progress;
+      // 画面中央との距離
+      const distanceFromCenter = itemCenter - viewportCenter;
       
-      if (itemCenter < viewportHeight / 2) {
-        // 上から入ってくる
-        progress = itemBottom / viewportHeight;
-        const angle = -60 + (progress * 60);
-        const scale = 0.5 + (progress * 0.5);
-        const scaleX = 0.7 + (progress * 0.3);  // 横幅を縮める 0.7 → 1
+      // 正規化（-1 to 1）
+      const normalized = distanceFromCenter / viewportHeight;
+      
+      if (distanceFromCenter < 0) {
+        // 画面上半分（上から入ってくる）
+        const progress = Math.max(0, Math.min(1, 1 + normalized * 2));
+        const angle = -60 * (1 - progress);
+        const scale = 0.5 + (0.5 * progress);
         
-        item.style.transform = `perspective(1000px) rotateX(${angle}deg) scale(${scale}) scaleX(${scaleX})`;
+        item.style.transformOrigin = 'top center';
+        item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
       } else {
-        // 下から入ってくる
-        progress = 1 - (itemTop / viewportHeight);
-        const angle = 60 - (progress * 60);
-        const scale = 0.5 + (progress * 0.5);
-        const scaleX = 0.7 + (progress * 0.3);  // 横幅を縮める 0.7 → 1
+        // 画面下半分（下から入ってくる）
+        const progress = Math.max(0, Math.min(1, 1 - normalized * 2));
+        const angle = 60 * (1 - progress);
+        const scale = 0.5 + (0.5 * progress);
         
-        item.style.transform = `perspective(1000px) rotateX(${angle}deg) scale(${scale}) scaleX(${scaleX})`;
+        item.style.transformOrigin = 'bottom center';
+        item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
       }
-      
-      // opacity削除（常に1のまま）
-      item.style.opacity = 1;
     });
   }
 
-  window.addEventListener('scroll', updateItems, { passive: true });
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateItems();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', updateItems);
   
   updateItems();
 });
 </script>
-
+  
 </body>
 </html>
+
 
 
 
