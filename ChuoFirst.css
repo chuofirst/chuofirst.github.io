@@ -3031,33 +3031,34 @@ html, body {
   initial-value: 0deg;
 }
 
-/* ギャラリー全体に遠近感 */
+/* 奥行きを強めにする */
 .poster-gallery {
-  perspective: 1200px;
+  perspective: 900px;  /* 小さいほど奥行きが強く見える */
 }
 
-/* 基本状態：transform はここで一括管理 */
+/* ポスターカード本体：回転の軸を中心に */
 .poster-gallery .poster-item {
   --item-scale: 1;
-  --item-angle: 0deg;
-  --deg: 0.8deg;    /* 少しだけ紙っぽい傾き */
+  --item-angle: 0deg;  /* JS でガンガン振る角度 */
+  --deg: 0.5deg;
   --y: 0;
 
-  transform-origin: center bottom;
+  /* 板の真ん中を支点に回転させる（箱の一面っぽい動きにする） */
+  transform-origin: center center;
+
   transform:
-    rotate(var(--deg))
+    rotate(var(--deg))              /* 紙がちょいナナメに置いてある感じ */
     translateY(var(--y))
     scale(var(--item-scale))
-    rotateX(var(--item-angle));
+    rotateX(var(--item-angle));     /* ← ここが「上面/下面から現れる」感の軸 */
 
   will-change: transform;
   transform-style: preserve-3d;
 
-  /* 既存デザインを壊さないように、変化だけなめらかに */
-  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
 }
 
-/* ホバー時：ちょっと持ち上がる感じ */
+/* ホバー時：ほんの少しだけ浮かせる（ここは今まで通りでOK） */
 .poster-gallery .poster-item:hover {
   --deg: 0deg;
   --y: -1.25ch;
