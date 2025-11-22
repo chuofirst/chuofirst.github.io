@@ -158,8 +158,8 @@
         const distanceFromCenter = (cardCenter - viewportHeight / 2) / (viewportHeight / 2);
         const t = Math.max(-1, Math.min(1, distanceFromCenter));  // -1 (だいぶ上) ～ 1 (だいぶ下)
 
-        const maxTilt = 75;     // 上下でどれだけ回転させるか（度）
-        const minScale = 0.8;   // 上下でどれくらい小さくするか
+        const maxTilt = 60;     // 上下でどれだけ回転させるか（度）
+        const minScale = 0.85;   // 上下でどれくらい小さくするか
 
         // スケール：中央で1、上下に行くほど少し小さく
         const scale = 1 - (1 - minScale) * Math.abs(t);
@@ -184,6 +184,7 @@
 
 </body>
 </html>
+
 
 
 
