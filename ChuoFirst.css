@@ -3033,7 +3033,7 @@ html, body {
 
 /* ギャラリー全体に遠近感 */
 .poster-gallery {
-  perspective: 4000px;
+  perspective: 1200px;
 }
 
 /* 基本状態：transform はここで一括管理 */
@@ -3043,7 +3043,7 @@ html, body {
   --deg: 0.8deg;    /* 少しだけ紙っぽい傾き */
   --y: 0;
 
-  transform-origin: center;
+  transform-origin: center bottom;
   transform:
     rotate(var(--deg))
     translateY(var(--y))
