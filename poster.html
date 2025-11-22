@@ -144,77 +144,74 @@
     });
   </script>
   <!-- ポスターのスクロール3Dアニメ -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.poster-gallery .poster-item');
+    <!-- ポスターのスクロール3Dアニメ（直方体の面っぽく） -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.poster-gallery .poster-item');
 
-    function updateCards() {
-      const vh = window.innerHeight;
-      const focalY = vh * 0.6;   // 正面にしたい高さ
+      function updateCards() {
+        const vh = window.innerHeight;
+        const focalY = vh * 0.6;   // ★ 正面で見せたい高さ（画面のちょい下）
 
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const center = rect.top + rect.height / 2;
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
 
-        // 画面の 60% を基準に -1 ～ 1 に正規化
-        const tRaw = (center - focalY) / (vh * 0.5);
-        const t = Math.max(-1, Math.min(1, tRaw));
+          // focalY を基準に -1 ～ 1 に正規化
+          const tRaw = (center - focalY) / (vh * 0.5);
+          const t = Math.max(-1, Math.min(1, tRaw));  // -1 上 / 0 正面 / 1 下
 
-        const maxTilt = 55;
-        const minScale = 0.9;
-        const maxZ = 200;
+          const maxTilt = 55;     // 上下の回転角（共通）
+          const maxZ = 200;       // 奥行き方向の移動量
+          const edgeAmount = 0.2; // 上下の「つぶれ」量（0.2 = 最大20%縦縮み）
 
-        // 角度と軸
-        let angle;
-        if (t > 0.1) {
-          // 下側にいる → 下面から出てくる
-          angle = t * maxTilt;
-          card.style.transformOrigin = 'center bottom';
-        } else if (t < -0.1) {
-          // 上側にいる → 上面に回り込む
-          angle = t * maxTilt;
-          card.style.transformOrigin = 'center top';
-        } else {
-          angle = 0;
-          card.style.transformOrigin = 'center center';
-        }
+          // 角度と軸
+          let angle;
+          if (t > 0.1) {
+            // 画面の下側：下面からグイっと出てくる
+            angle = t * maxTilt;
+            card.style.transformOrigin = 'center bottom';
+          } else if (t < -0.1) {
+            // 画面の上側：上面に回り込んでいく
+            angle = t * maxTilt;
+            card.style.transformOrigin = 'center top';
+          } else {
+            // 正面あたり
+            angle = 0;
+            card.style.transformOrigin = 'center center';
+          }
 
-        // 全体スケール：ほぼ一定（奥行き補助程度）
-        const scale = 1 - (1 - minScale) * Math.abs(t);
+          // 奥行き：t > 0 で手前、t < 0 で奥
+          const z = -t * maxZ;
 
-        // Z方向：t > 0 で手前、t < 0 で奥
-        const z = -t * maxZ;
+          // 縦方向だけの縮み
+          //   中央(t≈0) → 1.0（つぶれなし）
+          //   上下(t≈±1) → 1 - edgeAmount（少し縦短く）
+          let edgeScale;
+          if (Math.abs(t) < 0.1) {
+            edgeScale = 1;
+          } else {
+            edgeScale = 1 - edgeAmount * Math.min(1, Math.abs(t));
+          }
 
-        // ★ 縦方向だけの縮み：
-        //   t が大きいほど（上 or 下に離れるほど）上下どちらかの辺が潰れて見えるようにする
-        //   中央 t ≒ 0 → 1.0（＝縮まない）
-        //   端 t ≒ ±1 → 0.85（＝少し縦短く）
-        const edgeScaleAmount = 0.15;  // 縮みの強さ（0.15 = 最大で15%縮む）
+          // ★ ここで直接 transform を書く（CSS変数は使わない）
+          card.style.transform = `
+            translateZ(${z}px)
+            rotateX(${angle}deg)
+            scaleY(${edgeScale})
+          `;
+        });
+      }
 
-        let edgeScale;
-        if (Math.abs(t) < 0.1) {
-          edgeScale = 1; // 正面付近は縦スケールしない
-        } else {
-          edgeScale = 1 - edgeScaleAmount * Math.min(1, Math.abs(t));
-        }
-
-        card.style.setProperty('--poster-scale', scale.toFixed(3));
-        card.style.setProperty('--poster-angle', angle.toFixed(1) + 'deg');
-        card.style.setProperty('--poster-z', z.toFixed(0) + 'px');
-        card.style.setProperty('--poster-scale-edge', edgeScale.toFixed(3));
-      });
-    }
-
-    updateCards();
-    window.addEventListener('scroll', updateCards);
-    window.addEventListener('resize', updateCards);
-  });
-</script>
-
-
+      updateCards();                  // 初期描画
+      window.addEventListener('scroll', updateCards);
+      window.addEventListener('resize', updateCards);
+    });
+  </script>
 
 </body>
 </html>
+
 
 
 
