@@ -3031,6 +3031,12 @@ html, body {
   initial-value: 0deg;
 }
 
+@property --item-z {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
 /* 奥行きを強めにする */
 .poster-gallery {
   perspective: 900px;  /* 小さいほど奥行きが強く見える */
@@ -3047,10 +3053,10 @@ html, body {
   transform-origin: center center;
 
   transform:
-    rotate(var(--deg))              /* 紙がちょいナナメに置いてある感じ */
-    translateY(var(--y))
+    translateZ(var(--item-z))
+    rotateX(var(--item-angle))
     scale(var(--item-scale))
-    rotateX(var(--item-angle));     /* ← ここが「上面/下面から現れる」感の軸 */
+    rotate(var(--deg));
 
   will-change: transform;
   transform-style: preserve-3d;
