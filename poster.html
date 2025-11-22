@@ -177,28 +177,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const itemBottom = rect.bottom;
       const itemCenter = itemTop + rect.height / 2;
       
-      // 画面内の位置を0-1で計算
       let progress;
       
       if (itemCenter < viewportHeight / 2) {
-        // 画面上半分（上から入ってくる）
+        // 上から入ってくる
         progress = itemBottom / viewportHeight;
-        const angle = -60 + (progress * 60); // -60deg → 0deg
-        const scale = 0.5 + (progress * 0.5); // 0.5 → 1
-        const opacity = Math.min(scale, 0.8);
+        const angle = -60 + (progress * 60);
+        const scale = 0.5 + (progress * 0.5);
+        const scaleX = 0.7 + (progress * 0.3);  // 横幅を縮める 0.7 → 1
         
-        item.style.transform = `scale(${scale}) rotateX(${angle}deg)`;
-        item.style.opacity = opacity;
+        item.style.transform = `perspective(1000px) rotateX(${angle}deg) scale(${scale}) scaleX(${scaleX})`;
       } else {
-        // 画面下半分（下から入ってくる）
+        // 下から入ってくる
         progress = 1 - (itemTop / viewportHeight);
-        const angle = 60 - (progress * 60); // 60deg → 0deg
-        const scale = 0.5 + (progress * 0.5); // 0.5 → 1
-        const opacity = Math.min(scale, 0.8);
+        const angle = 60 - (progress * 60);
+        const scale = 0.5 + (progress * 0.5);
+        const scaleX = 0.7 + (progress * 0.3);  // 横幅を縮める 0.7 → 1
         
-        item.style.transform = `scale(${scale}) rotateX(${angle}deg)`;
-        item.style.opacity = opacity;
+        item.style.transform = `perspective(1000px) rotateX(${angle}deg) scale(${scale}) scaleX(${scaleX})`;
       }
+      
+      // opacity削除（常に1のまま）
+      item.style.opacity = 1;
     });
   }
 
@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
