@@ -3015,60 +3015,14 @@ html, body {
   }
 }
 
-/* ===== ポスター3Dスクロールアニメーション ===== */
-
-/* カスタムプロパティの定義 */
-@property --item-scale {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 1;
-}
-
-@property --item-angle {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
-
-/* アニメーション定義 */
-@keyframes shrink-top {
-  0% {
-    --item-scale: 0.5;
-    --item-angle: -60deg;
-    transform-origin: top;
-  }
-}
-
-@keyframes shrink-bottom {
-  0% {
-    --item-scale: 0.5;
-    --item-angle: 60deg;
-    transform-origin: bottom;
-  }
-}
-
-/* ギャラリーの設定 */
 .poster-gallery {
-  perspective: 4000px !important;
-  perspective-origin: center center;
+  perspective: 4000px;  /* 900px → 4000px に変更 */
+  perspective-origin: center center;  /* center 60vh → center center に変更 */
 }
 
-/* ポスターアイテムのアニメーション */
 .poster-gallery .poster-item {
+  backface-visibility: visible;
   transform-style: preserve-3d;
   will-change: transform;
-  opacity: min(var(--item-scale), 0.8);
-  transform: scale(var(--item-scale)) rotateX(var(--item-angle));
-  transition: all 0.133s ease-in-out;
-  
-  /* スクロール連動アニメーション */
-  animation: shrink-top both ease-in-out,
-             shrink-bottom both ease-in-out reverse;
-  animation-timeline: view(block);
-  animation-range: entry, exit;
-}
-
-.poster-gallery .poster-item:hover {
-  opacity: 1 !important;
-  transform: scale(1) rotateX(0deg) translateY(-10px) !important;
+  transition: box-shadow 0.3s ease;  /* このままでOK */
 }
