@@ -165,75 +165,52 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const items = document.querySelectorAll('.poster-item');
-  
   if (items.length === 0) return;
 
   function updateItems() {
-    const viewportHeight = window.innerHeight;
-    const viewportCenter = viewportHeight / 2;
-    
     items.forEach((item) => {
       const rect = item.getBoundingClientRect();
-      const itemTop = rect.top;
-      const itemBottom = rect.bottom;
-      const itemCenter = itemTop + rect.height / 2;
+      const windowHeight = window.innerHeight;
       
-      // ポスター全体が画面内に見えているか
-      const fullyVisible = itemTop >= 50 && itemBottom <= viewportHeight - 50;
+      // entry progress (下から上へ0→1)
+      const entryProgress = Math.max(0, Math.min(1, 
+        (windowHeight - rect.top) / windowHeight
+      ));
       
-      // 中央エリア（正面表示）
-      const centerZone = viewportHeight * 0.25;
-      const distanceFromCenter = Math.abs(itemCenter - viewportCenter);
-      const inCenterZone = distanceFromCenter < centerZone && fullyVisible;
+      // exit progress (上から下へ0→1)  
+      const exitProgress = Math.max(0, Math.min(1,
+        rect.bottom / windowHeight
+      ));
       
-      if (inCenterZone) {
-        // 正面表示
-        item.style.transformOrigin = 'center center';
-        item.style.transform = 'rotateX(0deg) scale(1)';
-      } else if (itemCenter < viewportCenter) {
-        // 上半分
-        let progress = itemBottom / viewportHeight;
-        progress = Math.max(0, Math.min(1, progress));
+      // 下から入る時
+      if (rect.top > windowHeight / 2) {
+        const progress = entryProgress;
+        const scale = 0.5 + (0.5 * progress);
+        const angle = 60 - (60 * progress);
         
-        const angle = -75 * (1 - progress);  // -75deg → 0deg（角度大きく）
-        const scale = 0.6 + (0.4 * progress);  // 0.6 → 1
-        
-        item.style.transformOrigin = 'top center';  // 上辺を軸に回転 = 上辺が短い台形
+        item.style.transformOrigin = 'bottom';
         item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
-      } else {
-        // 下半分
-        let progress = 1 - (itemTop / viewportHeight);
-        progress = Math.max(0, Math.min(1, progress));
+      }
+      // 上に抜ける時
+      else {
+        const progress = exitProgress;
+        const scale = 0.5 + (0.5 * progress);
+        const angle = -60 + (60 * progress);
         
-        const angle = 75 * (1 - progress);  // 75deg → 0deg（角度大きく）
-        const scale = 0.6 + (0.4 * progress);  // 0.6 → 1
-        
-        item.style.transformOrigin = 'bottom center';  // 下辺を軸に回転 = 下辺が短い台形
+        item.style.transformOrigin = 'top';
         item.style.transform = `rotateX(${angle}deg) scale(${scale})`;
       }
     });
   }
 
-  let ticking = false;
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateItems();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', updateItems);
-  
+  window.addEventListener('scroll', updateItems, { passive: true });
   updateItems();
 });
 </script>
   
 </body>
 </html>
+
 
 
 
