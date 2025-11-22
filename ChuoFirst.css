@@ -3037,12 +3037,17 @@ html, body {
   initial-value: 0px;
 }
 
+@property --poster-scale-edge {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
 /* ポスターセクションに遠近感を付ける */
 .poster-gallery {
   perspective: 900px;  /* 小さいほど奥行きが強く見える */
 }
 
-/* ポスターカード本体：3D変形はここで管理 */
 .poster-gallery .poster-item {
   /* 原点は JS からも上書きするけど、デフォルトは中央 */
   transform-origin: center center;
@@ -3052,6 +3057,7 @@ html, body {
     translateZ(var(--poster-z))
     rotateX(var(--poster-angle))
     scale(var(--poster-scale));
+    scaleY(var(--poster-scale-edge));
 
   transform-style: preserve-3d;
   will-change: transform;
