@@ -2254,7 +2254,7 @@ footer::before {
 .poster-item {
   background: white;
   border-radius: 15px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: var(--shadow-medium);
   transition: all 0.4s ease;
   cursor: pointer;
@@ -3024,7 +3024,7 @@ html, body {
 }
 
 .poster-gallery .poster-item {
-  backface-visibility: hidden;
+  backface-visibility: visible;
   transform-style: preserve-3d;
   will-change: transform;
   /* バウンスしないように transform には transition かけない */
