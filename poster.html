@@ -164,63 +164,66 @@
   </script>
   <!-- ポスターのスクロール3Dアニメ（立体強化版） -->
 <script>
-// 3Dスクロールアニメーション
+// 3Dスクロールアニメーション（強化版）
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Script loaded'); // デバッグ用
-  
   const gallery = document.querySelector('.poster-gallery');
   const items = document.querySelectorAll('.poster-item');
 
-  console.log('Gallery:', gallery); // デバッグ用
-  console.log('Items:', items.length); // デバッグ用
-
-  if (!gallery || items.length === 0) {
-    console.log('Gallery or items not found');
-    return;
-  }
+  if (!gallery || items.length === 0) return;
 
   function updateCards() {
-    const galleryRect = gallery.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const galleryCenter = viewportHeight / 2;
+    const viewportCenter = viewportHeight / 2;
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const rect = item.getBoundingClientRect();
       const itemCenter = rect.top + rect.height / 2;
       
-      // 画面中央との距離を計算
-      const distanceFromCenter = itemCenter - galleryCenter;
+      // 画面中央との距離
+      const distance = itemCenter - viewportCenter;
       
-      // -1 から 1 の範囲に正規化
-      const normalizedDistance = distanceFromCenter / viewportHeight;
+      // より大きな値に調整
+      const factor = distance / (viewportHeight * 0.5);
       
-      // 回転角度（最大15度）
-      const rotateX = normalizedDistance * 15;
+      // 回転を大きく（最大45度）
+      const rotateX = Math.max(-45, Math.min(45, factor * 45));
       
-      // Z軸方向の移動（最大-100px）
-      const translateZ = Math.abs(normalizedDistance) * -100;
+      // Z軸移動も大きく
+      const translateZ = Math.abs(factor) * -150;
       
-      // 透明度
-      const opacity = 1 - Math.abs(normalizedDistance) * 0.3;
+      // スケールも追加
+      const scale = 1 - Math.abs(factor) * 0.2;
 
-      item.style.transform = `rotateX(${rotateX}deg) translateZ(${translateZ}px)`;
-      item.style.opacity = Math.max(0.5, opacity);
+      item.style.transform = `
+        perspective(1000px)
+        rotateX(${rotateX}deg) 
+        translateZ(${translateZ}px)
+        scale(${Math.max(0.8, scale)})
+      `;
     });
   }
 
-  // イベントリスナー
-  window.addEventListener('scroll', updateCards, { passive: true });
+  let ticking = false;
+  function requestTick() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateCards();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', requestTick, { passive: true });
   window.addEventListener('resize', updateCards);
   
-  // 初回実行
   updateCards();
-  
-  console.log('Animation initialized'); // デバッグ用
 });
 </script>
 
 </body>
 </html>
+
 
 
 
