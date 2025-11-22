@@ -3019,10 +3019,12 @@ html, body {
 /* ==== ポスター用 3D スクロールアニメ（JS用の器） ==== */
 
 .poster-gallery {
-  perspective: 900px;  /* 奥行き感 */
+  perspective: 1200px;  /* 奥行き感 */
+  perspective-origin: center 60vh;
 }
 
 .poster-gallery .poster-item {
+  backface-visibility: hidden;
   transform-style: preserve-3d;
   will-change: transform;
   /* バウンスしないように transform には transition かけない */
