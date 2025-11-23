@@ -609,23 +609,17 @@ footer::before {
   transform: translateY(-2px);
 }
 
-.footer-links {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* フッターロゴのリンク */
+.footer-content a[aria-label="ホームページへ戻る"] {
+  display: inline-block;
+  width: min(50%, 380px);
+  max-width: 100%;
+  margin: 40px auto 20px;
+  transition: transform 0.3s ease;
 }
 
-.footer-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.footer-links a:hover {
-  opacity: 0.7;
+.footer-content a[aria-label="ホームページへ戻る"]:hover {
+  transform: scale(1.05);
 }
 
 @keyframes pulse {
