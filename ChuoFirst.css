@@ -633,6 +633,43 @@ footer::before {
   50% { transform: scale(1.1); }
 }
 
+.foot {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  color: var(--text-light);
+  font-size: 0.85em;
+  font-weight: 600;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.foot:hover {
+  opacity: 1;
+}
+
+.foot small {
+  display: block;
+  white-space: nowrap;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 900px) {
+  .foot {
+    right: 15px;
+    bottom: 15px;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 600px) {
+  .foot {
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.75em;
+  }
+}
+
 
 /* ===== 私たちについてページ（改善版） ===== */
 .aboutus {
