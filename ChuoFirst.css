@@ -576,16 +576,14 @@ footer::before {
   height: 100%;
 }
 
-/* 左端：お問い合わせ・党員専用ページ */
+/* 左上：お問い合わせ・党員専用ページ（横並び） */
 .footer-contact {
   position: absolute;
   left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
+  gap: 20px;
+  align-items: center;
 }
 
 .footer-contact a {
@@ -624,12 +622,11 @@ footer::before {
   display: block;
 }
 
-/* 右端：コピーライト表記 */
+/* 右下ギリギリ：コピーライト表記 */
 .foot {
   position: absolute;
   right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 20px;
   color: var(--text-light);
   font-size: 0.85em;
   font-weight: 600;
@@ -654,11 +651,17 @@ footer::before {
 
   .footer-contact {
     left: 15px;
-    font-size: 0.95em;
+    top: 15px;
+    gap: 15px;
+  }
+
+  .footer-contact a {
+    font-size: 1em;
   }
 
   .foot {
     right: 15px;
+    bottom: 15px;
     font-size: 0.8em;
   }
 
@@ -669,25 +672,26 @@ footer::before {
 
 @media (max-width: 600px) {
   footer {
-    min-height: 180px;
+    min-height: 220px;
     padding: 30px 10px;
   }
 
   .footer-contact {
-    position: static;
-    transform: none;
-    margin: 0 auto 20px;
-    align-items: center;
+    left: 10px;
+    top: 10px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .footer-contact a {
-    font-size: 1em;
+    font-size: 0.95em;
+    padding: 6px 10px;
   }
 
   .foot {
-    position: static;
-    transform: none;
-    margin-top: 20px;
+    right: 10px;
+    bottom: 10px;
     font-size: 0.75em;
   }
 
