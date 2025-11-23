@@ -635,8 +635,8 @@ footer::before {
 
 .foot {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
+  right: 0px;
+  bottom: -30px;
   color: var(--text-light);
   font-size: 0.85em;
   font-weight: 600;
