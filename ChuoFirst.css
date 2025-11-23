@@ -543,7 +543,7 @@ nav a[aria-current="page"] {
 footer {
   background: var(--bg-footer);
   padding: 40px 20px;
-  /* text-align: center; ← 削除（中央揃えを解除） */
+  text-align: center;
   position: relative;
   overflow: hidden;
 }
@@ -568,18 +568,15 @@ footer::before {
 .footer-content {
   position: relative;
   display: flex;
-  flex-direction: column; /* 追加済み */
-  align-items: center; /* ← 中央揃えから左揃えに変更 */
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
-  max-width: none;
-  width: 100%;
-  margin: 0 auto; /* フッター内容を中央寄せ・でも内部は左揃え */
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .footer-contact {
-  position: absolute;
-  top: 0;
-  left: 20px;
+  order: 1;
 }
 
 .footer-contact a {
@@ -593,44 +590,36 @@ footer::before {
   display: inline-block;
 }
 
-.footer-logo {
-  width: min(40%, 280px);
-  height: auto;
-  aspect-ratio: 1 / 1;  
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  margin: 40px auto 20px;
-}
-
 .footer-contact a:hover {
   color: var(--primary-light);
   background-color: rgba(238, 120, 0, 0.1);
   transform: translateY(-2px);
 }
 
-/* フッターロゴのリンク */
-.footer-content a[aria-label="ホームページへ戻る"] {
+/* フッターロゴリンクの修正 */
+.footer-content > a {
   display: inline-block;
-  width: min(50%, 380px);
-  max-width: 100%;
-  margin: 40px auto 20px;
+  line-height: 0;
+  order: 2;
   transition: transform 0.3s ease;
 }
 
-.footer-content a[aria-label="ホームページへ戻る"]:hover {
+.footer-content > a:hover {
   transform: scale(1.05);
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+.footer-logo {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
+/* コピーライト表記 */
 .foot {
   position: absolute;
-  right: 0px;
-  bottom: -30px;
+  right: 20px;
+  bottom: 20px;
   color: var(--text-light);
   font-size: 0.85em;
   font-weight: 600;
@@ -664,6 +653,14 @@ footer::before {
   }
 }
 
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.footer-instagram:hover {
+  transform: scale(1.2) rotate(10deg);
+}
 
 /* ===== 私たちについてページ（改善版） ===== */
 .aboutus {
