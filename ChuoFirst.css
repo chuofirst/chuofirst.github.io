@@ -576,13 +576,13 @@ footer::before {
   height: 100%;
 }
 
-/* 左上：お問い合わせ・党員専用ページ（横並び） */
+/* 左上ギリギリ：お問い合わせ・党員専用ページ（横並び） */
 .footer-contact {
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 5px;
+  top: 5px;
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
 }
 
@@ -625,8 +625,8 @@ footer::before {
 /* 右下ギリギリ：コピーライト表記 */
 .foot {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
+  right: 5px;
+  bottom: 5px;
   color: var(--text-light);
   font-size: 0.85em;
   font-weight: 600;
@@ -650,9 +650,9 @@ footer::before {
   }
 
   .footer-contact {
-    left: 15px;
-    top: 15px;
-    gap: 15px;
+    left: 5px;
+    top: 5px;
+    gap: 12px;
   }
 
   .footer-contact a {
@@ -660,8 +660,8 @@ footer::before {
   }
 
   .foot {
-    right: 15px;
-    bottom: 15px;
+    right: 5px;
+    bottom: 5px;
     font-size: 0.8em;
   }
 
@@ -677,9 +677,9 @@ footer::before {
   }
 
   .footer-contact {
-    left: 10px;
-    top: 10px;
-    gap: 10px;
+    left: 5px;
+    top: 5px;
+    gap: 8px;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -690,8 +690,8 @@ footer::before {
   }
 
   .foot {
-    right: 10px;
-    bottom: 10px;
+    right: 5px;
+    bottom: 5px;
     font-size: 0.75em;
   }
 
