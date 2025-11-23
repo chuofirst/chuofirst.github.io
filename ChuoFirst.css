@@ -594,7 +594,7 @@ footer::before {
 }
 
 .footer-logo {
-  width: min(50%, 380px);
+  width: min(40%, 280px);
   height: auto;
   aspect-ratio: 1 / 1;  
   max-width: 100%;
