@@ -26,8 +26,8 @@
   <div id="overlay" aria-hidden="true"></div>
 
   
-  <main class="poster-page">
-    <section class="poster-page-hero bg-anim-gradient">
+  <main class="poster-page bg-anim-gradient">
+    <section class="poster-page-hero">
       <div class="poster-page-hero-content">
         <h1 class="poster-page-title">ポスターギャラリー</h1>
         <p class="poster-page-subtitle">中央中等生ファーストの会の活動を紹介するポスター集</p>
@@ -133,56 +133,10 @@
   
   <script type="module" src="auth.js"></script>
   <script src="animations.js"></script>
-
-    <!-- 背景グラデーション（上だけ #ff9933 固定） -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // 暖色系（オレンジ寄り）のランダム色をHSLで生成
-      function randomWarmColor() {
-        const hue = Math.floor(15 + Math.random() * 31);        // 15〜45°（オレンジ〜黄寄り）
-        const saturation = Math.floor(50 + Math.random() * 31); // 彩度 50〜80%
-        const lightness = Math.floor(70 + Math.random() * 21);  // 明度 70〜90%（薄め）
-        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-      }
-
-      // 一番上は固定カラー #ff9933
-      const fixedTop = '#ff9933';
-
-      // 残り4色をランダム生成
-      const randomColors = Array.from({ length: 4 }, () => randomWarmColor());
-
-      // 先頭に固定色を置いて、合計5色に
-      const colors = [fixedTop, ...randomColors];
-
-      // body に線形グラデーション（上→下の5色）を適用
-      document.body.style.backgroundImage = `linear-gradient(to bottom, ${colors.join(', ')})`;
-      document.body.style.backgroundAttachment = 'scroll';
-      document.body.style.backgroundRepeat = 'no-repeat';
-
-      console.log('使われたグラデーション:', colors);
-    });
-  </script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const items = document.querySelectorAll('.poster-item');
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, {
-    threshold: 0.2,
-    rootMargin: '0px'
-  });
-  
-  items.forEach(item => observer.observe(item));
-});
-</script>
   
 </body>
 </html>
+
 
 
 
