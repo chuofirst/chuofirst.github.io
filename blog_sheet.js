@@ -117,7 +117,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
       if (!url) return;
 
       // Google Drive の open?id=形式を画像URLに変換
-      const match = url.match(/open\\?id=([^&]+)/);
+      const match = url.match(/open\?id=([^&]+)/);
       const displayUrl = match
         ? `https://drive.google.com/uc?export=view&id=${match[1]}`
         : url;
@@ -183,30 +183,28 @@ async function loadPosts() {
 
     // 新しい順に並んでいるならそのまま / 逆順にしたいなら rows.slice().reverse()
     rows.forEach((row, idx) => {
-    const c = row.c || [];
+  　const c = row.c || [];
 
-    const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
-    const name      = (c[1] && c[1].v) || "";
-    const body      = (c[2] && c[2].v) || "";
+  　const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
+  　const name      = (c[1] && c[1].v) || "";
+  　const body      = (c[2] && c[2].v) || "";
 
-    // ✅ 画像セルを取得（ファイルアップロード対応）
-    const imageCell = c[6] || {};
-    let imageUrls = "";
+  　const imageCell = c[6] || {};
+  　let imageUrls = "";
 
-    // f に <a href="..."> が入っているのでそこから取り出す
-    if (imageCell.f && typeof imageCell.f === "string") {
-      const m = imageCell.f.match(/href="([^"]+)"/);
-      if (m) imageUrls = m[1];
-    } else if (imageCell.v) {
-      // URLが直接入っている場合にも対応
-      imageUrls = imageCell.v.toString();
-    }
+  　// HYPERLINK式からURLを抜く
+  　if (imageCell.f && typeof imageCell.f === "string") {
+    　const m = imageCell.f.match(/HYPERLINK\("([^"]+)"/i);
+    　if (m) imageUrls = m[1];
+  　} else if (imageCell.v) {
+    　imageUrls = imageCell.v.toString();
+  　}
 
-    // 本文が空でも画像があるなら表示する
-    if (!timestamp && !name && !body && !imageUrls) return;
+  　if (!timestamp && !name && !body && !imageUrls) return;
 
-    appendPost(idx + 1, timestamp, name, body, imageUrls);
-  });
+  　appendPost(idx + 1, timestamp, name, body, imageUrls);
+　});
+
 
 
     if (postCountElement) {
