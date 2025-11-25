@@ -3083,31 +3083,30 @@ html, body {
     font-size: 0.95em;
   }
 
-.blog-post-images {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.blog-post-image {
-  max-width: min(100%, 260px); /* PCでは260pxまで */
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  object-fit: cover;
-}
-
-/* スマホでは横幅いっぱいにして1列表示 */
-@media (max-width: 700px) {
   .blog-post-images {
-    flex-direction: column;
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
-  .blog-post-image {
-    max-width: 100%;
-  }
-}
 
+  .blog-post-image {
+    max-width: min(100%, 260px); /* PCでは最大260pxくらいまで */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    object-fit: cover;
+  }
+
+  /* スマホでは1列で横いっぱい */
+  @media (max-width: 700px) {
+    .blog-post-images {
+      flex-direction: column;
+    }
+    .blog-post-image {
+      max-width: 100%;
+    }
+  }
 
   .blog-notice-card {
     flex-direction: column;
