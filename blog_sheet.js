@@ -106,20 +106,21 @@ function appendPost(index, timestamp, name, body, imageUrls) {
   article.appendChild(bodyDiv);
 
   // 画像（あれば投稿の一番下に表示）
-  if (imageUrls && imageUrls.trim() !== "") {
-    const imagesDiv = document.createElement("div");
-    imagesDiv.className = "blog-post-images";
+  urls.forEach(url => {
+    if (!url) return;
 
-    // URLがカンマ区切りで入っている想定（1枚だけならそのまま）
-    const urls = imageUrls.split(/\s*,\s*/);
-    urls.forEach((url) => {
-      if (!url) return;
-      const img = document.createElement("img");
-      img.src = url;
-      img.loading = "lazy";
-      img.className = "blog-post-image";
-      imagesDiv.appendChild(img);
-    });
+    // Google Drive の open?id=形式を画像URLに変換
+    const match = url.match(/open\\?id=([^&]+)/);
+    const displayUrl = match
+      ? `https://drive.google.com/uc?export=view&id=${match[1]}`
+      : url;
+
+    const img = document.createElement("img");
+    img.src = displayUrl;
+    img.loading = "lazy";
+    img.className = "blog-post-image";
+    imagesDiv.appendChild(img);
+  });
 
     article.appendChild(imagesDiv);
   }
@@ -174,19 +175,19 @@ async function loadPosts() {
 
     // 新しい順に並んでいるならそのまま / 逆順にしたいなら rows.slice().reverse()
     rows.forEach((row, idx) => {
-      const c = row.c || [];
-      const tsCell = c[0]; // タイムスタンプ列
-      const nameCell = c[1]; // 名前列
-      const bodyCell = c[2]; // 本文列
-      const imageCell = c[3]; // 画像URL列（Googleフォームのファイルアップロード）
+    const c = row.c || [];
 
-      const timestamp = (tsCell && (tsCell.f || tsCell.v)) || "";
-      const name = (nameCell && nameCell.v) || "";
-      const body = (bodyCell && bodyCell.v) || "";
-      const imageUrls = (imageCell && imageCell.v) || "";
+    const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
+    const name      = (c[1] && c[1].v) || "";
+    const body      = (c[2] && c[2].v) || "";
+    const imageUrls = (c[3] && c[3].v) || ""; // ← 画像列
 
-      appendPost(idx + 1, timestamp, name, body, imageUrls);
-    });
+    // 本文が空でも、画像があれば投稿として扱うように調整
+    if (!timestamp && !name && !body && !imageUrls) return;
+
+    appendPost(idx + 1, timestamp, name, body, imageUrls);
+  });
+
 
     if (postCountElement) {
       postCountElement.textContent = `${rows.length} レス`;
