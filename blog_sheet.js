@@ -113,14 +113,16 @@ function appendPost(index, timestamp, name, body, imageUrls) {
     // URLがカンマ区切りで入っている想定
     const urls = imageUrls.split(/\s*,\s*/);
 
-    urls.forEach(url => {
+    urls.forEach(raw => {
+      const url = raw.trim();
       if (!url) return;
 
-      // Google Drive の open?id=形式を画像URLに変換
-      const match = url.match(/(?:id=|\/d\/)([^&/]+)/);
-      const displayUrl = match
-  　　　? `https://drive.google.com/uc?export=view&id=${match[1]}`
-  　　　: url;
+      // Google Drive の URL を画像URLに変換
+      let displayUrl = url;
+      const match = url.match(/(?:open\?id=|id=|\/d\/)([^&/]+)/);
+      if (match) {
+        displayUrl = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
 
       const img = document.createElement("img");
       img.src = displayUrl;
@@ -131,7 +133,6 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 
     article.appendChild(imagesDiv);
   }
-
 
   threadBody.appendChild(article);
 }
@@ -181,33 +182,36 @@ async function loadPosts() {
       return;
     }
 
-    // 新しい順に並んでいるならそのまま / 逆順にしたいなら rows.slice().reverse()
+    // 各行を順に表示（1レス目 = 1）
     rows.forEach((row, idx) => {
       const c = row.c || [];
-      
+
       const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
       const name      = (c[1] && c[1].v) || "";
       const body      = (c[2] && c[2].v) || "";
 
-      const imageCell = c[4] || {};
+      // ✅ 画像は「4列目（index 3）」だけを見る
+      const imageCell = c[3] || {};
       let imageUrls = "";
 
-      // ✅ HYPERLINK式からURL抽出（Googleフォーム仕様）
+      // HYPERLINK 形式 or href が入ってた場合の保険
       if (imageCell.f && typeof imageCell.f === "string") {
-        const m = imageCell.f.match(/HYPERLINK\(\\"([^\\"]+)\\"/i);
-        if (m) imageUrls = m[1];
+        let m =
+          imageCell.f.match(/HYPERLINK\("([^"]+)"/i) ||
+          imageCell.f.match(/HYPERLINK\(\\"([^\\"]+)\\"/i) ||
+          imageCell.f.match(/href="([^"]+)"/i);
+        if (m) {
+          imageUrls = m[1];
+        }
       } else if (imageCell.v) {
         imageUrls = imageCell.v.toString();
       }
 
-      // ✅ 本文も画像も無いゴミ行はスキップ
+      // 本文も画像も何も無い行はスキップ
       if (!timestamp && !name && !body && !imageUrls) return;
 
       appendPost(idx + 1, timestamp, name, body, imageUrls);
     });
-
-
-
 
     if (postCountElement) {
       postCountElement.textContent = `${rows.length} レス`;
