@@ -111,14 +111,16 @@ function appendPost(index, timestamp, name, body, imageUrls) {
       const url = raw.trim();
       if (!url) return;
 
-      // まずそのままログ
+      // まず元URLをログ
       console.log("[BLOG] raw image url from sheet:", url);
 
-      // Google Drive の URL を画像URLに変換
+      // Google Drive のファイルIDを取り出す
       let displayUrl = url;
       const m = url.match(/(?:open\?id=|id=|\/d\/)([^&/]+)/);
       if (m) {
-        displayUrl = `https://drive.google.com/uc?export=view&id=${m[1]}`;
+        const fileId = m[1];
+        // ★ ここを uc?export=view じゃなく thumbnail にする
+        displayUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
       }
 
       console.log("[BLOG] img src used:", displayUrl);
