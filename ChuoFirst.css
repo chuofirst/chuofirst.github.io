@@ -3083,6 +3083,20 @@ html, body {
     font-size: 0.95em;
   }
 
+  .blog-post-images {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.blog-post-image {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
   .blog-notice-card {
     flex-direction: column;
     text-align: center;
