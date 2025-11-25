@@ -3,57 +3,54 @@ function checkBlogAccess() {
   const email = localStorage.getItem("user_email");
   const canBlog = localStorage.getItem("user_can_blog") === "1";
 
+  // まだログイン情報が入ってない（auth.jsが未完了）の場合
+  if (!email) return false;
+
+  // ログイン済みだが権限なし → 追い出す
   if (email && !canBlog) {
-    // ログインはしてるけど党員権限なし → 追い出す
     window.location.replace("cantsee.html");
-  } else if (email && canBlog) {
-    // 権限OK → bodyにauthorizedクラスを追加して表示
-    document.body.classList.add('authorized');
+    return false;
   }
+
+  // 権限OK → bodyにクラスを付けて表示
+  document.body.classList.add("authorized");
+  return true;
 }
 
-// auth.jsの処理を待つ（最大3秒）
-let checkCount = 0;
-const checkInterval = setInterval(() => {
-  const email = localStorage.getItem("user_email");
-  const canBlog = localStorage.getItem("user_can_blog");
-  
-  // localStorageに値が設定されたら、または3秒経過したら実行
-  if ((email && canBlog !== null) || checkCount > 30) {
-    clearInterval(checkInterval);
-    checkBlogAccess();
-  }
-  checkCount++;
-}, 100);
-
-// ===== Googleスプレッドシート設定 =====
-const SHEET_ID = "1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E";
-const SHEET_NAME = "Responses";
-
-const SHEET_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?` +
-  `tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
-
-const threadBody = document.getElementById("blog-thread-body");
-const postCountElement = document.getElementById("post-count");
-
-// 日付をそれっぽい形に整形
-function formatDate(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  const hh = String(date.getHours()).padStart(2, "0");
-  const mm = String(date.getMinutes()).padStart(2, "0");
-  const ss = String(date.getSeconds()).padStart(2, "0");
-  const youbi = ["日", "月", "火", "水", "木", "金", "土"][date.getDay()];
-  return `${y}/${m}/${d}(${youbi}) ${hh}:${mm}:${ss}`;
+// auth.jsの処理を待つ（最大3秒くらい）
+let authCheckCount = 0;
+function waitAuthAndLoad() {
+  const timer = setInterval(() => {
+    authCheckCount++;
+    const ok = checkBlogAccess();
+    if (ok || authCheckCount > 10) {
+      clearInterval(timer);
+      if (ok) {
+        loadPosts();
+      }
+    }
+  }, 300);
 }
 
-// 1レス分をDOMに追加
-function appendPost(index, timestamp, name, body) {
+// ===== 日付フォーマット =====
+function formatDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${y}/${m}/${day} ${hh}:${mm}`;
+}
+
+// ===== 1レス分をDOMに追加 =====
+function appendPost(index, timestamp, name, body, imageUrls) {
+  const threadBody = document.getElementById("blog-thread-body");
+  if (!threadBody) return;
+
   const article = document.createElement("article");
   article.className = "blog-post";
 
+  // ヘッダー（番号・名前・日付・ID）
   const header = document.createElement("div");
   header.className = "blog-post-header";
 
@@ -63,7 +60,7 @@ function appendPost(index, timestamp, name, body) {
 
   const nameSpan = document.createElement("span");
   nameSpan.className = "blog-post-name";
-  nameSpan.textContent = `${name || "党員"}`;
+  nameSpan.textContent = name || "党員";
 
   const dateSpan = document.createElement("span");
   dateSpan.className = "blog-post-date";
@@ -76,13 +73,13 @@ function appendPost(index, timestamp, name, body) {
         dateText = formatDate(d);
       }
     } catch (e) {
-      // 失敗したら何もしない
+      // 失敗したら現在時刻でフォールバック
     }
   }
   if (!dateText) {
     dateText = formatDate(new Date());
   }
-  dateSpan.textContent = `${dateText}`;
+  dateSpan.textContent = dateText;
 
   const idSpan = document.createElement("span");
   idSpan.className = "blog-post-id";
@@ -94,75 +91,117 @@ function appendPost(index, timestamp, name, body) {
   header.appendChild(dateSpan);
   header.appendChild(idSpan);
 
+  // 本文
   const bodyDiv = document.createElement("div");
   bodyDiv.className = "blog-post-body";
-  bodyDiv.innerHTML = (body || "")
+  const safeBody = (body || "")
+    .toString()
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/\n/g, "<br>");
+  bodyDiv.innerHTML = safeBody;
 
   article.appendChild(header);
   article.appendChild(bodyDiv);
 
+  // 画像（あれば投稿の一番下に表示）
+  if (imageUrls && imageUrls.trim() !== "") {
+    const imagesDiv = document.createElement("div");
+    imagesDiv.className = "blog-post-images";
+
+    // URLがカンマ区切りで入っている想定（1枚だけならそのまま）
+    const urls = imageUrls.split(/\s*,\s*/);
+    urls.forEach((url) => {
+      if (!url) return;
+      const img = document.createElement("img");
+      img.src = url;
+      img.loading = "lazy";
+      img.className = "blog-post-image";
+      imagesDiv.appendChild(img);
+    });
+
+    article.appendChild(imagesDiv);
+  }
+
   threadBody.appendChild(article);
 }
 
-// シートから読み込み
-async function loadPosts() {
-  try {
-    threadBody.innerHTML = '<div class="blog-loading">読み込み中...</div>';
+// ===== Googleスプレッドシートから読み込み =====
 
+// ★必ず自分のスプレッドシートURLに書き換えて
+// 例: https://docs.google.com/spreadsheets/d/スプレッドシートID/gviz/tq?sheet=フォームの回答
+const SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/XXXXXXXXXXXXXXX/gviz/tq?sheet=フォームの回答";
+
+async function loadPosts() {
+  const threadBody = document.getElementById("blog-thread-body");
+  const postCountElement = document.getElementById("blog-post-count");
+
+  if (!threadBody) return;
+
+  threadBody.innerHTML =
+    '<div class="blog-loading">読み込み中...</div>';
+  if (postCountElement) {
+    postCountElement.textContent = "";
+  }
+
+  try {
     const res = await fetch(SHEET_URL);
     const text = await res.text();
 
-    // gvizのラッパーからJSON部分だけ抜き出す
-    const start = text.indexOf("{");
-    const end = text.lastIndexOf("}");
+    const marker = "google.visualization.Query.setResponse(";
+    const start = text.indexOf(marker);
+    const end = text.lastIndexOf(");");
+
     if (start === -1 || end === -1) {
-      threadBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+      threadBody.innerHTML =
+        '<div class="blog-loading">データの読み込みに失敗しました。</div>';
       return;
     }
 
-    const jsonStr = text.substring(start, end + 1);
+    const jsonStr = text.substring(start + marker.length, end);
     const data = JSON.parse(jsonStr);
-
     const rows = (data.table && data.table.rows) || [];
 
     threadBody.innerHTML = "";
 
     if (!rows.length) {
-      threadBody.innerHTML = '<div class="blog-loading">まだ書き込みはありません。</div>';
+      threadBody.innerHTML =
+        '<div class="blog-loading">まだ書き込みはありません。</div>';
       if (postCountElement) {
         postCountElement.textContent = "0 レス";
       }
       return;
     }
 
+    // 新しい順に並んでいるならそのまま / 逆順にしたいなら rows.slice().reverse()
     rows.forEach((row, idx) => {
       const c = row.c || [];
-      const tsCell = c[0];
-      const nameCell = c[1];
-      const bodyCell = c[2];
+      const tsCell = c[0]; // タイムスタンプ列
+      const nameCell = c[1]; // 名前列
+      const bodyCell = c[2]; // 本文列
+      const imageCell = c[3]; // 画像URL列（Googleフォームのファイルアップロード）
 
-      const timestamp = (tsCell && tsCell.f) || (tsCell && tsCell.v) || "";
+      const timestamp = (tsCell && (tsCell.f || tsCell.v)) || "";
       const name = (nameCell && nameCell.v) || "";
       const body = (bodyCell && bodyCell.v) || "";
+      const imageUrls = (imageCell && imageCell.v) || "";
 
-      appendPost(idx + 1, timestamp, name, body);
+      appendPost(idx + 1, timestamp, name, body, imageUrls);
     });
 
-    // レス数を更新
     if (postCountElement) {
       postCountElement.textContent = `${rows.length} レス`;
     }
-
   } catch (err) {
     console.error(err);
-    threadBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+    threadBody.innerHTML =
+      '<div class="blog-loading">データの読み込みに失敗しました。</div>';
   }
 }
 
+// ===== 起動 =====
 document.addEventListener("DOMContentLoaded", () => {
-  loadPosts();
+  waitAuthAndLoad();
 });
