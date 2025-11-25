@@ -3,16 +3,13 @@ function checkBlogAccess() {
   const email = localStorage.getItem("user_email");
   const canBlog = localStorage.getItem("user_can_blog") === "1";
 
-  // まだログイン情報が入ってない（auth.jsが未完了）の場合
   if (!email) return false;
 
-  // ログイン済みだが権限なし → 追い出す
   if (email && !canBlog) {
     window.location.replace("cantsee.html");
     return false;
   }
 
-  // 権限OK → bodyにクラスを付けて表示
   document.body.classList.add("authorized");
   return true;
 }
@@ -50,7 +47,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
   const article = document.createElement("article");
   article.className = "blog-post";
 
-  // ヘッダー（番号・名前・日付・ID）
+  // ヘッダー
   const header = document.createElement("div");
   header.className = "blog-post-header";
 
@@ -72,9 +69,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
       if (!isNaN(d.getTime())) {
         dateText = formatDate(d);
       }
-    } catch (e) {
-      // 失敗したら現在時刻でフォールバック
-    }
+    } catch (e) {}
   }
   if (!dateText) {
     dateText = formatDate(new Date());
@@ -110,19 +105,23 @@ function appendPost(index, timestamp, name, body, imageUrls) {
     const imagesDiv = document.createElement("div");
     imagesDiv.className = "blog-post-images";
 
-    // URLがカンマ区切りで入っている想定
     const urls = imageUrls.split(/\s*,\s*/);
 
     urls.forEach(raw => {
       const url = raw.trim();
       if (!url) return;
 
+      // まずそのままログ
+      console.log("[BLOG] raw image url from sheet:", url);
+
       // Google Drive の URL を画像URLに変換
       let displayUrl = url;
-      const match = url.match(/(?:open\?id=|id=|\/d\/)([^&/]+)/);
-      if (match) {
-        displayUrl = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      const m = url.match(/(?:open\?id=|id=|\/d\/)([^&/]+)/);
+      if (m) {
+        displayUrl = `https://drive.google.com/uc?export=view&id=${m[1]}`;
       }
+
+      console.log("[BLOG] img src used:", displayUrl);
 
       const img = document.createElement("img");
       img.src = displayUrl;
@@ -182,7 +181,6 @@ async function loadPosts() {
       return;
     }
 
-    // 各行を順に表示（1レス目 = 1）
     rows.forEach((row, idx) => {
       const c = row.c || [];
 
@@ -190,11 +188,11 @@ async function loadPosts() {
       const name      = (c[1] && c[1].v) || "";
       const body      = (c[2] && c[2].v) || "";
 
-      // ✅ 画像は「4列目（index 3）」だけを見る
+      // ★★★ 画像は4列目（index 3）だけを見る
       const imageCell = c[3] || {};
       let imageUrls = "";
 
-      // HYPERLINK 形式 or href が入ってた場合の保険
+      // f に HYPERLINK 形式 or href が入ってる場合
       if (imageCell.f && typeof imageCell.f === "string") {
         let m =
           imageCell.f.match(/HYPERLINK\("([^"]+)"/i) ||
@@ -204,10 +202,12 @@ async function loadPosts() {
           imageUrls = m[1];
         }
       } else if (imageCell.v) {
+        // v に生の URL が入っている場合
         imageUrls = imageCell.v.toString();
       }
 
-      // 本文も画像も何も無い行はスキップ
+      console.log("[BLOG] row", idx + 1, "imageUrls =", imageUrls);
+
       if (!timestamp && !name && !body && !imageUrls) return;
 
       appendPost(idx + 1, timestamp, name, body, imageUrls);
