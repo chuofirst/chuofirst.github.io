@@ -106,24 +106,32 @@ function appendPost(index, timestamp, name, body, imageUrls) {
   article.appendChild(bodyDiv);
 
   // 画像（あれば投稿の一番下に表示）
-  urls.forEach(url => {
-    if (!url) return;
+  if (imageUrls && imageUrls.trim() !== "") {
+    const imagesDiv = document.createElement("div");
+    imagesDiv.className = "blog-post-images";
 
-    // Google Drive の open?id=形式を画像URLに変換
-    const match = url.match(/open\\?id=([^&]+)/);
-    const displayUrl = match
-      ? `https://drive.google.com/uc?export=view&id=${match[1]}`
-      : url;
+    // URLがカンマ区切りで入っている想定
+    const urls = imageUrls.split(/\s*,\s*/);
 
-    const img = document.createElement("img");
-    img.src = displayUrl;
-    img.loading = "lazy";
-    img.className = "blog-post-image";
-    imagesDiv.appendChild(img);
-  });
+    urls.forEach(url => {
+      if (!url) return;
+
+      // Google Drive の open?id=形式を画像URLに変換
+      const match = url.match(/open\\?id=([^&]+)/);
+      const displayUrl = match
+        ? `https://drive.google.com/uc?export=view&id=${match[1]}`
+        : url;
+
+      const img = document.createElement("img");
+      img.src = displayUrl;
+      img.loading = "lazy";
+      img.className = "blog-post-image";
+      imagesDiv.appendChild(img);
+    });
 
     article.appendChild(imagesDiv);
   }
+
 
   threadBody.appendChild(article);
 }
