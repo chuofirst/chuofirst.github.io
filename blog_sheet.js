@@ -142,7 +142,7 @@ const SHEET_URL =
 
 async function loadPosts() {
   const threadBody = document.getElementById("blog-thread-body");
-  const postCountElement = document.getElementById("blog-post-count");
+  const postCountElement = document.getElementById("post-count");
 
   if (!threadBody) return;
 
