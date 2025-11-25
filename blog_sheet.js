@@ -129,7 +129,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 
 // ===== Googleスプレッドシートから読み込み =====
 const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E/edit?resourcekey=&gid=1732375096#gid=1732375096";
+  "https://docs.google.com/spreadsheets/d/1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E/gviz/tq?sheet=Responses";
 
 async function loadPosts() {
   const threadBody = document.getElementById("blog-thread-body");
