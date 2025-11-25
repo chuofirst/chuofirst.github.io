@@ -117,10 +117,10 @@ function appendPost(index, timestamp, name, body, imageUrls) {
       if (!url) return;
 
       // Google Drive の open?id=形式を画像URLに変換
-      const match = url.match(/open\?id=([^&]+)/);
+      const match = url.match(/(?:id=|\/d\/)([^&/]+)/);
       const displayUrl = match
-        ? `https://drive.google.com/uc?export=view&id=${match[1]}`
-        : url;
+  　　　? `https://drive.google.com/uc?export=view&id=${match[1]}`
+  　　　: url;
 
       const img = document.createElement("img");
       img.src = displayUrl;
@@ -194,15 +194,18 @@ async function loadPosts() {
 
   　// HYPERLINK式からURLを抜く
   　if (imageCell.f && typeof imageCell.f === "string") {
-    　const m = imageCell.f.match(/HYPERLINK\("([^"]+)"/i);
-    　if (m) imageUrls = m[1];
-  　} else if (imageCell.v) {
-    　imageUrls = imageCell.v.toString();
-  　}
+     const imageCell = c[6] || {};
+     let imageUrls = "";
 
-  　if (!timestamp && !name && !body && !imageUrls) return;
+     // ✅ HYPERLINK式からURL抽出（Googleフォーム確定仕様）
+     if (imageCell.f && typeof imageCell.f === "string") {
+       const m = imageCell.f.match(/HYPERLINK\(\\"([^\\"]+)\\"/i);
+       if (m) imageUrls = m[1];
+     } else if (imageCell.v) {
+       imageUrls = imageCell.v.toString();
+     }
 
-  　appendPost(idx + 1, timestamp, name, body, imageUrls);
+     appendPost(idx + 1, timestamp, name, body, imageUrls);
 　});
 
 
