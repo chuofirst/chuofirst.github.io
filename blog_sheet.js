@@ -188,7 +188,7 @@ async function loadPosts() {
     const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
     const name      = (c[1] && c[1].v) || "";
     const body      = (c[2] && c[2].v) || "";
-    const imageUrls = (c[3] && c[3].v) || ""; // ← 画像列
+    const imageUrls = (c[6] && c[6].v) || ""; // ← 画像列
 
     // 本文が空でも、画像があれば投稿として扱うように調整
     if (!timestamp && !name && !body && !imageUrls) return;
