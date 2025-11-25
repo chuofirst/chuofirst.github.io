@@ -183,30 +183,29 @@ async function loadPosts() {
 
     // 新しい順に並んでいるならそのまま / 逆順にしたいなら rows.slice().reverse()
     rows.forEach((row, idx) => {
-  　const c = row.c || [];
+      const c = row.c || [];
+      
+      const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
+      const name      = (c[1] && c[1].v) || "";
+      const body      = (c[2] && c[2].v) || "";
 
-  　const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
-  　const name      = (c[1] && c[1].v) || "";
-  　const body      = (c[2] && c[2].v) || "";
+      const imageCell = c[6] || {};
+      let imageUrls = "";
 
-  　const imageCell = c[6] || {};
-  　let imageUrls = "";
+      // ✅ HYPERLINK式からURL抽出（Googleフォーム仕様）
+      if (imageCell.f && typeof imageCell.f === "string") {
+        const m = imageCell.f.match(/HYPERLINK\(\\"([^\\"]+)\\"/i);
+        if (m) imageUrls = m[1];
+      } else if (imageCell.v) {
+        imageUrls = imageCell.v.toString();
+      }
 
-  　// HYPERLINK式からURLを抜く
-  　if (imageCell.f && typeof imageCell.f === "string") {
-     const imageCell = c[6] || {};
-     let imageUrls = "";
+      // ✅ 本文も画像も無いゴミ行はスキップ
+      if (!timestamp && !name && !body && !imageUrls) return;
 
-     // ✅ HYPERLINK式からURL抽出（Googleフォーム確定仕様）
-     if (imageCell.f && typeof imageCell.f === "string") {
-       const m = imageCell.f.match(/HYPERLINK\(\\"([^\\"]+)\\"/i);
-       if (m) imageUrls = m[1];
-     } else if (imageCell.v) {
-       imageUrls = imageCell.v.toString();
-     }
+      appendPost(idx + 1, timestamp, name, body, imageUrls);
+    });
 
-     appendPost(idx + 1, timestamp, name, body, imageUrls);
-　});
 
 
 
