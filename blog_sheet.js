@@ -128,11 +128,8 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 }
 
 // ===== Googleスプレッドシートから読み込み =====
-
-// ★必ず自分のスプレッドシートURLに書き換えて
-// 例: https://docs.google.com/spreadsheets/d/スプレッドシートID/gviz/tq?sheet=フォームの回答
 const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/XXXXXXXXXXXXXXX/gviz/tq?sheet=フォームの回答";
+  "https://docs.google.com/spreadsheets/d/1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E/edit?resourcekey=&gid=1732375096#gid=1732375096";
 
 async function loadPosts() {
   const threadBody = document.getElementById("blog-thread-body");
