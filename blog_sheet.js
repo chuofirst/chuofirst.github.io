@@ -189,7 +189,7 @@ async function loadPosts() {
       const name      = (c[1] && c[1].v) || "";
       const body      = (c[2] && c[2].v) || "";
 
-      const imageCell = c[6] || {};
+      const imageCell = c[4] || {};
       let imageUrls = "";
 
       // ✅ HYPERLINK式からURL抽出（Googleフォーム仕様）
