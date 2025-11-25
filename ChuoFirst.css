@@ -2952,8 +2952,8 @@ html, body {
 
 .blog-form-note {
   margin: 0 0 14px;
-  font-size: 0.95em;
-  color: rgba(0, 0, 0, 0.8);
+  font-size: 0.97em;
+  color: var(--text-dark);
 }
 
 /* ボタンのラッパー */
@@ -3008,8 +3008,10 @@ html, body {
 
 .blog-notice-text {
   margin: 0;
-  font-size: 0.95em;
+  font-size: 0.97em;
   font-weight: 700;
+  color: var(--text-dark);
+
 }
 
 /* ===== ブログ：レスポンシブ調整 ===== */
