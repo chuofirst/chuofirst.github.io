@@ -2780,7 +2780,7 @@ html, body {
 
 /* コンテナ */
 .blog-container {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
   max-width: 960px;
   margin: 0 auto;
   display: flex;
