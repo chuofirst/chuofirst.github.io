@@ -188,9 +188,21 @@ async function loadPosts() {
     const timestamp = (c[0] && (c[0].f || c[0].v)) || "";
     const name      = (c[1] && c[1].v) || "";
     const body      = (c[2] && c[2].v) || "";
-    const imageUrls = (c[6] && c[6].v) || ""; // ← 画像列
 
-    // 本文が空でも、画像があれば投稿として扱うように調整
+    // ✅ 画像セルを取得（ファイルアップロード対応）
+    const imageCell = c[6] || {};
+    let imageUrls = "";
+
+    // f に <a href="..."> が入っているのでそこから取り出す
+    if (imageCell.f && typeof imageCell.f === "string") {
+      const m = imageCell.f.match(/href="([^"]+)"/);
+      if (m) imageUrls = m[1];
+    } else if (imageCell.v) {
+      // URLが直接入っている場合にも対応
+      imageUrls = imageCell.v.toString();
+    }
+
+    // 本文が空でも画像があるなら表示する
     if (!timestamp && !name && !body && !imageUrls) return;
 
     appendPost(idx + 1, timestamp, name, body, imageUrls);
