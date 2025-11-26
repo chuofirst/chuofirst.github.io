@@ -47,40 +47,35 @@
 
       <div class="blog-container">
 
-        <!-- スレッド表示エリア（5ch風） -->
-        <div class="blog-thread-wrapper fade-in-on-scroll">
-          <div class="blog-thread-header">
-            <span class="blog-thread-title">雑談スレッド</span>
-            <span class="blog-thread-count" id="post-count">0 レス</span>
-          </div>
-          
-          <div id="blog-thread-body" class="blog-thread-body">
-            <div class="blog-loading">読み込み中...</div>
-          </div>
-        </div>
-
-        <!-- 書き込みフォーム -->
-        <div class="blog-form-card fade-in-on-scroll">
-          <div class="blog-form-header">
-            <div class="blog-form-icon">✍️</div>
-            <h2 class="blog-form-title">書き込む</h2>
-          </div>
-          <p class="blog-form-note">
-            下のボタンからGoogleフォームを開いて書き込んでください。
-            送信後、このページを再読み込みすると反映されます。
+        <!-- スレッド選択エリア -->
+        <div class="blog-menu-wrapper fade-in-on-scroll">
+          <h2 class="blog-menu-title">スレッド一覧</h2>
+          <p class="blog-menu-description">
+            下から閲覧したいスレッドを選択してください。
           </p>
-          <div class="blog-form-button-wrapper">
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLScZGb5N6pYqAgQPMK3G8daY7fb3RsrUUS5pp_D38eeXj4mQCA/viewform"
-              target="_blank"
-              rel="noopener"
-              class="blog-form-open-btn"
-            >
-              フォームを開く
+
+          <div class="blog-menu-grid">
+            <!-- 雑談スレッド（レベル2&3） -->
+            <a href="thread.html" class="blog-menu-card">
+              <div class="blog-menu-icon">💬</div>
+              <h3 class="blog-menu-card-title">雑談スレッド</h3>
+              <p class="blog-menu-card-description">
+                自由に雑談できるスレッドです。<br>
+                <span class="blog-menu-badge">閲覧者(スレッド投稿可) & 党員</span>
+              </p>
+            </a>
+
+            <!-- 党員専用スレッド（レベル3のみ） -->
+            <a href="member_thread.html" class="blog-menu-card party-only">
+              <div class="blog-menu-icon">🔒</div>
+              <h3 class="blog-menu-card-title">党員専用スレッド</h3>
+              <p class="blog-menu-card-description">
+                党員のみが閲覧・投稿できるスレッドです。<br>
+                <span class="blog-menu-badge party">党員専用</span>
+              </p>
             </a>
           </div>
         </div>
-
 
         <!-- 注意書き -->
         <div class="blog-notice-card fade-in-on-scroll">
@@ -98,7 +93,6 @@
 
   <!-- Firebase Authentication -->
   <script type="module" src="auth.js"></script>
-  <script type="module" src="blog_sheet.js"></script>
   <script src="animations.js"></script>
   
 </body>
