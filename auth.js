@@ -4,7 +4,7 @@
 const ENCRYPTION_KEY = 'chuo-first-secret-key-2025';
 
 // 承認済みメールアドレスリスト（暗号化）→ レベル1以上
-const APPROVED_EMAILS_ENCRYPTED = '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';
+const APPROVED_EMAILS_ENCRYPTED = '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';
 
 // 党員専用ページ用メールアドレスリスト（暗号化）→ レベル3
 const BLOG_ALLOWED_EMAILS_ENCRYPTED = 'AAAAAABUWUBARB9GJQYWEFlKRQIKQxxVVhsJGFkMRRMGX0FEH0BVUUIlEUkeSB4DVUNcGwYMWwVdSgoaBhsAQVVRQVVEGCsAHVgfVxxSEAZbCklIAwJfF0UGCk5AVUYeWlBJbVdURxgERhIcQ0gMFl0eXV8GCwcKWR9bV0ofBgByUAcdWAgDARocXRFJXQ8TXgYcWARISx0AAwEFUygQC1hLDlwUB0NdAAdcDwQBCA0MQh8CAgdQWURabQMNB14TAxQWDVwAEAMBFVVOWkVdGFFYR1wcVVwyFhBYXgJNFRYaAw4BV0dCHFFdFgdYXR1UWkJERG0WARZfAlpKGAtXSFYeWEU=';
@@ -15,8 +15,11 @@ const SPECIAL_THREAD_ACCESS = [
   'chuo-2023105@edu-g.gsn.ed.jp'
 ].map(e => e.toLowerCase().trim());
 
-// 申請フォームのURL（個人認証用）
+// 申請フォームのURL（承認リスト外ユーザー用）
 const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeGNatochSVo3EmU0K2GB7IoAiHy5iMd3gOs0HnubaHgFyiIg/viewform';
+
+// 党員用パスワード（暗号化済）
+const PARTY_PASSWORD_ENCRYPTED = 'IAAAAEsPGwEH';
 
 // ========================================
 // 復号化関数
@@ -53,6 +56,11 @@ function decryptWithCache(encrypted) {
   return out;
 }
 
+// 党員パスワード取得
+function getPartyPassword() {
+  return decryptContent(PARTY_PASSWORD_ENCRYPTED);
+}
+
 const schedule = (cb) => {
   if ('requestIdleCallback' in window) {
     requestIdleCallback(cb, { timeout: 200 });
@@ -65,16 +73,13 @@ function showDecryptedContent() {
   if (__DECRYPTION_DONE || __DECRYPTION_RUNNING) return;
   __DECRYPTION_RUNNING = true;
 
-  // 認証画面を削除
   const loginScreen = document.getElementById('login-screen');
   if (loginScreen) loginScreen.remove();
 
-  // bodyのスタイルをリセット
   document.body.style.cssText = '';
   document.body.style.setProperty('visibility', 'visible', 'important');
   document.body.classList.add('authorized');
 
-  // 元のコンテンツを復元
   const wrapper = document.getElementById('original-content-wrapper');
   if (wrapper) {
     wrapper.style.display = '';
@@ -89,7 +94,7 @@ function showDecryptedContent() {
     textNodes.sort(byLenAsc('data-encrypted'));
     imgNodes.sort(byLenAsc('data-encrypted-src'));
 
-    const SMALL_THRESHOLD = 60_000;
+    const SMALL_THRESHOLD = 60000;
     const smallImgs = [];
     const largeImgs = [];
     for (const el of imgNodes) {
@@ -190,7 +195,6 @@ function getBlogAllowedEmails() {
 // ログイン画面
 // ========================================
 function showLoginScreen() {
-  // bodyのコンテンツを完全に隠す
   document.body.style.cssText = `
     visibility: visible !important;
     overflow: hidden !important;
@@ -233,9 +237,20 @@ function showLoginScreen() {
         font-size: 1em;
         border: 2px solid #ddd;
         border-radius: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         box-sizing: border-box;
       ">
+      <div id="password-block" style="margin-bottom: 20px; display: none;">
+        <input type="password" id="login-password-input" placeholder="党員パスワード" style="
+          width: 100%;
+          padding: 15px;
+          font-size: 1em;
+          border: 2px solid #ddd;
+          border-radius: 10px;
+          box-sizing: border-box;
+        ">
+        <p style="font-size: 0.85em; color: #666; margin-top: 8px;">※党員のみ入力してください</p>
+      </div>
       <button id="login-btn" style="
         width: 100%;
         background: #ee7800;
@@ -271,7 +286,6 @@ function showLoginScreen() {
 
   document.documentElement.appendChild(loginDiv);
 
-  // bodyの内容を隠す（認証画面は除く）
   if (!document.body.hasAttribute('data-original-content')) {
     document.body.setAttribute('data-original-content', 'true');
     const wrapper = document.createElement('div');
@@ -294,19 +308,25 @@ function showLoginScreen() {
 
   const loginBtn = document.getElementById('login-btn');
   const statusDiv = document.getElementById('login-status');
+  const emailInput = document.getElementById('login-email-input');
+  const passwordBlock = document.getElementById('password-block');
+  const passwordInput = document.getElementById('login-password-input');
+  const requestLink = document.getElementById('request-link');
 
-  // ログインボタン
   loginBtn.addEventListener('click', () => {
-    const raw = document.getElementById('login-email-input').value;
+    const raw = emailInput.value;
     const email = raw.trim().toLowerCase();
     
+    statusDiv.textContent = '';
+    statusDiv.style.color = '#999';
+    requestLink.style.display = 'none';
+
     if (!email) {
       statusDiv.textContent = 'メールアドレスを入力してください';
       statusDiv.style.color = '#dc3545';
       return;
     }
 
-    // メールアドレスの形式チェック
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       statusDiv.textContent = '正しいメールアドレスを入力してください';
@@ -314,20 +334,43 @@ function showLoginScreen() {
       return;
     }
 
-    // レベル判定
-    const isApproved = isEmailApproved(email);                // レベル1以上
-    const blogAllowedList = getBlogAllowedEmails();           // 党員リスト
-    const isParty   = blogAllowedList.includes(email);        // レベル3
-    const isSpecial = SPECIAL_THREAD_ACCESS.includes(email);  // レベル2
+    const isApproved = isEmailApproved(email);
+    const blogAllowedList = getBlogAllowedEmails();
+    const isParty   = blogAllowedList.includes(email);
+    const isSpecial = SPECIAL_THREAD_ACCESS.includes(email);
 
-    // 承認されていない → フォームへ
     if (!isApproved) {
       localStorage.removeItem('user_email');
       localStorage.removeItem('user_can_blog');
       localStorage.removeItem('user_role');
-      localStorage.removeItem('user_verified');
-      window.location.href = REQUEST_FORM_URL;
+
+      statusDiv.textContent = 'このメールアドレスにはアクセス権限がありません。フォームから申請してください。';
+      statusDiv.style.color = '#dc3545';
+      requestLink.style.display = 'block';
+      window.open(REQUEST_FORM_URL, '_blank');
       return;
+    }
+
+    // 党員の場合はパスワード必須（暗号化された値と比較）
+    if (isParty) {
+      passwordBlock.style.display = 'block';
+      const pwd = (passwordInput.value || '').trim();
+      const realPwd = getPartyPassword();
+
+      if (!pwd) {
+        statusDiv.textContent = '党員の方はパスワードを入力してください';
+        statusDiv.style.color = '#dc3545';
+        return;
+      }
+
+      if (pwd !== realPwd) {
+        statusDiv.textContent = 'パスワードが違います';
+        statusDiv.style.color = '#dc3545';
+        return;
+      }
+    } else {
+      passwordBlock.style.display = 'none';
+      passwordInput.value = '';
     }
 
     // ロール決定
@@ -342,18 +385,10 @@ function showLoginScreen() {
       roleLabel = '閲覧者(スレッド投稿可)';
     }
 
-    // 保存
     localStorage.setItem('user_email', email);
     localStorage.setItem('user_role', role);
     localStorage.setItem('user_can_blog', isParty ? '1' : '0');
 
-    // 初回認証フォーム（レベル2・3のみ一度だけ開かせる）
-    if ((role === '2' || role === '3') && !localStorage.getItem('user_verified')) {
-      localStorage.setItem('user_verified', '1');
-      window.open(REQUEST_FORM_URL, '_blank');
-    }
-
-    // 表示メッセージ
     statusDiv.textContent = `✅ ${roleLabel}としてログインしました！`;
     statusDiv.style.color = '#28a745';
     
@@ -366,10 +401,28 @@ function showLoginScreen() {
     }, 500);
   });
 
-  // Enterキーでログイン
-  document.getElementById('login-email-input').addEventListener('keypress', (e) => {
+  emailInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       loginBtn.click();
+    }
+  });
+  if (passwordInput) {
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        loginBtn.click();
+      }
+    });
+  }
+
+  // メール入力後に党員かどうかでパス欄の表示切り替え
+  emailInput.addEventListener('blur', () => {
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email) return;
+    const blogAllowedList = getBlogAllowedEmails();
+    const isParty = blogAllowedList.includes(email);
+    passwordBlock.style.display = isParty ? 'block' : 'none';
+    if (!isParty) {
+      passwordInput.value = '';
     }
   });
 }
@@ -382,7 +435,6 @@ function checkAuth() {
   const savedEmail = savedEmailRaw ? savedEmailRaw.toLowerCase().trim() : '';
 
   if (savedEmail && isEmailApproved(savedEmail)) {
-    // ロールが未保存の旧ユーザー用に再計算
     let role = localStorage.getItem('user_role');
     const blogAllowedList = getBlogAllowedEmails();
     const isParty   = blogAllowedList.includes(savedEmail);
@@ -408,12 +460,12 @@ function checkAuth() {
     const isMemberThread = path.endsWith('/member_thread.html') || path.endsWith('member_thread.html');
 
     // blog.html / thread.html = レベル2 & 3のみ
-    if ((isBlog || isThread) && (role === '1')) {
+    if ((isBlog || isThread) && role === '1') {
       window.location.replace('cantsee.html');
       return;
     }
 
-    // member_thread.html = 党員（レベル3）のみ
+    // member_thread.html = レベル3のみ
     if (isMemberThread && role !== '3') {
       window.location.replace('cantsee.html');
       return;
@@ -427,7 +479,6 @@ function checkAuth() {
     localStorage.removeItem('user_email');
     localStorage.removeItem('user_can_blog');
     localStorage.removeItem('user_role');
-    localStorage.removeItem('user_verified');
   }
 
   showLoginScreen();
