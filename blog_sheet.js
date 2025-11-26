@@ -1,11 +1,12 @@
-// ===== 党員専用チェック（auth.js完了後に実行） =====
-function checkBlogAccess() {
+// ===== アクセス権チェック（auth.js完了後に実行） =====
+function checkThreadAccess() {
   const email = localStorage.getItem("user_email");
-  const canBlog = localStorage.getItem("user_can_blog") === "1";
+  const role = localStorage.getItem("user_role");
 
   if (!email) return false;
 
-  if (email && !canBlog) {
+  // レベル2（特別選抜）またはレベル3（党員）のみアクセス可能
+  if (role !== '2' && role !== '3') {
     window.location.replace("cantsee.html");
     return false;
   }
@@ -19,7 +20,7 @@ let authCheckCount = 0;
 function waitAuthAndLoad() {
   const timer = setInterval(() => {
     authCheckCount++;
-    const ok = checkBlogAccess();
+    const ok = checkThreadAccess();
     if (ok || authCheckCount > 10) {
       clearInterval(timer);
       if (ok) {
@@ -57,7 +58,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 
   const nameSpan = document.createElement("span");
   nameSpan.className = "blog-post-name";
-  nameSpan.textContent = name || "党員";
+  nameSpan.textContent = name || "名無し";
 
   const dateSpan = document.createElement("span");
   dateSpan.className = "blog-post-date";
@@ -111,19 +112,17 @@ function appendPost(index, timestamp, name, body, imageUrls) {
       const url = raw.trim();
       if (!url) return;
 
-      // まず元URLをログ
-      console.log("[BLOG] raw image url from sheet:", url);
+      console.log("[THREAD] raw image url from sheet:", url);
 
       // Google Drive のファイルIDを取り出す
       let displayUrl = url;
       const m = url.match(/(?:open\?id=|id=|\/d\/)([^&/]+)/);
       if (m) {
         const fileId = m[1];
-        // ★ ここを uc?export=view じゃなく thumbnail にする
         displayUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
       }
 
-      console.log("[BLOG] img src used:", displayUrl);
+      console.log("[THREAD] img src used:", displayUrl);
 
       const img = document.createElement("img");
       img.src = displayUrl;
@@ -139,8 +138,9 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 }
 
 // ===== Googleスプレッドシートから読み込み =====
-const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E/gviz/tq?sheet=Responses";
+// ★★★ ここに雑談スレッド用のスプレッドシートURLを設定してください ★★★
+const SHEET_URL = "[ここに雑談スレッド用のGoogleスプレッドシートURLを設定]";
+// 例: "https://docs.google.com/spreadsheets/d/XXXXX/gviz/tq?sheet=Responses";
 
 async function loadPosts() {
   const threadBody = document.getElementById("blog-thread-body");
@@ -148,10 +148,15 @@ async function loadPosts() {
 
   if (!threadBody) return;
 
-  threadBody.innerHTML =
-    '<div class="blog-loading">読み込み中...</div>';
+  threadBody.innerHTML = '<div class="blog-loading">読み込み中...</div>';
   if (postCountElement) {
     postCountElement.textContent = "";
+  }
+
+  // スプレッドシートURLが設定されていない場合
+  if (!SHEET_URL || SHEET_URL.includes("[ここに")) {
+    threadBody.innerHTML = '<div class="blog-loading">スプレッドシートURLが設定されていません。<br>thread_sheet.jsのSHEET_URLを設定してください。</div>';
+    return;
   }
 
   try {
@@ -163,8 +168,7 @@ async function loadPosts() {
     const end = text.lastIndexOf(");");
 
     if (start === -1 || end === -1) {
-      threadBody.innerHTML =
-        '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+      threadBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
       return;
     }
 
@@ -175,8 +179,7 @@ async function loadPosts() {
     threadBody.innerHTML = "";
 
     if (!rows.length) {
-      threadBody.innerHTML =
-        '<div class="blog-loading">まだ書き込みはありません。</div>';
+      threadBody.innerHTML = '<div class="blog-loading">まだ書き込みはありません。</div>';
       if (postCountElement) {
         postCountElement.textContent = "0 レス";
       }
@@ -190,11 +193,10 @@ async function loadPosts() {
       const name      = (c[1] && c[1].v) || "";
       const body      = (c[2] && c[2].v) || "";
 
-      // ★★★ 画像は4列目（index 3）だけを見る
+      // 画像は4列目（index 3）
       const imageCell = c[3] || {};
       let imageUrls = "";
 
-      // f に HYPERLINK 形式 or href が入ってる場合
       if (imageCell.f && typeof imageCell.f === "string") {
         let m =
           imageCell.f.match(/HYPERLINK\("([^"]+)"/i) ||
@@ -204,11 +206,10 @@ async function loadPosts() {
           imageUrls = m[1];
         }
       } else if (imageCell.v) {
-        // v に生の URL が入っている場合
         imageUrls = imageCell.v.toString();
       }
 
-      console.log("[BLOG] row", idx + 1, "imageUrls =", imageUrls);
+      console.log("[THREAD] row", idx + 1, "imageUrls =", imageUrls);
 
       if (!timestamp && !name && !body && !imageUrls) return;
 
@@ -220,8 +221,7 @@ async function loadPosts() {
     }
   } catch (err) {
     console.error(err);
-    threadBody.innerHTML =
-      '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+    threadBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
   }
 }
 
