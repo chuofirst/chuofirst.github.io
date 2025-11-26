@@ -16,7 +16,7 @@ const SPECIAL_THREAD_ACCESS = [
 ].map(e => e.toLowerCase().trim());
 
 // 申請フォームのURL（承認リスト外ユーザー用）
-const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeGNatochSVo3EmU0K2GB7IoAiHy5iMd3gOs0HnubaHgFyiIg/viewform';
+const REQUEST_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfPCE0NPFVj2zHACsSPznFX5ZFYuXsqeYDF_VXl_n7glEyiHg/viewform';
 
 // 党員用パスワード（暗号化済）
 const PARTY_PASSWORD_ENCRYPTED = 'IAAAAEsPGwEH';
