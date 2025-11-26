@@ -157,23 +157,26 @@ function showDecryptedContent() {
 }
 
 // ========================================
-// 承認メールアドレスチェック
+// 承認メールアドレスチェック（レベル1）
 // ========================================
+
+// 005,010,015,...,995 まで 5刻みで自動生成
 function getApprovedEmails() {
-  try {
-    const decrypted = decryptContent(APPROVED_EMAILS_ENCRYPTED);
-    return decrypted.split(',').map(e => e.trim().toLowerCase()).filter(e => e);
-  } catch (e) {
-    console.error('メールアドレスリスト復号化エラー:', e);
-    return [];
+  const list = [];
+  for (let n = 5; n <= 995; n += 5) {
+    const num = String(n).padStart(3, '0');
+    const email = `chuo-2023${num}@edu-g.gsn.ed.jp`;
+    list.push(email.toLowerCase());
   }
+  return list;
 }
 
 function isEmailApproved(email) {
-  const approvedEmails = getApprovedEmails();
   const emailLower = email.toLowerCase().trim();
+  const approvedEmails = getApprovedEmails();
   return approvedEmails.includes(emailLower);
 }
+
 
 // ========================================
 // 党員専用ページ用メールリストの復号（レベル3）
