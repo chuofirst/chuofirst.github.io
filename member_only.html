@@ -94,6 +94,39 @@
   <!-- Firebase Authentication -->
   <script type="module" src="auth.js"></script>
   <script src="animations.js"></script>
+
+  <!-- アクセス権チェック -->
+  <script>
+    // auth.js完了後に実行
+    let checkCount = 0;
+    const checkInterval = setInterval(() => {
+      checkCount++;
+      const email = localStorage.getItem("user_email");
+      const role = localStorage.getItem("user_role");
+      
+      // 10回チェックしても取得できない場合は終了
+      if (checkCount > 10) {
+        clearInterval(checkInterval);
+        return;
+      }
+      
+      // メールアドレスとロールが取得できたらチェック
+      if (email && role) {
+        clearInterval(checkInterval);
+        
+        // レベル1（閲覧者のみ）は入れない
+        if (role === '1') {
+          window.location.replace('cantsee.html');
+          return;
+        }
+        
+        // レベル2（スレッド投稿可）とレベル3（党員）はOK
+        if (role === '2' || role === '3') {
+          document.body.classList.add('authorized');
+        }
+      }
+    }, 300);
+  </script>
   
 </body>
 </html>
