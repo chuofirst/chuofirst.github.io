@@ -1,5 +1,54 @@
+/* ===== 基本設定 ===== */
+:root {
+  --header-h: 100px;
+  --primary-color: #ee7800;
+  --primary-light: #ff9933;
+  --primary-dark: #cc6600;
+  --text-dark: #000;
+  --text-light: #fff;
+  --bg-light: #f9f9f9;
+  --bg-footer: #8A8C8E;
+  --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --shadow-strong: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --transition-base: 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: var(--header-h);
+  background-color: var(--primary-color);
+}
+
+.visually-hidden{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
 /* ===== ブログ（党員専用ページ）- 改善版 ===== */
-/* このコードを ChuoFirst.css の既存のブログセクション部分と置き換えてください */
 
 /* ページ全体の背景 */
 .blog-section {
