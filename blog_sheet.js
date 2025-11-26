@@ -138,8 +138,7 @@ function appendPost(index, timestamp, name, body, imageUrls) {
 }
 
 // ===== Googleスプレッドシートから読み込み =====
-// ★★★ ここに雑談スレッド用のスプレッドシートURLを設定してください ★★★
-const SHEET_URL = "[ここに雑談スレッド用のGoogleスプレッドシートURLを設定]";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1UdhaCLRFxG-9390j1Cw04-Q6DFesedNMjzeS9rSUH5E/edit?resourcekey=&gid=1732375096#gid=1732375096";
 // 例: "https://docs.google.com/spreadsheets/d/XXXXX/gviz/tq?sheet=Responses";
 
 async function loadPosts() {
