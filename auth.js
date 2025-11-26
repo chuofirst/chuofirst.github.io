@@ -358,7 +358,7 @@ function showLoginScreen() {
       const realPwd = getPartyPassword();
 
       if (!pwd) {
-        statusDiv.textContent = '党員の方はパスワードを入力してください';
+        statusDiv.textContent = '党員はパスワード(不明な場合はgmail参照)を入力';
         statusDiv.style.color = '#dc3545';
         return;
       }
