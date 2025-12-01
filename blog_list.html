@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="中央中等生ファーストの会 - 雑談スレッド一覧">
+  <title>雑談スレッド一覧 - 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="blog.css">
+  <script src="head_foot_components.js" defer></script>
+  <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
+  
+  <meta property="og:title" content="雑談スレッド一覧 - 中央中等生ファーストの会">
+  <meta property="og:description" content="中央中等生ファーストの会 - 雑談スレッド一覧">
+  <meta property="og:image" content="ChuoFirst.png">
+  <meta property="og:type" content="website">
+  
+  <!-- チラ見え防止: 初期状態でコンテンツを完全に隠す -->
+  <style>
+    body {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    body.authorized {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+  
+  <div id="overlay" aria-hidden="true"></div>
+
+  <main id="main-content">
+    <section class="page-section blog-section bg-anim-gradient fade-in-on-scroll">
+      <div class="page-header">
+        <h1 class="page-title">雑談スレッド一覧</h1>
+        <p class="page-subtitle">中央中等生ファーストの会</p>
+      </div>
+
+      <div class="blog-container">
+
+        <!-- 戻るリンク -->
+        <div class="blog-back-link fade-in-on-scroll">
+          <a href="member_only.html" class="blog-back-btn">← ホームに戻る</a>
+        </div>
+
+        <!-- スレッド一覧エリア -->
+        <div class="blog-thread-wrapper fade-in-on-scroll">
+          <div class="blog-thread-header">
+            <span class="blog-thread-title">📋 スレッド一覧</span>
+            <span class="blog-thread-count" id="thread-count">0 スレッド</span>
+          </div>
+          
+          <div id="thread-list-body" class="thread-list-body">
+            <div class="blog-loading">読み込み中...</div>
+          </div>
+        </div>
+
+        <!-- 注意書き -->
+        <div class="blog-notice-card fade-in-on-scroll">
+          <div class="blog-notice-icon">⚠️</div>
+          <p class="blog-notice-text">
+            スレッドの追加申請はお問い合わせよりご連絡ください。
+            <br>必ずスレッドの題名も考えてご記入願います。
+          </p>
+        </div>
+        
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>  
+
+  <!-- Firebase Authentication -->
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="blog_list_sheet.js"></script>
+  <script src="animations.js"></script>
+  
+</body>
+</html>
