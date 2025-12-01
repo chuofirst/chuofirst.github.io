@@ -657,3 +657,194 @@ body {
     font-size: 1em;
   }
 }
+
+
+/* ===== スレッド一覧表示エリア ===== */
+
+.thread-list-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 12px;
+}
+
+/* スクロールバーのカスタマイズ */
+.thread-list-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.thread-list-body::-webkit-scrollbar-track {
+  background: rgba(238, 120, 0, 0.1);
+  border-radius: 10px;
+}
+
+.thread-list-body::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+.thread-list-body::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* スレッドカード */
+.thread-list-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 8px 15px;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(238, 120, 0, 0.2);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.thread-list-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.thread-list-card:hover::before {
+  left: 100%;
+}
+
+.thread-list-card:hover {
+  transform: translateX(8px) translateY(-4px);
+  box-shadow: 0 8px 25px rgba(238, 120, 0, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: var(--primary-color);
+}
+
+.thread-list-card:active {
+  transform: translateX(6px) translateY(-2px);
+}
+
+/* スレッドタイトル */
+.thread-card-title {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  font-size: clamp(1.2em, 3vw, 1.5em);
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* メタ情報（更新時間 + レス数） */
+.thread-card-meta {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  font-size: clamp(0.9em, 2vw, 1em);
+  font-weight: 600;
+}
+
+.thread-card-update {
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.thread-card-count {
+  color: var(--primary-color);
+  background: rgba(238, 120, 0, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+}
+
+/* 矢印アイコン */
+.thread-card-arrow {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: var(--primary-color);
+  font-weight: 900;
+  transition: transform 0.3s ease;
+}
+
+.thread-list-card:hover .thread-card-arrow {
+  transform: translateX(8px);
+}
+
+/* ===== レスポンシブ調整（スレッド一覧用） ===== */
+
+@media (max-width: 900px) {
+  .thread-list-body {
+    max-height: none;
+    gap: 12px;
+  }
+
+  .thread-list-card {
+    padding: 18px 20px;
+    gap: 6px 12px;
+  }
+
+  .thread-card-meta {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .thread-list-body {
+    gap: 10px;
+  }
+
+  .thread-list-card {
+    padding: 16px 18px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+  }
+
+  .thread-card-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .thread-card-meta {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    gap: 10px;
+  }
+
+  .thread-card-arrow {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    justify-content: flex-end;
+    font-size: 1.5em;
+  }
+
+  .thread-list-card:hover .thread-card-arrow {
+    transform: translateX(5px);
+  }
+}
