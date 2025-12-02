@@ -107,7 +107,7 @@ function appendThreadCard(title, url, lastUpdate, postCount) {
 // B列: スレッドURL（blog.html, blog1.html など）
 // C列: 最終更新日時（自動取得する場合は、各スレッドのシートから取得）
 // D列: レス数（同上）
-const THREAD_LIST_SHEET_URL = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?sheet=ThreadList";
+const THREAD_LIST_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MtFJOJ5pM6C5GgOAVr2uWSu9TLRfer2xTiRsxT297N8/gviz/tq?sheet=ThreadList";
 
 async function loadThreadList() {
   const listBody = document.getElementById("thread-list-body");
