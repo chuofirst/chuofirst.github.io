@@ -105,8 +105,10 @@ function appendThreadCard(title, url, lastUpdate, postCount) {
 // 【重要】このスプレッドシートには以下の列が必要です：
 // A列: スレッドタイトル
 // B列: スレッドURL（blog.html, blog1.html など）
-// C列: 最終更新日時（自動取得する場合は、各スレッドのシートから取得）
-// D列: レス数（同上）
+// C列: 最終更新日時（Apps Scriptで自動更新）
+// D列: レス数（Apps Scriptで自動更新）
+
+// ！！！ここにあなたのスプレッドシートIDを設定してください！！！
 const THREAD_LIST_SHEET_URL = "https://docs.google.com/spreadsheets/d/1MtFJOJ5pM6C5GgOAVr2uWSu9TLRfer2xTiRsxT297N8/gviz/tq?sheet=ThreadList";
 
 async function loadThreadList() {
@@ -120,39 +122,13 @@ async function loadThreadList() {
     countElement.textContent = "";
   }
 
-  // 仮のデータ（実際はスプレッドシートから取得）
-  // TODO: THREAD_LIST_SHEET_URLを設定して、実際のデータを取得する
-  const threads = [
-    {
-      title: "雑談スレッド",
-      url: "blog.html",
-      lastUpdate: new Date().toISOString(),
-      postCount: 150
-    }
-    // blog1.html, blog2.html などを追加予定
-  ];
-
-  // スプレッドシートURLが設定されていない場合は仮データを表示
-  if (!THREAD_LIST_SHEET_URL || THREAD_LIST_SHEET_URL.includes("YOUR_SHEET_ID")) {
-    listBody.innerHTML = "";
-    
-    threads.forEach(thread => {
-      appendThreadCard(
-        thread.title,
-        thread.url,
-        thread.lastUpdate,
-        thread.postCount
-      );
-    });
-
-    if (countElement) {
-      countElement.textContent = `${threads.length} スレッド`;
-    }
-    
+  // スプレッドシートURLが設定されていない場合
+  if (!THREAD_LIST_SHEET_URL || THREAD_LIST_SHEET_URL.includes("YOUR_SHEET_ID_HERE")) {
+    listBody.innerHTML = '<div class="blog-loading">スプレッドシートURLが設定されていません。<br>blog_list_sheet.js の THREAD_LIST_SHEET_URL を設定してください。</div>';
     return;
   }
 
-  // 実際のスプレッドシートから取得する処理
+  // スプレッドシートからデータを取得
   try {
     const res = await fetch(THREAD_LIST_SHEET_URL);
     const text = await res.text();
@@ -162,7 +138,7 @@ async function loadThreadList() {
     const end = text.lastIndexOf(");");
 
     if (start === -1 || end === -1) {
-      listBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+      listBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。<br>スプレッドシートのURLが正しいか確認してください。</div>';
       return;
     }
 
@@ -173,30 +149,42 @@ async function loadThreadList() {
     listBody.innerHTML = "";
 
     if (!rows.length) {
-      listBody.innerHTML = '<div class="blog-loading">スレッドがありません。</div>';
+      listBody.innerHTML = '<div class="blog-loading">まだスレッドがありません。<br>ThreadListシートにデータを追加してください。</div>';
       if (countElement) {
         countElement.textContent = "0 スレッド";
       }
       return;
     }
 
+    // 有効なスレッドのみをカウント
+    let validThreadCount = 0;
+
     rows.forEach((row) => {
       const c = row.c || [];
 
-      const title = (c[0] && c[0].v) || "無題のスレッド";
-      const url = (c[1] && c[1].v) || "blog.html";
+      const title = (c[0] && c[0].v) || "";
+      const url = (c[1] && c[1].v) || "";
+      
+      // タイトルとURLの両方がある行のみ表示
+      if (!title || !url) return;
+
       const lastUpdate = (c[2] && (c[2].f || c[2].v)) || "";
       const postCount = (c[3] && c[3].v) || 0;
 
       appendThreadCard(title, url, lastUpdate, postCount);
+      validThreadCount++;
     });
 
+    if (validThreadCount === 0) {
+      listBody.innerHTML = '<div class="blog-loading">表示できるスレッドがありません。<br>ThreadListシートのA列とB列を確認してください。</div>';
+    }
+
     if (countElement) {
-      countElement.textContent = `${rows.length} スレッド`;
+      countElement.textContent = `${validThreadCount} スレッド`;
     }
   } catch (err) {
-    console.error(err);
-    listBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。</div>';
+    console.error("スレッド一覧の読み込みエラー:", err);
+    listBody.innerHTML = '<div class="blog-loading">データの読み込みに失敗しました。<br>コンソールを確認してください。</div>';
   }
 }
 
