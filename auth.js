@@ -12,7 +12,8 @@ const BLOG_ALLOWED_EMAILS_ENCRYPTED = 'AAAAAABUWUBARB9GJQYWEFlKRQIKQxxVVhsJGFkMR
 // レベル2（特別にスレッド利用可）※しばらく平文管理
 const SPECIAL_THREAD_ACCESS = [
   'chuo-2023035@edu-g.gsn.ed.jp',
-  'chuo-2023105@edu-g.gsn.ed.jp'
+  'chuo-2023105@edu-g.gsn.ed.jp',
+  'chuo-2023100@edu-g.gsn.ed.jp'
 ].map(e => e.toLowerCase().trim());
 
 // 申請フォームのURL（承認リスト外ユーザー用）
