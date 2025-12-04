@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="中央中等生ファーストの会 - 雑談スレッド">
+  <title>雑談スレッド - 中央中等生ファーストの会</title>
+  <link rel="stylesheet" href="ChuoFirst.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="blog.css">
+  <script src="head_foot_components.js" defer></script>
+  <link rel="icon" type="image/png" href="ChuoFirst_icon.png">
+  <link rel="preload" as="image" href="ChuoFirst.png" fetchpriority="high">
+  
+  <meta property="og:title" content="雑談スレッド - 中央中等生ファーストの会">
+  <meta property="og:description" content="中央中等生ファーストの会 - 雑談スレッド">
+  <meta property="og:image" content="ChuoFirst.png">
+  <meta property="og:type" content="website">
+  
+  <!-- チラ見え防止: 初期状態でコンテンツを完全に隠す -->
+  <style>
+    body {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    
+    body.authorized {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+  
+  <div id="overlay" aria-hidden="true"></div>
+
+  <main id="main-content">
+    <section class="page-section blog-section bg-anim-gradient fade-in-on-scroll">
+      <div class="page-header">
+        <h1 class="page-title">2ch再現スレ(下ネタほどほどに)</h1>
+        <p class="page-subtitle">中央中等生ファーストの会</p>
+      </div>
+
+      <div class="blog-container">
+
+        <!-- 戻るリンク -->
+        <div class="blog-back-link fade-in-on-scroll">
+          <a href="member_only.html" class="blog-back-btn">← ホームに戻る</a>
+        </div>
+
+        <!-- スレッド表示エリア（5ch風） -->
+        <div class="blog-thread-wrapper fade-in-on-scroll">
+          <div class="blog-thread-header">
+            <span class="blog-thread-title">2ch再現スレ</span>
+            <span class="blog-thread-count" id="post-count">0 レス</span>
+          </div>
+          
+          <div id="blog-thread-body" class="blog-thread-body">
+            <div class="blog-loading">読み込み中...</div>
+          </div>
+        </div>
+
+        <!-- 書き込みフォーム -->
+        <div class="blog-form-card fade-in-on-scroll">
+          <div class="blog-form-header">
+            <div class="blog-form-icon">✍️</div>
+            <h2 class="blog-form-title">書き込む</h2>
+          </div>
+          <p class="blog-form-note">
+            下のボタンからGoogleフォームを開いて書き込んでください。
+            送信後、このページを再読み込みすると反映されます。
+          </p>
+          <div class="blog-form-button-wrapper">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScvkL10g4kyhG3w5x8waywxqddm-piLxrsThMzl60BqreiwOw/viewform"
+              target="_blank"
+              rel="noopener"
+              class="blog-form-open-btn"
+            >
+              フォームを開く
+            </a>
+          </div>
+        </div>
+
+        <!-- 注意書き -->
+        <div class="blog-notice-card fade-in-on-scroll">
+          <div class="blog-notice-icon">⚠️</div>
+          <p class="blog-notice-text">
+            このページのURL・内容・スクリーンショットは、許可された人以外に共有しないでください。
+          </p>
+        </div>
+        
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>  
+
+  <!-- Firebase Authentication -->
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="blog_sheet.js"></script>
+  <script src="animations.js"></script>
+  
+</body>
+</html>
