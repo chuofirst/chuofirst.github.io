@@ -18,24 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.isTyping) return;
       this.isTyping = true;
       
+      // カーソル追加
+      const cursor = document.createElement('span');
+      cursor.className = 'typing-cursor';
+      cursor.textContent = '|';
+      
       const typeChar = () => {
         if (this.index < this.text.length) {
-          this.element.textContent += this.text.charAt(this.index);
+          // 既存のテキスト + 新しい文字 + カーソル
+          const currentText = this.text.substring(0, this.index + 1);
+          this.element.textContent = currentText;
+          this.element.appendChild(cursor);
           this.index++;
           setTimeout(typeChar, this.speed);
         } else {
           this.isTyping = false;
           // タイピング完了後カーソル削除
-          const cursor = this.element.querySelector('.typing-cursor');
-          if (cursor) cursor.remove();
+          cursor.remove();
         }
       };
-      
-      // カーソル追加
-      const cursor = document.createElement('span');
-      cursor.className = 'typing-cursor';
-      cursor.textContent = '|';
-      this.element.appendChild(cursor);
       
       typeChar();
     }
