@@ -1,24 +1,79 @@
-// policy_animations.js - ダイナミックなアニメーション
+// policy_animations.js - タイプライター効果
 
 document.addEventListener('DOMContentLoaded', () => {
   
-  // ===== スクロール監視でダイナミック出現 =====
+  // ===== タイプライター効果の実装 =====
+  
+  class Typewriter {
+    constructor(element, speed = 30) {
+      this.element = element;
+      this.speed = speed;
+      this.text = element.textContent;
+      this.element.textContent = '';
+      this.index = 0;
+      this.isTyping = false;
+    }
+
+    type() {
+      if (this.isTyping) return;
+      this.isTyping = true;
+      
+      const typeChar = () => {
+        if (this.index < this.text.length) {
+          this.element.textContent += this.text.charAt(this.index);
+          this.index++;
+          setTimeout(typeChar, this.speed);
+        } else {
+          this.isTyping = false;
+        }
+      };
+      
+      typeChar();
+    }
+  }
+
+  // ===== スクロール監視 =====
   const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -80px 0px'
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
         
-        // 番号のカウントアップアニメーション
+        // タイトルのタイプライター
+        const title = entry.target.querySelector('.policy-title');
+        if (title) {
+          const titleTyper = new Typewriter(title, 40);
+          setTimeout(() => titleTyper.type(), 200);
+        }
+
+        // リード文のタイプライター
+        const lead = entry.target.querySelector('.policy-lead');
+        if (lead) {
+          const leadTyper = new Typewriter(lead, 20);
+          setTimeout(() => leadTyper.type(), 800);
+        }
+
+        // 各ポイントのタイプライター
+        const points = entry.target.querySelectorAll('.policy-point p');
+        points.forEach((point, index) => {
+          const pointTyper = new Typewriter(point, 15);
+          setTimeout(() => {
+            point.closest('.policy-point').style.opacity = '1';
+            pointTyper.type();
+          }, 1500 + (index * 600));
+        });
+
+        // 番号のカウントアップ
         const number = entry.target.querySelector('.policy-number');
-        if (number && !number.classList.contains('counted')) {
-          number.classList.add('counted');
+        if (number) {
           animateNumber(number);
         }
+
+        entry.target.classList.add('visible');
       }
     });
   }, observerOptions);
@@ -28,13 +83,36 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(item);
   });
 
-  // 締めのセクションも監視
+  // ===== 締めセクションのタイプライター =====
+  const closingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        const closingTitle = entry.target.querySelector('.closing-title');
+        const closingText = entry.target.querySelector('.closing-text');
+        
+        if (closingTitle) {
+          const titleTyper = new Typewriter(closingTitle, 50);
+          titleTyper.type();
+        }
+        
+        if (closingText) {
+          const textTyper = new Typewriter(closingText, 25);
+          setTimeout(() => textTyper.type(), 800);
+        }
+        
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
   const closing = document.querySelector('.policy-closing');
   if (closing) {
-    observer.observe(closing);
+    closingObserver.observe(closing);
   }
 
-  // ===== スクロール進捗インジケーター =====
+  // ===== スクロール進捗バー =====
   const progressBar = document.createElement('div');
   progressBar.style.cssText = `
     position: fixed;
@@ -57,105 +135,60 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', updateProgress);
   updateProgress();
 
-  // ===== パララックス効果 =====
-  let ticking = false;
-
-  const parallaxEffect = () => {
-    const scrolled = window.scrollY;
+  // ===== カーソル点滅効果 =====
+  const addCursor = (element) => {
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    element.appendChild(cursor);
     
-    // 番号のパララックス
-    document.querySelectorAll('.policy-number').forEach((num, index) => {
-      const speed = 0.08;
-      const yPos = scrolled * speed;
-      num.style.transform = `translateY(${yPos}px)`;
-    });
-
-    // タイトルのパララックス（逆方向）
-    document.querySelectorAll('.policy-title').forEach((title, index) => {
-      const speed = -0.03;
-      const yPos = scrolled * speed;
-      title.style.transform = `translateY(${yPos}px)`;
-    });
-
-    ticking = false;
+    setTimeout(() => {
+      cursor.remove();
+    }, 3000);
   };
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(parallaxEffect);
-      ticking = true;
-    }
-  });
-
-  // ===== アイコンのバウンスアニメーション =====
-  document.querySelectorAll('.point-icon').forEach(icon => {
-    icon.addEventListener('mouseenter', function() {
-      this.style.animation = 'iconBounce 0.6s ease';
-    });
-    
-    icon.addEventListener('animationend', function() {
-      this.style.animation = '';
-    });
-  });
-
-  // ===== 線の伸びるアニメーション =====
-  const lineObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const main = entry.target.querySelector('.policy-main');
-        if (main) {
-          main.style.animation = 'lineGrow 0.8s ease-out forwards';
+  // タイプ中のカーソル表示
+  const cursorObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'characterData' || mutation.type === 'childList') {
+        const target = mutation.target.parentElement || mutation.target;
+        if (target.classList && (target.classList.contains('policy-title') || 
+            target.classList.contains('policy-lead') ||
+            target.tagName === 'P')) {
+          // カーソルがまだなければ追加
+          if (!target.querySelector('.typing-cursor') && target.textContent.length > 0) {
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            cursor.textContent = '|';
+            target.appendChild(cursor);
+          }
         }
       }
     });
-  }, { threshold: 0.2 });
-
-  document.querySelectorAll('.policy-item').forEach(item => {
-    lineObserver.observe(item);
   });
 
-  // ===== ビューポートに入ったら背景パルス =====
-  const pulseObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animation = 'backgroundPulse 2s ease-in-out';
-      }
-    });
-  }, { threshold: 0.5 });
-
   document.querySelectorAll('.policy-item').forEach(item => {
-    pulseObserver.observe(item);
+    cursorObserver.observe(item, {
+      characterData: true,
+      childList: true,
+      subtree: true
+    });
   });
 });
 
-// ===== ヘルパー関数 =====
-
-// 番号のカウントアップ
+// ===== 番号のカウントアップ =====
 function animateNumber(element) {
   const text = element.textContent;
   const targetNumber = parseInt(text);
   let currentNumber = 0;
-  const duration = 800;
+  const duration = 1000;
   const startTime = performance.now();
 
   function update(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
     
-    // イージング関数（バウンス効果）
-    const easeOutBounce = (t) => {
-      if (t < 1 / 2.75) {
-        return 7.5625 * t * t;
-      } else if (t < 2 / 2.75) {
-        return 7.5625 * (t -= 1.5 / 2.75) * t + 0.75;
-      } else if (t < 2.5 / 2.75) {
-        return 7.5625 * (t -= 2.25 / 2.75) * t + 0.9375;
-      } else {
-        return 7.5625 * (t -= 2.625 / 2.75) * t + 0.984375;
-      }
-    };
-
-    currentNumber = Math.floor(targetNumber * easeOutBounce(progress));
+    currentNumber = Math.floor(targetNumber * progress);
     element.textContent = String(currentNumber).padStart(2, '0');
 
     if (progress < 1) {
@@ -168,30 +201,733 @@ function animateNumber(element) {
   requestAnimationFrame(update);
 }
 
-// CSSアニメーションを動的に追加
+// ===== CSSアニメーション追加 =====
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes iconBounce {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.3) rotate(-10deg); }
-    50% { transform: scale(1.1) rotate(10deg); }
-    75% { transform: scale(1.2) rotate(-5deg); }
+  .typing-cursor {
+    animation: blink 0.7s infinite;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-left: 2px;
   }
 
-  @keyframes lineGrow {
-    from { 
-      border-left-width: 0;
-      padding-left: 0;
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .policy-point {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .point-icon {
+    animation: iconPop 0.5s ease-out;
+  }
+
+  @keyframes iconPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+`;
+document.head.appendChild(style);// policy_animations.js - タイプライター効果
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ===== タイプライター効果の実装 =====
+  
+  class Typewriter {
+    constructor(element, speed = 30) {
+      this.element = element;
+      this.speed = speed;
+      this.text = element.textContent;
+      this.element.textContent = '';
+      this.index = 0;
+      this.isTyping = false;
     }
-    to { 
-      border-left-width: 5px;
-      padding-left: 40px;
+
+    type() {
+      if (this.isTyping) return;
+      this.isTyping = true;
+      
+      const typeChar = () => {
+        if (this.index < this.text.length) {
+          this.element.textContent += this.text.charAt(this.index);
+          this.index++;
+          setTimeout(typeChar, this.speed);
+        } else {
+          this.isTyping = false;
+        }
+      };
+      
+      typeChar();
     }
   }
 
-  @keyframes backgroundPulse {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.15); }
+  // ===== スクロール監視 =====
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        // タイトルのタイプライター
+        const title = entry.target.querySelector('.policy-title');
+        if (title) {
+          const titleTyper = new Typewriter(title, 40);
+          setTimeout(() => titleTyper.type(), 200);
+        }
+
+        // リード文のタイプライター
+        const lead = entry.target.querySelector('.policy-lead');
+        if (lead) {
+          const leadTyper = new Typewriter(lead, 20);
+          setTimeout(() => leadTyper.type(), 800);
+        }
+
+        // 各ポイントのタイプライター
+        const points = entry.target.querySelectorAll('.policy-point p');
+        points.forEach((point, index) => {
+          const pointTyper = new Typewriter(point, 15);
+          setTimeout(() => {
+            point.closest('.policy-point').style.opacity = '1';
+            pointTyper.type();
+          }, 1500 + (index * 600));
+        });
+
+        // 番号のカウントアップ
+        const number = entry.target.querySelector('.policy-number');
+        if (number) {
+          animateNumber(number);
+        }
+
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // 各政策アイテムを監視
+  document.querySelectorAll('.policy-item').forEach(item => {
+    observer.observe(item);
+  });
+
+  // ===== 締めセクションのタイプライター =====
+  const closingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        const closingTitle = entry.target.querySelector('.closing-title');
+        const closingText = entry.target.querySelector('.closing-text');
+        
+        if (closingTitle) {
+          const titleTyper = new Typewriter(closingTitle, 50);
+          titleTyper.type();
+        }
+        
+        if (closingText) {
+          const textTyper = new Typewriter(closingText, 25);
+          setTimeout(() => textTyper.type(), 800);
+        }
+        
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  const closing = document.querySelector('.policy-closing');
+  if (closing) {
+    closingObserver.observe(closing);
+  }
+
+  // ===== スクロール進捗バー =====
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = `
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd700, var(--primary-light));
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+  `;
+  document.body.appendChild(progressBar);
+
+  const updateProgress = () => {
+    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  };
+
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // ===== カーソル点滅効果 =====
+  const addCursor = (element) => {
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    element.appendChild(cursor);
+    
+    setTimeout(() => {
+      cursor.remove();
+    }, 3000);
+  };
+
+  // タイプ中のカーソル表示
+  const cursorObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'characterData' || mutation.type === 'childList') {
+        const target = mutation.target.parentElement || mutation.target;
+        if (target.classList && (target.classList.contains('policy-title') || 
+            target.classList.contains('policy-lead') ||
+            target.tagName === 'P')) {
+          // カーソルがまだなければ追加
+          if (!target.querySelector('.typing-cursor') && target.textContent.length > 0) {
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            cursor.textContent = '|';
+            target.appendChild(cursor);
+          }
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.policy-item').forEach(item => {
+    cursorObserver.observe(item, {
+      characterData: true,
+      childList: true,
+      subtree: true
+    });
+  });
+});
+
+// ===== 番号のカウントアップ =====
+function animateNumber(element) {
+  const text = element.textContent;
+  const targetNumber = parseInt(text);
+  let currentNumber = 0;
+  const duration = 1000;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    currentNumber = Math.floor(targetNumber * progress);
+    element.textContent = String(currentNumber).padStart(2, '0');
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = text;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+// ===== CSSアニメーション追加 =====
+const style = document.createElement('style');
+style.textContent = `
+  .typing-cursor {
+    animation: blink 0.7s infinite;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .policy-point {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .point-icon {
+    animation: iconPop 0.5s ease-out;
+  }
+
+  @keyframes iconPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+`;
+document.head.appendChild(style);// policy_animations.js - タイプライター効果
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ===== タイプライター効果の実装 =====
+  
+  class Typewriter {
+    constructor(element, speed = 30) {
+      this.element = element;
+      this.speed = speed;
+      this.text = element.textContent;
+      this.element.textContent = '';
+      this.index = 0;
+      this.isTyping = false;
+    }
+
+    type() {
+      if (this.isTyping) return;
+      this.isTyping = true;
+      
+      const typeChar = () => {
+        if (this.index < this.text.length) {
+          this.element.textContent += this.text.charAt(this.index);
+          this.index++;
+          setTimeout(typeChar, this.speed);
+        } else {
+          this.isTyping = false;
+        }
+      };
+      
+      typeChar();
+    }
+  }
+
+  // ===== スクロール監視 =====
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        // タイトルのタイプライター
+        const title = entry.target.querySelector('.policy-title');
+        if (title) {
+          const titleTyper = new Typewriter(title, 40);
+          setTimeout(() => titleTyper.type(), 200);
+        }
+
+        // リード文のタイプライター
+        const lead = entry.target.querySelector('.policy-lead');
+        if (lead) {
+          const leadTyper = new Typewriter(lead, 20);
+          setTimeout(() => leadTyper.type(), 800);
+        }
+
+        // 各ポイントのタイプライター
+        const points = entry.target.querySelectorAll('.policy-point p');
+        points.forEach((point, index) => {
+          const pointTyper = new Typewriter(point, 15);
+          setTimeout(() => {
+            point.closest('.policy-point').style.opacity = '1';
+            pointTyper.type();
+          }, 1500 + (index * 600));
+        });
+
+        // 番号のカウントアップ
+        const number = entry.target.querySelector('.policy-number');
+        if (number) {
+          animateNumber(number);
+        }
+
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // 各政策アイテムを監視
+  document.querySelectorAll('.policy-item').forEach(item => {
+    observer.observe(item);
+  });
+
+  // ===== 締めセクションのタイプライター =====
+  const closingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        const closingTitle = entry.target.querySelector('.closing-title');
+        const closingText = entry.target.querySelector('.closing-text');
+        
+        if (closingTitle) {
+          const titleTyper = new Typewriter(closingTitle, 50);
+          titleTyper.type();
+        }
+        
+        if (closingText) {
+          const textTyper = new Typewriter(closingText, 25);
+          setTimeout(() => textTyper.type(), 800);
+        }
+        
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  const closing = document.querySelector('.policy-closing');
+  if (closing) {
+    closingObserver.observe(closing);
+  }
+
+  // ===== スクロール進捗バー =====
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = `
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd700, var(--primary-light));
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+  `;
+  document.body.appendChild(progressBar);
+
+  const updateProgress = () => {
+    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  };
+
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // ===== カーソル点滅効果 =====
+  const addCursor = (element) => {
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    element.appendChild(cursor);
+    
+    setTimeout(() => {
+      cursor.remove();
+    }, 3000);
+  };
+
+  // タイプ中のカーソル表示
+  const cursorObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'characterData' || mutation.type === 'childList') {
+        const target = mutation.target.parentElement || mutation.target;
+        if (target.classList && (target.classList.contains('policy-title') || 
+            target.classList.contains('policy-lead') ||
+            target.tagName === 'P')) {
+          // カーソルがまだなければ追加
+          if (!target.querySelector('.typing-cursor') && target.textContent.length > 0) {
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            cursor.textContent = '|';
+            target.appendChild(cursor);
+          }
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.policy-item').forEach(item => {
+    cursorObserver.observe(item, {
+      characterData: true,
+      childList: true,
+      subtree: true
+    });
+  });
+});
+
+// ===== 番号のカウントアップ =====
+function animateNumber(element) {
+  const text = element.textContent;
+  const targetNumber = parseInt(text);
+  let currentNumber = 0;
+  const duration = 1000;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    currentNumber = Math.floor(targetNumber * progress);
+    element.textContent = String(currentNumber).padStart(2, '0');
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = text;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+// ===== CSSアニメーション追加 =====
+const style = document.createElement('style');
+style.textContent = `
+  .typing-cursor {
+    animation: blink 0.7s infinite;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .policy-point {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .point-icon {
+    animation: iconPop 0.5s ease-out;
+  }
+
+  @keyframes iconPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+`;
+document.head.appendChild(style);// policy_animations.js - タイプライター効果
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ===== タイプライター効果の実装 =====
+  
+  class Typewriter {
+    constructor(element, speed = 30) {
+      this.element = element;
+      this.speed = speed;
+      this.text = element.textContent;
+      this.element.textContent = '';
+      this.index = 0;
+      this.isTyping = false;
+    }
+
+    type() {
+      if (this.isTyping) return;
+      this.isTyping = true;
+      
+      const typeChar = () => {
+        if (this.index < this.text.length) {
+          this.element.textContent += this.text.charAt(this.index);
+          this.index++;
+          setTimeout(typeChar, this.speed);
+        } else {
+          this.isTyping = false;
+        }
+      };
+      
+      typeChar();
+    }
+  }
+
+  // ===== スクロール監視 =====
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        // タイトルのタイプライター
+        const title = entry.target.querySelector('.policy-title');
+        if (title) {
+          const titleTyper = new Typewriter(title, 40);
+          setTimeout(() => titleTyper.type(), 200);
+        }
+
+        // リード文のタイプライター
+        const lead = entry.target.querySelector('.policy-lead');
+        if (lead) {
+          const leadTyper = new Typewriter(lead, 20);
+          setTimeout(() => leadTyper.type(), 800);
+        }
+
+        // 各ポイントのタイプライター
+        const points = entry.target.querySelectorAll('.policy-point p');
+        points.forEach((point, index) => {
+          const pointTyper = new Typewriter(point, 15);
+          setTimeout(() => {
+            point.closest('.policy-point').style.opacity = '1';
+            pointTyper.type();
+          }, 1500 + (index * 600));
+        });
+
+        // 番号のカウントアップ
+        const number = entry.target.querySelector('.policy-number');
+        if (number) {
+          animateNumber(number);
+        }
+
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // 各政策アイテムを監視
+  document.querySelectorAll('.policy-item').forEach(item => {
+    observer.observe(item);
+  });
+
+  // ===== 締めセクションのタイプライター =====
+  const closingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+        entry.target.classList.add('typed');
+        
+        const closingTitle = entry.target.querySelector('.closing-title');
+        const closingText = entry.target.querySelector('.closing-text');
+        
+        if (closingTitle) {
+          const titleTyper = new Typewriter(closingTitle, 50);
+          titleTyper.type();
+        }
+        
+        if (closingText) {
+          const textTyper = new Typewriter(closingText, 25);
+          setTimeout(() => textTyper.type(), 800);
+        }
+        
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  const closing = document.querySelector('.policy-closing');
+  if (closing) {
+    closingObserver.observe(closing);
+  }
+
+  // ===== スクロール進捗バー =====
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = `
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd700, var(--primary-light));
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+  `;
+  document.body.appendChild(progressBar);
+
+  const updateProgress = () => {
+    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  };
+
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // ===== カーソル点滅効果 =====
+  const addCursor = (element) => {
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    element.appendChild(cursor);
+    
+    setTimeout(() => {
+      cursor.remove();
+    }, 3000);
+  };
+
+  // タイプ中のカーソル表示
+  const cursorObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'characterData' || mutation.type === 'childList') {
+        const target = mutation.target.parentElement || mutation.target;
+        if (target.classList && (target.classList.contains('policy-title') || 
+            target.classList.contains('policy-lead') ||
+            target.tagName === 'P')) {
+          // カーソルがまだなければ追加
+          if (!target.querySelector('.typing-cursor') && target.textContent.length > 0) {
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            cursor.textContent = '|';
+            target.appendChild(cursor);
+          }
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.policy-item').forEach(item => {
+    cursorObserver.observe(item, {
+      characterData: true,
+      childList: true,
+      subtree: true
+    });
+  });
+});
+
+// ===== 番号のカウントアップ =====
+function animateNumber(element) {
+  const text = element.textContent;
+  const targetNumber = parseInt(text);
+  let currentNumber = 0;
+  const duration = 1000;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    currentNumber = Math.floor(targetNumber * progress);
+    element.textContent = String(currentNumber).padStart(2, '0');
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = text;
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+// ===== CSSアニメーション追加 =====
+const style = document.createElement('style');
+style.textContent = `
+  .typing-cursor {
+    animation: blink 0.7s infinite;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .policy-point {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .point-icon {
+    animation: iconPop 0.5s ease-out;
+  }
+
+  @keyframes iconPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
   }
 `;
 document.head.appendChild(style);
