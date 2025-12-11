@@ -864,26 +864,46 @@ footer::before {
 
 .page-header {
   text-align: center;
-  margin-bottom: 60px;
-  position: relative;
-  z-index: 1;
+  padding: 60px 20px 100px;
+  margin-bottom: 80px;
 }
 
 .page-title {
   font-size: clamp(4em, 10vw, 8em);
   font-weight: 900;
   color: var(--text-light);
-  margin-bottom: 20px;
+  margin: 0 0 40px;
+  letter-spacing: 0.05em;
   text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(-50px);
+  animation: heroTitleAppear 1s ease-out 0.2s forwards;
+}
+
+@keyframes heroTitleAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-subtitle {
   font-size: clamp(1.2em, 2.5vw, 1.8em);
-  color: var(--text-dark);
   font-weight: 700;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  color: var(--text-dark);
   margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroSubtitleAppear 0.8s ease-out 0.6s forwards;
 }
+
+@keyframes heroSubtitleAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* ===== メンバーページ ===== */
 .member-container {
