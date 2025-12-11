@@ -1511,17 +1511,9 @@ footer::before {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  opacity: 0;
 }
 
-.policy-item.visible .policy-point {
-  opacity: 0;
-}
 
-.policy-item.visible .policy-point:nth-child(1) { transition-delay: 0s; }
-.policy-item.visible .policy-point:nth-child(2) { transition-delay: 0s; }
-.policy-item.visible .policy-point:nth-child(3) { transition-delay: 0s; }
-.policy-item.visible .policy-point:nth-child(4) { transition-delay: 0s; }
 
 .point-icon {
   font-size: 2em;
