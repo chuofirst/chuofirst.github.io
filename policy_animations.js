@@ -200,3 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(styleElement);
 });
+
+// 既存のコードの後に追加
+const videoSection = document.querySelector('.policy-video-section');
+if (videoSection) {
+  observer.observe(videoSection);
+}
