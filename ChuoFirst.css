@@ -1694,6 +1694,86 @@ footer::before {
   }
 }
 
+/* ===== 政策動画セクション ===== */
+.policy-video-section {
+  text-align: center;
+  margin: 100px auto 0;
+  padding: 60px 40px;
+  max-width: 1000px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.policy-video-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.policy-video-title {
+  font-size: clamp(2.5em, 5vw, 4em);
+  font-weight: 900;
+  color: var(--text-light);
+  margin: 0 0 50px;
+  text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
+  letter-spacing: 2px;
+}
+
+.policy-video-container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s ease;
+}
+
+.policy-video-container:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  transform: translateY(-5px);
+}
+
+.policy-video {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 900px) {
+  .policy-video-section {
+    margin: 80px auto 0;
+    padding: 50px 30px;
+  }
+
+  .policy-video-title {
+    margin-bottom: 40px;
+  }
+
+  .policy-video-container {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .policy-video-section {
+    margin: 60px auto 0;
+    padding: 40px 20px;
+  }
+
+  .policy-video-title {
+    margin-bottom: 30px;
+  }
+
+  .policy-video-container {
+    padding: 20px;
+  }
+}
+
 
 /* ===== 活動ページ ===== */
 .active-container {
